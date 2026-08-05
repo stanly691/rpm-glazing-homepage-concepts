@@ -24,8 +24,13 @@
     .concept-preview--b{display:grid;grid-template-columns:.85fr 1.15fr;background:var(--paper)}
     .concept-preview--b span{padding:1rem;border-right:1px solid var(--line);color:var(--rpm-green);font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase}
     .card-link{font-family:var(--font-mono);font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+    .concept-card--c{grid-column:1/-1;display:grid;min-height:25rem;grid-template-columns:.72fr 1.28fr;grid-template-rows:auto 1fr auto;column-gap:3rem;background:var(--rpm-green-deep);color:var(--white)}
+    .concept-card--c:hover{background:var(--ink)}
+    .concept-card--c .concept-preview{grid-column:2;grid-row:1/-1;height:100%;min-height:20rem}
+    .concept-card--c .mono,.concept-card--c h2,.concept-card--c p,.concept-card--c .card-link{grid-column:1}
+    .concept-card--c h2{margin:auto 0 1rem}
     .source-note{margin-top:2rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.6}
-    @media(max-width:760px){.selector-head,.concept-grid{grid-template-columns:1fr}.concept-card{min-height:30rem;padding:1.25rem}.concept-preview{height:12rem}}
+    @media(max-width:760px){.selector-head,.concept-grid{grid-template-columns:1fr}.concept-card{min-height:30rem;padding:1.25rem}.concept-preview{height:12rem}.concept-card--c{display:flex;grid-column:auto;min-height:32rem}.concept-card--c .concept-preview{order:-1;width:100%;min-height:12rem;height:12rem}}
   </style>
 </head>
 <body>
@@ -34,7 +39,7 @@
     <div class="shell">
       <header class="selector-head">
         <p class="eyebrow">RPM Glazing Systems</p>
-        <div><h1>Two clear routes to commercial confidence.</h1><p>Both concepts use RPM’s real services and supplied project photography. They differ in the buyer question answered first: “Have you delivered relevant work?” or “Can you cover the complete package?”</p></div>
+        <div><h1>Three clear routes to commercial confidence.</h1><p>All three concepts use RPM’s real services and supplied project photography. They differ in the buyer question answered first: relevant project evidence, complete-package capability, or the conditions needed to begin a project review.</p></div>
       </header>
 
       <div class="concept-grid">
@@ -51,6 +56,13 @@
           <h2>Commercial Capability</h2>
           <p>A familiar, evidence-led manufacturer website with clear services, project proof and a visible delivery process. Best for contractors, architects and owners who want to qualify RPM quickly.</p>
           <span class="card-link">Open Concept B ↗</span>
+        </a>
+        <a class="concept-card concept-card--c" href="concept-c.html">
+          <div class="concept-preview"><img src="assets/projects/bristol-airport-terminal.jpeg" alt="Bristol Airport project preview" width="2633" height="1317"></div>
+          <span class="mono">Concept C · Project control</span>
+          <h2>Project Control Room</h2>
+          <p>A procurement-led route from project conditions to capability, evidence and handover. Best for buyers who need to qualify the complete package quickly.</p>
+          <span class="card-link">Open Concept C ↗</span>
         </a>
       </div>
       <p class="source-note">Editable HTML/CSS mockups · Supplied RPM portfolio photography · Prototype forms do not transmit data.</p>
