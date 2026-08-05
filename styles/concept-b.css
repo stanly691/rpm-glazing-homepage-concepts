@@ -1,0 +1,607 @@
+.concept-b {
+  --rule: 1px solid rgba(32, 32, 32, 0.2);
+  background: var(--paper);
+}
+
+.capability-hero {
+  background: var(--paper);
+}
+
+.capability-hero-grid {
+  display: grid;
+  min-height: 680px;
+  grid-template-columns: 0.9fr 1.1fr;
+  border-inline: var(--rule);
+}
+
+.capability-hero-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: clamp(3rem, 5vw, 5.5rem);
+  border-right: var(--rule);
+}
+
+.capability-hero-copy .display {
+  max-width: 10.5ch;
+  font-size: clamp(3.1rem, 5.1vw, 5rem);
+}
+
+.capability-hero-copy .lead {
+  max-width: 35rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hero-project-link {
+  width: fit-content;
+  color: var(--rpm-green-deep);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-underline-offset: 0.35rem;
+  text-transform: uppercase;
+}
+
+.capability-hero-image {
+  position: relative;
+  min-width: 0;
+  min-height: 680px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.capability-hero-image::after {
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+  content: "";
+}
+
+.capability-hero-image img {
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% center;
+}
+
+.capability-hero-image figcaption {
+  position: absolute;
+  z-index: 2;
+  right: 2rem;
+  bottom: 2rem;
+  left: 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.45rem 1rem;
+  align-items: end;
+  color: var(--white);
+}
+
+.capability-hero-image figcaption .mono {
+  grid-column: 1 / -1;
+}
+
+.capability-hero-image figcaption strong {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.proof-rail {
+  color: var(--white);
+  background: var(--rpm-green);
+}
+
+.proof-rail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.proof-rail article {
+  display: flex;
+  min-height: 12rem;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.proof-rail strong {
+  margin-top: 2rem;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.proof-rail p {
+  margin: auto 0 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.service-overview,
+.selected-projects,
+.delivery-process {
+  padding-block: var(--space-8);
+}
+
+.service-overview {
+  background: var(--white);
+}
+
+.manufacturer-heading {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(3rem, 7vw, 8rem);
+  align-items: end;
+  margin-bottom: var(--space-7);
+}
+
+.manufacturer-heading .eyebrow {
+  margin-bottom: 1.4rem;
+}
+
+.manufacturer-heading .lead {
+  color: var(--ink-soft);
+}
+
+.service-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: var(--rule);
+  border-left: var(--rule);
+}
+
+.service-cards article {
+  display: flex;
+  min-height: 17rem;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-right: var(--rule);
+  border-bottom: var(--rule);
+}
+
+.service-cards h3,
+.service-cards p {
+  margin: 0;
+}
+
+.service-cards h3 {
+  margin-top: 3rem;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.service-cards p {
+  margin-top: auto;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+
+.secondary-route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem;
+  border: var(--rule);
+  border-top: 0;
+  background: var(--rpm-green-soft);
+}
+
+.secondary-route span {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.secondary-route small {
+  display: inline-block;
+  margin-right: 1.2rem;
+}
+
+.secondary-route a {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-underline-offset: 0.3rem;
+  text-transform: uppercase;
+}
+
+.selected-projects {
+  background: var(--mist);
+}
+
+.project-showcase {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+
+.showcase-card {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: 25rem auto;
+  background: var(--white);
+}
+
+.showcase-card--wide {
+  grid-column: 1 / -1;
+  grid-template-columns: 1.45fr 0.55fr;
+  grid-template-rows: 32rem;
+}
+
+.showcase-card img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.showcase-card--wide img {
+  object-position: center 43%;
+}
+
+.showcase-card > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.showcase-card h3,
+.showcase-card p {
+  margin: 0;
+}
+
+.showcase-card h3 {
+  margin-top: 2.5rem;
+  font-size: clamp(1.6rem, 2.6vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.showcase-card p {
+  margin-top: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.render-note {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.25rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.delivery-process {
+  background: var(--paper);
+}
+
+.process-steps {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: var(--rule);
+  border-left: var(--rule);
+  list-style: none;
+}
+
+.process-steps li {
+  display: flex;
+  min-height: 16rem;
+  flex-direction: column;
+  padding: 1.3rem;
+  border-right: var(--rule);
+  border-bottom: var(--rule);
+}
+
+.process-steps span {
+  color: var(--rpm-green);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.process-steps strong {
+  margin-top: 4rem;
+  font-size: 1.15rem;
+}
+
+.process-steps p {
+  margin: auto 0 0;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+}
+
+.company-band {
+  color: var(--white);
+  background: var(--rpm-green-deep);
+}
+
+.company-band-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  border-inline: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.company-band figure {
+  min-height: 38rem;
+  margin: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.24);
+  overflow: hidden;
+}
+
+.company-band figure img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.company-band-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: clamp(2.5rem, 5vw, 5.5rem);
+}
+
+.company-band-copy .eyebrow {
+  color: var(--white);
+}
+
+.company-band-copy .lead {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.company-band-copy dl {
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.26);
+}
+
+.company-band-copy dl div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+}
+
+.company-band-copy dt {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.company-band-copy dd {
+  margin: 0;
+}
+
+.named-contact {
+  display: grid;
+  width: fit-content;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  text-underline-offset: 0.35rem;
+}
+
+.named-contact strong {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.enquiry-section-b {
+  padding-block: var(--space-8);
+  background: var(--mist);
+}
+
+.enquiry-grid-b {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: clamp(3rem, 7vw, 8rem);
+}
+
+.enquiry-intro-b {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.direct-contact-b {
+  display: grid;
+  margin-top: auto;
+  padding-top: 1.2rem;
+  border-top: var(--rule);
+}
+
+.direct-contact-b a {
+  margin-top: 0.8rem;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  text-underline-offset: 0.3rem;
+}
+
+.direct-contact-b p {
+  margin: 0.4rem 0 0;
+  color: var(--ink-soft);
+}
+
+.form-panel-b {
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  border: var(--rule);
+  background: var(--paper);
+}
+
+@media (max-width: 980px) {
+  .capability-hero-grid,
+  .manufacturer-heading,
+  .company-band-grid,
+  .enquiry-grid-b {
+    grid-template-columns: 1fr;
+  }
+
+  .capability-hero-grid,
+  .capability-hero-image {
+    min-height: 0;
+  }
+
+  .capability-hero-copy {
+    min-height: 34rem;
+    border-right: 0;
+    border-bottom: var(--rule);
+  }
+
+  .capability-hero-image {
+    height: 32rem;
+  }
+
+  .manufacturer-heading {
+    gap: 1.5rem;
+  }
+
+  .proof-rail-grid,
+  .service-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .process-steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .company-band figure {
+    min-height: 30rem;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  }
+}
+
+@media (max-width: 760px) {
+  .capability-hero-grid {
+    width: 100%;
+    border-inline: 0;
+  }
+
+  .capability-hero-copy {
+    min-height: 0;
+    padding: 4rem 16px;
+  }
+
+  .capability-hero-copy .display {
+    font-size: clamp(2.7rem, 12.5vw, 3.75rem);
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+  }
+
+  .capability-hero-image {
+    height: 27rem;
+  }
+
+  .capability-hero-image figcaption {
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .proof-rail-grid,
+  .service-cards,
+  .project-showcase,
+  .process-steps {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .proof-rail-grid,
+  .service-cards,
+  .process-steps {
+    border-left: 0;
+  }
+
+  .proof-rail article {
+    min-height: 10rem;
+  }
+
+  .service-overview,
+  .selected-projects,
+  .delivery-process,
+  .enquiry-section-b {
+    padding-block: 4.5rem;
+  }
+
+  .manufacturer-heading {
+    margin-bottom: 2.8rem;
+  }
+
+  .service-cards article {
+    min-height: 14rem;
+  }
+
+  .secondary-route {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .secondary-route small {
+    display: block;
+    margin: 0 0 0.5rem;
+  }
+
+  .showcase-card,
+  .showcase-card--wide {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: 20rem auto;
+  }
+
+  .showcase-card > div {
+    min-height: 12rem;
+  }
+
+  .render-note {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .process-steps li {
+    min-height: 12rem;
+  }
+
+  .process-steps strong {
+    margin-top: 2.5rem;
+  }
+
+  .company-band-grid {
+    width: 100%;
+    border-inline: 0;
+  }
+
+  .company-band figure {
+    min-height: 24rem;
+  }
+
+  .company-band-copy {
+    padding: 3.5rem 16px;
+  }
+
+  .form-panel-b {
+    padding: 1.25rem;
+  }
+}

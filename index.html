@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RPM Glazing Systems — Homepage Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/shared.css">
+  <style>
+    body{min-height:100vh;background:var(--mist)}
+    .selector{padding-block:clamp(3rem,8vw,7rem)}
+    .selector-head{display:grid;grid-template-columns:.7fr 1.3fr;gap:3rem;margin-bottom:4rem}
+    .selector-head h1{margin:0;max-width:12ch;font-size:clamp(3rem,7vw,6rem);font-weight:600;line-height:.94;letter-spacing:-.055em}
+    .selector-head p{max-width:42rem;margin:0;font-size:1.1rem}
+    .concept-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+    .concept-card{display:flex;min-height:34rem;flex-direction:column;padding:2rem;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);text-decoration:none;transition:background .2s ease,color .2s ease}
+    .concept-card:hover{color:var(--white);background:var(--rpm-green)}
+    .concept-card h2{margin:auto 0 1rem;max-width:12ch;font-size:clamp(2.4rem,5vw,4.5rem);font-weight:500;line-height:.95;letter-spacing:-.05em}
+    .concept-card p{max-width:34rem;margin:0 0 2rem}
+    .concept-preview{position:relative;height:14rem;overflow:hidden;background:var(--paper)}
+    .concept-preview img{height:100%;object-fit:cover}
+    .concept-preview--b{display:grid;grid-template-columns:.85fr 1.15fr;background:var(--paper)}
+    .concept-preview--b span{padding:1rem;border-right:1px solid var(--line);color:var(--rpm-green);font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase}
+    .card-link{font-family:var(--font-mono);font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+    .source-note{margin-top:2rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.6}
+    @media(max-width:760px){.selector-head,.concept-grid{grid-template-columns:1fr}.concept-card{min-height:30rem;padding:1.25rem}.concept-preview{height:12rem}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <main class="selector" id="main">
+    <div class="shell">
+      <header class="selector-head">
+        <p class="eyebrow">RPM Glazing Systems</p>
+        <div><h1>Two clear routes to commercial confidence.</h1><p>Both concepts use RPM’s real services and supplied project photography. They differ in the buyer question answered first: “Have you delivered relevant work?” or “Can you cover the complete package?”</p></div>
+      </header>
+
+      <div class="concept-grid">
+        <a class="concept-card" href="concept-a.html">
+          <div class="concept-preview"><img src="assets/projects/volvo-bristol.jpg" alt="Volvo Bristol project preview" width="1299" height="866"></div>
+          <span class="mono">Concept A · Project evidence</span>
+          <h2>Project Elevation</h2>
+          <p>Completed buildings form the structure of the homepage. Best for architects, developers and initial contractor shortlisting.</p>
+          <span class="card-link">Open Concept A ↗</span>
+        </a>
+        <a class="concept-card" href="concept-b.html">
+          <div class="concept-preview concept-preview--b"><span aria-hidden="true">Complete glazing package</span><img src="assets/projects/bristol-airport-building.jpeg" alt="Bristol Airport project preview" width="2560" height="1280"></div>
+          <span class="mono">Concept B · Proven capability</span>
+          <h2>Commercial Capability</h2>
+          <p>A familiar, evidence-led manufacturer website with clear services, project proof and a visible delivery process. Best for contractors, architects and owners who want to qualify RPM quickly.</p>
+          <span class="card-link">Open Concept B ↗</span>
+        </a>
+      </div>
+      <p class="source-note">Editable HTML/CSS mockups · Supplied RPM portfolio photography · Prototype forms do not transmit data.</p>
+    </div>
+  </main>
+</body>
+</html>

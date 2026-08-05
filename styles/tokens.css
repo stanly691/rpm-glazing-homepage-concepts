@@ -1,0 +1,28 @@
+:root {
+  --rpm-green: #044920;
+  --rpm-green-deep: #023619;
+  --rpm-green-soft: #dfece5;
+  --ink: #202020;
+  --ink-soft: #4e5752;
+  --mist: #e2e8f0;
+  --steel: #94a3b8;
+  --paper: #f7f8f7;
+  --white: #ffffff;
+  --line: #bcc8c1;
+  --line-dark: rgba(32, 32, 32, 0.22);
+  --page: min(100% - 48px, 1400px);
+  --page-mobile: min(100% - 32px, 1400px);
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4.5rem;
+  --space-8: 6rem;
+  --radius: 0;
+  --font-sans: "Montserrat", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", Consolas, monospace;
+  --shadow-focus: 0 0 0 4px rgba(4, 73, 32, 0.25);
+}
+
