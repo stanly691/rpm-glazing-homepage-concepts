@@ -1,0 +1,211 @@
+/*
+Theme Name: Clarity Copiers
+Theme URI: https://www.clarityglamorgan.co.uk/
+Author: Clarity Copiers Glamorgan
+Description: Custom theme for Clarity Copiers Glamorgan — Sharp document & print solutions. Reproduces the approved homepage design (red / black / white) with matching internal-page templates.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 7.1
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: clarity-copiers
+*/
+
+/* ============ Tokens ============ */
+:root{
+  --red:#e4002b;
+  --red-dark:#b80020;
+  --ink:#141414;
+  --black:#0e0e0e;
+  --text:#1f2328;
+  --muted:#6b7280;
+  --line:#e6e8eb;
+  --gray:#eef0f2;
+  --beige:#f4f2ec;
+  --pink:#fdecef;
+  --white:#ffffff;
+  --star:#f5b301;
+  --container:1200px;
+  --radius:14px;
+  --radius-sm:10px;
+  --shadow:0 10px 30px rgba(16,18,22,.08);
+  --font:"Poppins","Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:var(--font);color:var(--text);
+  background:var(--white);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{margin:0 0 .5em;font-weight:700;line-height:1.15;letter-spacing:-.01em;color:var(--ink)}
+p{margin:0 0 1rem}
+.container{max-width:var(--container);margin:0 auto;padding:0 24px}
+.section{padding:76px 0}
+.section--tight{padding:56px 0}
+.bg-gray{background:var(--gray)}
+.bg-beige{background:var(--beige)}
+.center{text-align:center}
+.section-head{max-width:640px;margin:0 auto 44px;text-align:center}
+.section-head h2{font-size:clamp(1.9rem,3.6vw,2.6rem)}
+.section-head p{color:var(--muted);margin:0}
+.eyebrow{color:var(--red);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem}
+
+/* ============ Buttons ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.85rem 1.6rem;border-radius:999px;font-weight:600;font-size:.95rem;
+  border:2px solid transparent;cursor:pointer;transition:.18s ease;white-space:nowrap}
+.btn--red{background:var(--red);color:#fff}
+.btn--red:hover{background:var(--red-dark)}
+.btn--dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn--dark:hover{background:#000}
+.btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.btn--ghost:hover{background:#fff;color:var(--ink)}
+.btn--outline{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn--outline:hover{background:var(--ink);color:#fff}
+.btn--outline-red{background:transparent;color:var(--red);border-color:var(--red)}
+.btn--outline-red:hover{background:var(--red);color:#fff}
+.link-more{color:var(--red);font-weight:600;display:inline-flex;align-items:center;gap:.35rem}
+.link-more:hover{gap:.6rem}
+
+/* ============ Utility bar ============ */
+.utilitybar{background:#fff;border-bottom:1px solid var(--line);font-size:.82rem}
+.utilitybar .container{display:flex;align-items:center;gap:26px;height:44px}
+.utilitybar a{display:inline-flex;align-items:center;gap:.45rem;color:#444;font-weight:500}
+.utilitybar a:hover{color:var(--red)}
+.utilitybar .spacer{margin-left:auto}
+.utilitybar svg{width:16px;height:16px;color:var(--red)}
+
+/* ============ Header ============ */
+.site-header{position:relative;z-index:20}
+.site-header .container{display:flex;align-items:center;gap:28px;padding-top:18px;padding-bottom:18px}
+.site-logo img{height:46px;width:auto}
+.brand-badge{display:flex;align-items:center;gap:.5rem;color:var(--red);font-weight:700;line-height:1}
+.brand-badge .num{font-size:2.1rem}
+.brand-badge small{font-size:.6rem;letter-spacing:.14em;color:#c9c9c9;display:block}
+.main-nav{margin-left:auto}
+.main-nav ul{list-style:none;display:flex;gap:26px;margin:0;padding:0}
+.main-nav a{font-weight:500;font-size:.95rem;color:#fff;opacity:.92}
+.main-nav a:hover{opacity:1;color:var(--red)}
+.header-cta{margin-left:8px}
+.nav-toggle{display:none;margin-left:auto;background:none;border:0;cursor:pointer;width:40px;height:40px}
+.nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{content:"";display:block;height:2px;width:24px;background:#fff;position:relative;transition:.2s}
+.nav-toggle span::before{position:absolute;top:-7px}.nav-toggle span::after{position:absolute;top:7px}
+
+/* header sits on dark hero */
+.hero{position:relative;background:#0c0c0c;color:#fff;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,10,10,.72),rgba(10,10,10,.86)),
+  radial-gradient(120% 80% at 50% 0%,#2a2a2a 0%,#0c0c0c 60%);}
+.hero-inner{position:relative;text-align:center;padding:70px 0 96px;max-width:820px;margin:0 auto}
+.hero .pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);padding:.45rem 1rem;border-radius:999px;font-size:.8rem;margin-bottom:26px}
+.hero .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.hero h1{color:#fff;font-size:clamp(2.3rem,5vw,3.6rem);margin-bottom:.5em}
+.hero p{color:rgba(255,255,255,.8);font-size:1.08rem;max-width:600px;margin:0 auto 30px}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ============ Card grids ============ */
+.grid{display:grid;gap:24px}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+
+.icard{background:var(--gray);border-radius:var(--radius);padding:34px 26px;text-align:center;transition:.2s}
+.bg-gray .icard,.bg-beige .icard{background:#fff}
+.icard:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.icard .ic{width:64px;height:64px;border-radius:50%;background:rgba(228,0,43,.1);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.icard .ic svg{width:28px;height:28px;color:var(--red)}
+.icard h3{font-size:1.15rem;margin-bottom:.4em}
+.icard p{color:var(--muted);font-size:.92rem;margin:0}
+
+/* ============ Split (Meet the team) ============ */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.split img{border-radius:var(--radius);width:100%;object-fit:cover}
+.split .txt h2{font-size:clamp(1.8rem,3.4vw,2.4rem)}
+.split .txt p{color:var(--muted)}
+
+/* ============ Product cards ============ */
+.head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px}
+.head-row .l{max-width:560px}
+.head-row h2{font-size:clamp(1.9rem,3.6vw,2.6rem);margin-bottom:.3em}
+.head-row p{color:var(--muted);margin:0}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.2s;display:flex;flex-direction:column}
+.pcard:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.pcard .thumb{aspect-ratio:16/10;background:#f2f3f5;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pcard .thumb img{width:100%;height:100%;object-fit:cover}
+.pcard .body{padding:22px}
+.pcard h3{font-size:1.2rem;margin-bottom:.4em}
+.pcard p{color:var(--muted);font-size:.92rem}
+
+/* ============ Testimonials ============ */
+.tcard{background:var(--pink);border-radius:var(--radius);padding:30px}
+.tcard .stars{color:var(--star);letter-spacing:2px;margin-bottom:14px}
+.tcard blockquote{margin:0 0 18px;font-size:.98rem;color:#333}
+.tcard .who{font-weight:700}
+.tcard .role{color:var(--muted);font-size:.85rem}
+
+/* ============ News ============ */
+.ncard{background:var(--gray);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.ncard .thumb{aspect-ratio:16/9;overflow:hidden;background:#ddd}
+.ncard .thumb img{width:100%;height:100%;object-fit:cover}
+.ncard .body{padding:22px}
+.ncard h3{font-size:1.1rem}
+.ncard p{color:var(--muted);font-size:.9rem}
+
+/* ============ Footer ============ */
+.site-footer{background:var(--black);color:#c9ccd1;padding:64px 0 28px;font-size:.92rem}
+.site-footer .cols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:36px}
+.site-footer img.flogo{height:42px;margin-bottom:18px}
+.site-footer h4{color:#fff;font-size:1rem;margin-bottom:1em}
+.site-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.site-footer a:hover{color:#fff}
+.site-footer .muted{color:#8b9098}
+.footer-remote{color:var(--red);font-weight:600;margin-top:6px;display:inline-block}
+.socials{display:flex;gap:12px;margin-top:16px}
+.socials a{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center}
+.socials a:hover{background:var(--red)}
+.socials svg{width:18px;height:18px;color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-top:22px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#8b9098;font-size:.82rem}
+.footer-bottom a{color:#8b9098}.footer-bottom a:hover{color:#fff}
+
+/* ============ Internal page ============ */
+.page-hero{background:#0c0c0c;color:#fff;padding:64px 0;text-align:center}
+.page-hero h1{color:#fff;font-size:clamp(2rem,4vw,3rem)}
+.page-hero .crumbs{color:rgba(255,255,255,.6);font-size:.85rem}
+.entry{max-width:820px;margin:0 auto;padding:56px 0}
+.entry img{border-radius:var(--radius);margin:1.5rem 0}
+.entry h2{margin-top:1.6em}
+.entry ul{padding-left:1.2rem}
+
+/* ============ Responsive ============ */
+@media(max-width:960px){
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr;gap:28px}
+  .site-footer .cols{grid-template-columns:1fr 1fr}
+  .head-row{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:760px){
+  .utilitybar .container{gap:16px;overflow-x:auto}
+  .utilitybar a span{display:none}
+  .main-nav{position:absolute;top:100%;left:0;right:0;background:#0c0c0c;display:none;padding:12px 24px}
+  .main-nav.open{display:block}
+  .main-nav ul{flex-direction:column;gap:14px}
+  .nav-toggle{display:block}
+  .header-cta{display:none}
+}
+@media(max-width:520px){
+  .grid-4{grid-template-columns:1fr}
+  .site-footer .cols{grid-template-columns:1fr}
+}
+
+/* header always on dark, hero continues seamlessly */
+.site-header{background:#0c0c0c}
+.home .hero,.blog .hero{margin-top:0}
+.home .hero::before{top:-1px}
