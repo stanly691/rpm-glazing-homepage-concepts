@@ -12,7 +12,7 @@ add_action( 'acf/init', 'clarity_seed_content', 20 );
 function clarity_seed_content() {
 	if ( ! function_exists( 'update_field' ) ) { return; }
 
-	$version = '1';
+	$version = '2';
 	if ( get_option( 'clarity_seeded_v' ) === $version ) { return; }
 
 	// Media library attachment IDs uploaded for the theme.
@@ -29,6 +29,7 @@ function clarity_seed_content() {
 		'hero_btn1_url'      => '/contact/',
 		'hero_btn2_label'    => 'Get Remote Support',
 		'hero_btn2_url'      => '/support/',
+		'hero_video'         => 45, // hero-clarity.mp4 attachment (from the XD mockup)
 
 		'sectors_heading'    => 'Expertise Across Sectors',
 		'sectors_intro'      => 'We understand that every industry has unique challenges. Our tailored managed print solutions address sector-specific needs with precision and expertise.',

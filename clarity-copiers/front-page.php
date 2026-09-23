@@ -27,10 +27,17 @@ $def_tests = array(
 );
 
 $team_img = clarity_field( 'team_image', $uri . '/assets/team.jpg' );
+$hero_video = clarity_field( 'hero_video', '' );
+if ( is_array( $hero_video ) ) { $hero_video = $hero_video['url'] ?? ''; }
 ?>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero<?php echo $hero_video ? ' has-video' : ''; ?>">
+	<?php if ( $hero_video ) : ?>
+	<video class="hero-video" autoplay muted loop playsinline preload="auto">
+		<source src="<?php echo esc_url( $hero_video ); ?>" type="video/mp4">
+	</video>
+	<?php endif; ?>
 	<div class="container">
 		<div class="hero-inner">
 			<span class="pill"><span class="dot"></span> <?php echo esc_html( clarity_field( 'hero_pill', '24/7 Remote Support Available' ) ); ?></span>

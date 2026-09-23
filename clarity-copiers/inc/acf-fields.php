@@ -44,6 +44,7 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'f_hero_pill', 'label' => 'Pill text', 'name' => 'hero_pill', 'type' => 'text', 'default_value' => '24/7 Remote Support Available' ),
 			array( 'key' => 'f_hero_heading', 'label' => 'Heading', 'name' => 'hero_heading', 'type' => 'text', 'default_value' => 'Empowering Productivity Through Sharp Technology' ),
 			array( 'key' => 'f_hero_text', 'label' => 'Sub text', 'name' => 'hero_text', 'type' => 'textarea', 'rows' => 3, 'default_value' => 'Managed print and document solutions that save time, reduce waste and keep your business moving. Trusted by businesses across the UK for 30 years.' ),
+			array( 'key' => 'f_hero_video', 'label' => 'Background video (MP4)', 'name' => 'hero_video', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'mp4,webm', 'instructions' => 'Optional looping background video for the hero. Leave empty for the dark gradient.' ),
 			array( 'key' => 'f_hero_b1l', 'label' => 'Button 1 label', 'name' => 'hero_btn1_label', 'type' => 'text', 'default_value' => 'Get a Quote', 'wrapper' => array( 'width' => 25 ) ),
 			array( 'key' => 'f_hero_b1u', 'label' => 'Button 1 URL', 'name' => 'hero_btn1_url', 'type' => 'text', 'default_value' => '/contact/', 'wrapper' => array( 'width' => 25 ) ),
 			array( 'key' => 'f_hero_b2l', 'label' => 'Button 2 label', 'name' => 'hero_btn2_label', 'type' => 'text', 'default_value' => 'Get Remote Support', 'wrapper' => array( 'width' => 25 ) ),

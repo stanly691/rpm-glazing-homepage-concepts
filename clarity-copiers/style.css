@@ -233,3 +233,8 @@ p{margin:0 0 1rem}
 .support-grid a{background:var(--gray);border-radius:var(--radius);padding:26px;display:block;color:var(--ink);font-weight:600;transition:.2s}
 .support-grid a:hover{background:var(--red);color:#fff;transform:translateY(-3px)}
 @media(max-width:640px){.contact-cols{grid-template-columns:1fr}}
+
+/* hero background video */
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero.has-video::before{z-index:1}
+.hero.has-video .container{position:relative;z-index:2}
