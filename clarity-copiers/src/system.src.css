@@ -1,0 +1,68 @@
+/* =====================================================================
+   CLARITY DESIGN SYSTEM
+   Derived from the approved XD homepage. The homepage keeps its exact
+   mockup metrics; every other component is built from these tokens so
+   the whole site shares one rhythm, one type scale and one card/button
+   language. Sizes use design px on the 1920 canvas ({N} → N*--u).
+   ===================================================================== */
+:root{
+  /* Neutrals (extend the mockup palette for UI states) */
+  --n-900:#101010;  /* headings on light, dark surfaces */
+  --n-800:#1b1b1b;  /* raised dark surface */
+  --n-700:#333333;  /* strong body */
+  --n-600:#4a4a4a;  /* body on tinted bg (AA on #f3f3f0) */
+  --n-500:#5c5c5c;  /* muted text (AA on white: 6.6:1) */
+  --n-300:#d9d9d9;  /* borders on white */
+  --n-200:#e6e6e6;  /* hairlines */
+  --n-100:#f6f6f4;  /* subtle fills */
+
+  /* Type scale — matches the mockup (Montserrat 62/48/28, Open Sans 22/20) */
+  --fs-display:{62}; --lh-display:1.24;
+  --fs-h2:{48};      --lh-h2:1.2;
+  --fs-h3:{28};      --lh-h3:1.3;
+  --fs-h4:{22};      --lh-h4:1.35;
+  --fs-lead:[22];    --lh-lead:1.55;
+  --fs-body:[20];    --lh-body:1.65;
+  --fs-sm:[17];      --lh-sm:1.55;
+  --fs-xs:[15];
+  --measure:68ch;    /* comfortable reading line length */
+
+  /* Spacing scale (8-based) */
+  --s-1:{8}; --s-2:{12}; --s-3:{16}; --s-4:{24}; --s-5:{32}; --s-6:{48}; --s-7:{64}; --s-8:{96}; --s-9:{120};
+  --section-y:var(--s-9);
+  --gutter:{24};
+
+  /* Shape */
+  --r-sm:{10}; --r-md:{12}; --r-lg:{17}; --r-pill:{23};
+
+  /* Elevation */
+  --e-0:0 0 0 1px var(--n-200);
+  --e-1:0 1px 2px rgba(16,16,16,.05),0 6px 18px rgba(16,16,16,.05);
+  --e-2:0 2px 6px rgba(16,16,16,.06),0 22px 48px rgba(16,16,16,.10);
+
+  /* Motion */
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --t-fast:160ms; --t-med:260ms; --t-slow:600ms;
+}
+
+/* ---------- Base refinements ---------- */
+::selection{background:var(--red);color:#fff}
+html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}
+img{image-rendering:auto}
+a,button,.btn{transition:color var(--t-fast) var(--ease),background-color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease),transform var(--t-fast) var(--ease)}
+.btn{will-change:transform}
+.btn:active{transform:translateY(1px)}
+
+/* ---------- Sticky header (added on scroll by site.js) ---------- */
+.site-header.is-stuck{position:fixed;top:0;left:0;right:0;background:rgba(16,16,16,.96);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);box-shadow:0 8px 24px rgba(0,0,0,.25);animation:cc-drop var(--t-med) var(--ease)}
+.site-header.is-stuck .wrap{padding-top:{16};padding-bottom:{16};align-items:center}
+.site-header.is-stuck .brand,.site-header.is-stuck .main-nav{margin-top:0}
+.site-header.is-stuck .brand .logo{width:{190};height:auto}
+.site-header.is-stuck .brand .badge img{width:{76};height:auto}
+.site-header.is-stuck .brand .badge-txt{padding-top:{22}}
+@keyframes cc-drop{from{transform:translateY(-100%)}to{transform:none}}
+
+/* ---------- Scroll reveal (progressive: only when JS adds .js-reveal) ---------- */
+.js-reveal [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease)}
+.js-reveal [data-reveal].is-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js-reveal [data-reveal]{opacity:1;transform:none;transition:none}}

@@ -1,0 +1,74 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+$mk       = get_template_directory_uri() . '/assets/mockup/';
+$fsectors = array_filter( array_map( function ( $r ) { return is_array( $r ) ? ( $r['title'] ?? '' ) : ''; }, clarity_home_rows( 'sectors', array( array( 'title' => 'Legal' ), array( 'title' => 'Hospitality' ), array( 'title' => 'Estate Agents' ), array( 'title' => 'Local Councils' ) ) ) ) );
+$socials  = clarity_rows( 'socials', array( array( 'network' => 'facebook', 'url' => 'https://www.facebook.com/clarityglamorgan/' ), array( 'network' => 'linkedin', 'url' => 'https://uk.linkedin.com/company/clarity-copiers-glamorgan' ), array( 'network' => 'x', 'url' => 'https://x.com/clarityglam' ) ) );
+$icons    = array( 'facebook' => 's-facebook.svg', 'linkedin' => 's-linkedin.svg', 'x' => 's-x.svg' );
+$phone    = clarity_opt( 'phone' );
+$email    = clarity_opt( 'email' );
+?>
+</main>
+<footer class="site-footer">
+	<div class="wrap">
+		<div class="f-brand">
+			<img class="flogo" src="<?php echo esc_url( $mk . 'logo.webp' ); ?>" alt="<?php bloginfo( 'name' ); ?>" width="246" height="72" loading="lazy" decoding="async">
+			<p><?php echo esc_html( clarity_field( 'footer_about', 'Your trusted Sharp technology partner since 1995. Delivering exceptional managed print and document solutions with local, personal service.' ) ); ?></p>
+			<p class="f-247">24/7 Remote Support Available</p>
+			<a class="f-remote" href="<?php echo esc_url( home_url( '/support/' ) ); ?>">Get Remote Assistance</a>
+		</div>
+
+		<div class="f-col f-links">
+			<h2 class="f-title">Quick Links</h2>
+			<?php
+			if ( has_nav_menu( 'footer' ) ) {
+				wp_nav_menu( array( 'theme_location' => 'footer', 'container' => false, 'depth' => 1 ) );
+			} else {
+				echo '<ul>';
+				foreach ( array( 'Home' => '/', 'About' => '/about/', 'Our Team' => '/our-team/', 'Products' => '/products/', 'Support' => '/support/' ) as $l => $u ) {
+					echo '<li><a href="' . esc_url( home_url( $u ) ) . '">' . esc_html( $l ) . '</a></li>';
+				}
+				echo '</ul>';
+			}
+			?>
+		</div>
+
+		<div class="f-col f-sectors">
+			<h2 class="f-title">Sectors</h2>
+			<ul>
+				<?php foreach ( $fsectors as $row ) : ?>
+				<li><?php echo esc_html( $row ); ?></li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+
+		<div class="f-col f-contact">
+			<h2 class="f-title">Contact</h2>
+			<ul>
+				<li><?php echo esc_html( clarity_opt( 'address' ) ); ?></li>
+				<li>T: <a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a></li>
+				<li>E: <a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a></li>
+			</ul>
+			<div class="socials">
+				<?php
+				foreach ( $socials as $s ) :
+					$net = is_array( $s ) ? ( $s['network'] ?? '' ) : '';
+					if ( ! isset( $icons[ $net ] ) ) { continue; }
+					?>
+				<a class="<?php echo $net === 'facebook' ? 'fb' : esc_attr( $net ); ?>" href="<?php echo esc_url( $s['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( 'x' === $net ? 'X (Twitter)' : ( 'linkedin' === $net ? 'LinkedIn' : ucfirst( $net ) ) ); ?> (opens in a new tab)" target="_blank" rel="noopener"><img src="<?php echo esc_url( $mk . $icons[ $net ] ); ?>" alt="" width="31" height="31" loading="lazy" decoding="async"></a>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
+	<div class="wrap f-legal">
+		<span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. All rights reserved.</span>
+		<nav aria-label="Legal">
+			<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy</a>
+			<a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookies</a>
+			<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms of use</a>
+		</nav>
+		<span class="f-credits">Website development by <a href="https://www.itcs.co.uk/" target="_blank" rel="noopener">ITCS</a></span>
+	</div>
+</footer>
+<?php wp_footer(); ?>
+</body>
+</html>
