@@ -1,6 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-$logo = get_template_directory_uri() . '/assets/logo.png';
+$mk    = get_template_directory_uri() . '/assets/mockup/';
+$phone = clarity_opt( 'phone' );
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -12,42 +13,39 @@ $logo = get_template_directory_uri() . '/assets/logo.png';
 <?php wp_body_open(); ?>
 
 <div class="utilitybar">
-	<div class="container">
-		<a href="#"><?php echo clarity_icon( 'showroom' ); ?><span>Virtual Showroom</span></a>
-		<a href="#"><?php echo clarity_icon( 'support' ); ?><span>Remote Support</span></a>
-		<a class="spacer" href="tel:<?php echo esc_attr( str_replace( ' ', '', clarity_opt( 'phone' ) ) ); ?>">
-			<?php echo clarity_icon( 'phone' ); ?><span><?php echo esc_html( clarity_opt( 'phone' ) ); ?></span></a>
-		<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo clarity_icon( 'audit' ); ?><span>Request Print Audit</span></a>
+	<div class="wrap">
+		<a class="ub-item ub-showroom" href="<?php echo esc_url( clarity_field( 'showroom_url', home_url( '/products/' ) ) ); ?>"><img src="<?php echo esc_url( $mk . 'u-showroom.svg' ); ?>" alt=""><span>Virtual Showroom</span></a>
+		<a class="ub-item ub-remote" href="<?php echo esc_url( home_url( '/support/' ) ); ?>"><img src="<?php echo esc_url( $mk . 'u-remote.svg' ); ?>" alt=""><span>Remote Support</span></a>
+		<a class="ub-item ub-phone" href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $phone ) ); ?>"><img src="<?php echo esc_url( $mk . 'u-phone.svg' ); ?>" alt=""><span><?php echo esc_html( $phone ); ?></span></a>
+		<a class="ub-item ub-audit" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><img src="<?php echo esc_url( $mk . 'u-audit.svg' ); ?>" alt=""><span>Request Print Audit</span></a>
 	</div>
 </div>
 
 <header class="site-header">
-	<div class="container">
-		<a class="site-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<img src="<?php echo esc_url( $logo ); ?>" alt="<?php bloginfo( 'name' ); ?>">
+	<div class="wrap">
+		<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?>">
+			<img class="logo" src="<?php echo esc_url( $mk . 'logo.webp' ); ?>" alt="<?php bloginfo( 'name' ); ?>" width="231" height="68">
+			<span class="badge">
+				<img src="<?php echo esc_url( $mk . 'badge-30.svg' ); ?>" alt="30th">
+				<span class="badge-txt"><span>ANNIVERSARY</span><b>EST,1995</b></span>
+			</span>
 		</a>
-		<span class="brand-badge"><span class="num">30</span><small>YEARS<br>EST. 1995</small></span>
 
-		<button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('primary-nav').classList.toggle('open')"><span></span></button>
-		<nav class="main-nav" id="primary-nav">
+		<nav class="main-nav" id="primary-nav" aria-label="Primary">
 			<?php
 			if ( has_nav_menu( 'primary' ) ) {
-				wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false ) );
+				wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false, 'depth' => 1 ) );
 			} else {
 				echo '<ul>';
-				$fallback = array(
-					'Home' => home_url( '/' ), 'About' => home_url( '/about/' ),
-					'Our Team' => home_url( '/our-team/' ), 'Products' => home_url( '/products/' ),
-					'Support' => home_url( '/support/' ), 'Gallery' => home_url( '/gallery/' ),
-					'Contact' => home_url( '/contact/' ),
-				);
-				foreach ( $fallback as $label => $url ) {
-					echo '<li><a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
+				foreach ( array( 'Home' => '/', 'About' => '/about/', 'Our Team' => '/our-team/', 'Products' => '/products/', 'Support' => '/support/', 'Gallery' => '/gallery/', 'Contact' => '/contact/' ) as $l => $u ) {
+					echo '<li><a href="' . esc_url( home_url( $u ) ) . '">' . esc_html( $l ) . '</a></li>';
 				}
 				echo '</ul>';
 			}
 			?>
 		</nav>
-		<a class="btn btn--outline-red header-cta" style="border-color:var(--red);color:#fff" href="<?php echo esc_url( home_url( '/support/' ) ); ?>"><?php echo clarity_icon( 'support' ); ?> Remote Support</a>
+
+		<a class="header-cta" href="<?php echo esc_url( home_url( '/support/' ) ); ?>">Remote Support</a>
+		<button class="nav-toggle" aria-label="Menu" aria-controls="primary-nav" onclick="document.getElementById('primary-nav').classList.toggle('open')"><span></span></button>
 	</div>
 </header>

@@ -22,37 +22,38 @@ add_action( 'after_setup_theme', 'clarity_setup' );
 
 function clarity_assets() {
 	$v = wp_get_theme()->get( 'Version' );
+	// Exact families/weights used in the XD mockup.
 	wp_enqueue_style(
 		'clarity-fonts',
-		'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap',
+		'https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@700&family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700;800&display=swap',
 		array(),
 		null
 	);
-	wp_enqueue_style( 'clarity-style', get_stylesheet_uri(), array( 'clarity-fonts' ), $v );
+	wp_enqueue_style( 'clarity-style', get_stylesheet_uri(), array( 'clarity-fonts' ), $v . '.' . filemtime( get_stylesheet_directory() . '/style.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'clarity_assets' );
 
+add_action( 'wp_head', function () {
+	echo '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+}, 1 );
+
 /**
- * Small inline SVG icon helper (used across templates).
+ * Map a card icon key (ACF select) to the mockup's exported icon file.
  */
-function clarity_icon( $name ) {
-	$p = array(
-		'phone'    => '<path d="M6.6 10.8a15.6 15.6 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11.4 11.4 0 003.6.58 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.4 11.4 0 00.58 3.6 1 1 0 01-.24 1z"/>',
-		'monitor'  => '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
-		'support'  => '<path d="M4 13a8 8 0 0116 0v4a2 2 0 01-2 2h-1v-6h3M4 13v4a2 2 0 002 2h1v-6H4"/>',
-		'audit'    => '<path d="M9 11l3 3 8-8M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>',
-		'showroom' => '<path d="M3 9l9-6 9 6M5 10v9h14v-9M9 19v-5h6v5"/>',
-		'legal'    => '<path d="M12 3v18M6 8l-3 6a3 3 0 006 0zM18 8l-3 6a3 3 0 006 0zM7 21h10"/>',
-		'hotel'    => '<path d="M3 21V5a1 1 0 011-1h10a1 1 0 011 1v16M15 21V9h4a1 1 0 011 1v11M7 8h3M7 12h3M7 16h3"/>',
-		'estate'   => '<path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/>',
-		'council'  => '<path d="M3 21h18M4 10h16M12 3l8 5H4zM6 10v9M10 10v9M14 10v9M18 10v9"/>',
-		'clock'    => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-		'award'    => '<circle cx="12" cy="9" r="6"/><path d="M9 15l-2 6 5-3 5 3-2-6"/>',
-		'pin'      => '<path d="M12 22s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',
-		'printer'  => '<path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2M6 14h12v7H6z"/>',
+function clarity_mock_icon( $key ) {
+	$map = array(
+		'legal'   => 'icon-legal.webp',
+		'hotel'   => 'icon-hospitality.webp',
+		'estate'  => 'icon-estate.webp',
+		'council' => 'icon-council.webp',
+		'clock'   => 'w-repairs.svg',
+		'award'   => 'w-experience.svg',
+		'pin'     => 'w-local.svg',
+		'printer' => 'w-dealer.svg',
+		'support' => 'icon-customer-care.webp',
 	);
-	$d = isset( $p[ $name ] ) ? $p[ $name ] : '';
-	return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $d . '</svg>';
+	$file = isset( $map[ $key ] ) ? $map[ $key ] : 'w-dealer.svg';
+	return get_template_directory_uri() . '/assets/mockup/' . $file;
 }
 
 /* ACF field definitions (code-defined; edited under wp-admin → Theme Content). */

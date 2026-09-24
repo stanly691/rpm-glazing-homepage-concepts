@@ -23,10 +23,10 @@ add_action( 'acf/init', function () {
 /* Icon choices shared by the icon selects */
 function clarity_icon_choices() {
 	return array(
-		'legal' => 'Legal (gavel)', 'hotel' => 'Hospitality (building)',
-		'estate' => 'Estate Agents (house)', 'council' => 'Council (bank)',
-		'clock' => 'Clock', 'award' => 'Award', 'pin' => 'Location pin',
-		'printer' => 'Printer', 'support' => 'Support', 'monitor' => 'Monitor',
+		'legal' => 'Gavel (Legal)', 'hotel' => 'Hotel (Hospitality)',
+		'estate' => 'Keys (Estate Agents)', 'council' => 'Meeting (Councils)',
+		'clock' => 'Stopwatch', 'award' => 'Heart', 'pin' => 'Location pin',
+		'printer' => 'Printer', 'support' => 'Headset',
 	);
 }
 
@@ -42,7 +42,7 @@ add_action( 'acf/init', function () {
 		'fields'   => array(
 			array( 'key' => 'f_hero_tab', 'label' => 'Hero', 'type' => 'tab' ),
 			array( 'key' => 'f_hero_pill', 'label' => 'Pill text', 'name' => 'hero_pill', 'type' => 'text', 'default_value' => '24/7 Remote Support Available' ),
-			array( 'key' => 'f_hero_heading', 'label' => 'Heading', 'name' => 'hero_heading', 'type' => 'text', 'default_value' => 'Empowering Productivity Through Sharp Technology' ),
+			array( 'key' => 'f_hero_heading', 'label' => 'Heading (new line = line break)', 'name' => 'hero_heading', 'type' => 'textarea', 'rows' => 2, 'new_lines' => '', 'default_value' => "Empowering Productivity Through\nSharp Technology" ),
 			array( 'key' => 'f_hero_text', 'label' => 'Sub text', 'name' => 'hero_text', 'type' => 'textarea', 'rows' => 3, 'default_value' => 'Managed print and document solutions that save time, reduce waste and keep your business moving. Trusted by businesses across the UK for 30 years.' ),
 			array( 'key' => 'f_hero_video', 'label' => 'Background video (MP4)', 'name' => 'hero_video', 'type' => 'file', 'return_format' => 'url', 'mime_types' => 'mp4,webm', 'instructions' => 'Optional looping background video for the hero. Leave empty for the dark gradient.' ),
 			array( 'key' => 'f_hero_b1l', 'label' => 'Button 1 label', 'name' => 'hero_btn1_label', 'type' => 'text', 'default_value' => 'Get a Quote', 'wrapper' => array( 'width' => 25 ) ),
@@ -61,7 +61,7 @@ add_action( 'acf/init', function () {
 
 			array( 'key' => 'f_why_tab', 'label' => 'Why Choose', 'type' => 'tab' ),
 			array( 'key' => 'f_why_h', 'label' => 'Heading', 'name' => 'why_heading', 'type' => 'text', 'default_value' => 'Why Choose Clarity?' ),
-			array( 'key' => 'f_why_i', 'label' => 'Intro', 'name' => 'why_intro', 'type' => 'textarea', 'rows' => 2, 'default_value' => 'Three decades of trusted service, genuine Sharp products, and a local team ready to respond.' ),
+			array( 'key' => 'f_why_i', 'label' => 'Intro', 'name' => 'why_intro', 'type' => 'textarea', 'rows' => 2, 'default_value' => 'We understand that every industry has unique challenges. Our tailored managed print solutions address sector-specific needs with precision and expertise.' ),
 			array( 'key' => 'f_why_r', 'label' => 'Cards', 'name' => 'why_items', 'type' => 'repeater', 'button_label' => 'Add card', 'layout' => 'block', 'sub_fields' => array(
 				array( 'key' => 'f_why_icon', 'label' => 'Icon', 'name' => 'icon', 'type' => 'select', 'choices' => clarity_icon_choices(), 'wrapper' => array( 'width' => 30 ) ),
 				array( 'key' => 'f_why_t', 'label' => 'Title', 'name' => 'title', 'type' => 'text', 'wrapper' => array( 'width' => 70 ) ),
@@ -70,7 +70,7 @@ add_action( 'acf/init', function () {
 
 			array( 'key' => 'f_team_tab', 'label' => 'Team', 'type' => 'tab' ),
 			array( 'key' => 'f_team_h', 'label' => 'Heading', 'name' => 'team_heading', 'type' => 'text', 'default_value' => 'Meet Our Team' ),
-			array( 'key' => 'f_team_t', 'label' => 'Text', 'name' => 'team_text', 'type' => 'textarea', 'rows' => 3, 'default_value' => "Led by Warren Dryden, our dedicated team combines decades of experience with a passion for exceptional customer service. We're not just your supplier — we're your technology partner." ),
+			array( 'key' => 'f_team_t', 'label' => 'Text', 'name' => 'team_text', 'type' => 'textarea', 'rows' => 3, 'default_value' => "Led by Warren Dryden, our dedicated team combines decades of experience with a passion for exceptional customer service. We're not just your supplier – we're your technology partner." ),
 			array( 'key' => 'f_team_img', 'label' => 'Image', 'name' => 'team_image', 'type' => 'image', 'return_format' => 'url', 'preview_size' => 'medium' ),
 			array( 'key' => 'f_team_bl', 'label' => 'Button label', 'name' => 'team_btn_label', 'type' => 'text', 'default_value' => 'Learn More', 'wrapper' => array( 'width' => 50 ) ),
 			array( 'key' => 'f_team_bu', 'label' => 'Button URL', 'name' => 'team_btn_url', 'type' => 'text', 'default_value' => '/our-team/', 'wrapper' => array( 'width' => 50 ) ),
@@ -110,7 +110,7 @@ add_action( 'acf/init', function () {
 		'fields'   => array(
 			array( 'key' => 'g_phone', 'label' => 'Phone', 'name' => 'phone', 'type' => 'text', 'default_value' => '0330 221 9131', 'wrapper' => array( 'width' => 33 ) ),
 			array( 'key' => 'g_email', 'label' => 'Email', 'name' => 'email', 'type' => 'text', 'default_value' => 'glamorgan@clarity-copiers.co.uk', 'wrapper' => array( 'width' => 33 ) ),
-			array( 'key' => 'g_addr', 'label' => 'Address', 'name' => 'address', 'type' => 'text', 'default_value' => '1 North Rd, Bridgend Industrial Estate, Bridgend CF31 3TP', 'wrapper' => array( 'width' => 34 ) ),
+			array( 'key' => 'g_addr', 'label' => 'Address', 'name' => 'address', 'type' => 'text', 'default_value' => '1 North Rd Bridgend Industrial Estate Bridgend CF31 3TP', 'wrapper' => array( 'width' => 34 ) ),
 			array( 'key' => 'g_fabout', 'label' => 'Footer blurb', 'name' => 'footer_about', 'type' => 'textarea', 'rows' => 3, 'default_value' => 'Your trusted Sharp technology partner since 1995. Delivering exceptional managed print and document solutions with local, personal service.' ),
 			array( 'key' => 'g_fsectors', 'label' => 'Footer sectors', 'name' => 'footer_sectors', 'type' => 'repeater', 'button_label' => 'Add sector', 'layout' => 'table', 'sub_fields' => array(
 				array( 'key' => 'g_fsec_l', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),

@@ -1,26 +1,28 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
-$title = is_home() ? 'News & Insights' : ( is_search() ? 'Search Results' : ( is_archive() ? get_the_archive_title() : 'Blog' ) );
+$mk    = get_template_directory_uri() . '/assets/mockup/';
+$title = is_home() ? 'News & Insights' : ( is_search() ? 'Search Results' : ( is_archive() ? wp_strip_all_tags( get_the_archive_title() ) : 'News' ) );
 ?>
 <section class="page-hero">
-	<div class="container">
-		<div class="crumbs"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> / <?php echo esc_html( wp_strip_all_tags( $title ) ); ?></div>
-		<h1><?php echo esc_html( wp_strip_all_tags( $title ) ); ?></h1>
+	<div class="wrap">
+		<div class="crumbs"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> / <?php echo esc_html( $title ); ?></div>
+		<h1><?php echo esc_html( $title ); ?></h1>
 	</div>
 </section>
-<section class="section">
-	<div class="container">
+<section class="news index-grid">
+	<div class="wrap">
 		<?php if ( have_posts() ) : ?>
-		<div class="grid grid-3">
-			<?php while ( have_posts() ) : the_post(); ?>
+		<div class="grid3">
+			<?php
+			while ( have_posts() ) :
+				the_post();
+				?>
 			<a class="ncard" href="<?php the_permalink(); ?>">
-				<div class="thumb"><?php echo has_post_thumbnail() ? get_the_post_thumbnail( null, 'medium_large' ) : '<img src="' . esc_url( get_template_directory_uri() . '/assets/colour-mfp.png' ) . '" alt="">'; ?></div>
-				<div class="body">
-					<h3><?php the_title(); ?></h3>
-					<p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
-					<span class="link-more">Read More →</span>
-				</div>
+				<div class="thumb"><?php echo has_post_thumbnail() ? get_the_post_thumbnail( null, 'large' ) : '<img src="' . esc_url( $mk . 'news-mfp.webp' ) . '" alt="">'; ?></div>
+				<h3><?php the_title(); ?></h3>
+				<p><?php echo esc_html( get_the_excerpt() ); ?></p>
+				<span class="more">Read More</span>
 			</a>
 			<?php endwhile; ?>
 		</div>
@@ -30,4 +32,5 @@ $title = is_home() ? 'News & Insights' : ( is_search() ? 'Search Results' : ( is
 		<?php endif; ?>
 	</div>
 </section>
-<?php get_footer(); ?>
+<?php
+get_footer();
