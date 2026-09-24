@@ -93,10 +93,6 @@ function clarity_seed_values() {
 		'email'              => 'glamorgan@clarity-copiers.co.uk',
 		'address'            => '1 North Rd Bridgend Industrial Estate Bridgend CF31 3TP',
 		'footer_about'       => 'Your trusted Sharp technology partner since 1995. Delivering exceptional managed print and document solutions with local, personal service.',
-		'footer_sectors'     => array(
-			array( 'label' => 'Education' ), array( 'label' => 'Legal' ), array( 'label' => 'Healthcare' ),
-			array( 'label' => 'Manufacturing' ), array( 'label' => 'Public Sector' ),
-		),
 		'socials'            => array(
 			array( 'network' => 'facebook', 'url' => 'https://www.facebook.com/clarityglamorgan/' ),
 			array( 'network' => 'linkedin', 'url' => 'https://uk.linkedin.com/company/clarity-copiers-glamorgan' ),
@@ -105,4 +101,32 @@ function clarity_seed_values() {
 	);
 
 	return $set;
+}
+
+/**
+ * Move homepage content from Site Settings onto the Home page itself, so editors
+ * find it under Pages → Home. Copies the stored ACF values once; the old option
+ * values stay as a fallback and are ignored once the page has its own.
+ */
+add_action( 'acf/init', 'clarity_migrate_home_to_page', 30 );
+function clarity_migrate_home_to_page() {
+	if ( get_option( 'clarity_home_on_page' ) || ! function_exists( 'acf_get_fields' ) ) { return; }
+	$front = (int) get_option( 'page_on_front' );
+	if ( ! $front ) { return; }
+	global $wpdb;
+	$names = array_filter( wp_list_pluck( (array) acf_get_fields( 'group_clarity_home' ), 'name' ) );
+	foreach ( $names as $name ) {
+		$like = $wpdb->esc_like( $name );
+		$rows = $wpdb->get_results( $wpdb->prepare(
+			"SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name IN (%s, %s) OR option_name LIKE %s OR option_name LIKE %s",
+			'options_' . $name, '_options_' . $name, 'options_' . $like . '\\_%', '_options_' . $like . '\\_%'
+		) );
+		foreach ( $rows as $r ) {
+			$key = preg_replace( '/^(_?)options_/', '$1', $r->option_name );
+			if ( '' === (string) get_post_meta( $front, $key, true ) ) {
+				update_post_meta( $front, $key, maybe_unserialize( $r->option_value ) );
+			}
+		}
+	}
+	update_option( 'clarity_home_on_page', 1 );
 }

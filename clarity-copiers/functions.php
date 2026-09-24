@@ -110,6 +110,27 @@ function clarity_rows( $name, $default_rows = array() ) {
 }
 
 /**
+ * Homepage field: read from the Home page (Pages → Home), then the legacy
+ * Site Settings value, then the built-in default.
+ */
+function clarity_home( $name, $default = '' ) {
+	$front = (int) get_option( 'page_on_front' );
+	if ( $front && function_exists( 'get_field' ) ) {
+		$v = get_field( $name, $front );
+		if ( $v !== null && $v !== '' && $v !== false && $v !== array() ) {
+			return $v;
+		}
+	}
+	return clarity_field( $name, $default );
+}
+
+/** Homepage repeater rows (same lookup order as clarity_home()). */
+function clarity_home_rows( $name, $default_rows = array() ) {
+	$rows = clarity_home( $name, null );
+	return is_array( $rows ) && $rows ? $rows : $default_rows;
+}
+
+/**
  * Contact details (ACF-backed with sensible defaults).
  */
 function clarity_opt( $key ) {

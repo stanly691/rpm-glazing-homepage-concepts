@@ -1,16 +1,17 @@
 <?php
 /**
- * Code-defined ACF field groups + Options page for Clarity Copiers.
- * Editable in wp-admin (Theme Content) but version-controlled here.
+ * Code-defined ACF field groups for Clarity Copiers (version-controlled here).
+ * - Homepage content: edited on the Home page itself (Pages → Home).
+ * - Site-wide details (phone, email, address, socials, footer): Site Settings.
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/* Options page: "Theme Content" */
+/* Options page: "Site Settings" (slug kept as theme-content so saved values stay attached) */
 add_action( 'acf/init', function () {
 	if ( function_exists( 'acf_add_options_page' ) ) {
 		acf_add_options_page( array(
-			'page_title' => 'Theme Content',
-			'menu_title' => 'Theme Content',
+			'page_title' => 'Site Settings',
+			'menu_title' => 'Site Settings',
 			'menu_slug'  => 'theme-content',
 			'capability' => 'edit_theme_options',
 			'icon_url'   => 'dashicons-layout',
@@ -37,8 +38,10 @@ add_action( 'acf/init', function () {
 	/* ---------- HOMEPAGE ---------- */
 	acf_add_local_field_group( array(
 		'key'      => 'group_clarity_home',
-		'title'    => 'Homepage',
-		'location' => array( array( array( 'param' => 'options_page', 'operator' => '==', 'value' => 'theme-content' ) ) ),
+		'title'    => 'Homepage content',
+		'location' => array( array( array( 'param' => 'page_type', 'operator' => '==', 'value' => 'front_page' ) ) ),
+		'position' => 'acf_after_title',
+		'hide_on_screen' => array( 'the_content' ),
 		'menu_order' => 0,
 		'fields'   => array(
 			array( 'key' => 'f_hero_tab', 'label' => 'Hero', 'type' => 'tab' ),
@@ -105,7 +108,7 @@ add_action( 'acf/init', function () {
 	/* ---------- GLOBAL / CONTACT (header + footer) ---------- */
 	acf_add_local_field_group( array(
 		'key'      => 'group_clarity_global',
-		'title'    => 'Global (Header & Footer)',
+		'title'    => 'Header & footer (all pages)',
 		'location' => array( array( array( 'param' => 'options_page', 'operator' => '==', 'value' => 'theme-content' ) ) ),
 		'menu_order' => 1,
 		'fields'   => array(
@@ -113,9 +116,6 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'g_email', 'label' => 'Email', 'name' => 'email', 'type' => 'text', 'default_value' => 'glamorgan@clarity-copiers.co.uk', 'wrapper' => array( 'width' => 33 ) ),
 			array( 'key' => 'g_addr', 'label' => 'Address', 'name' => 'address', 'type' => 'text', 'default_value' => '1 North Rd Bridgend Industrial Estate Bridgend CF31 3TP', 'wrapper' => array( 'width' => 34 ) ),
 			array( 'key' => 'g_fabout', 'label' => 'Footer blurb', 'name' => 'footer_about', 'type' => 'textarea', 'rows' => 3, 'default_value' => 'Your trusted Sharp technology partner since 1995. Delivering exceptional managed print and document solutions with local, personal service.' ),
-			array( 'key' => 'g_fsectors', 'label' => 'Footer sectors', 'name' => 'footer_sectors', 'type' => 'repeater', 'button_label' => 'Add sector', 'layout' => 'table', 'sub_fields' => array(
-				array( 'key' => 'g_fsec_l', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-			) ),
 			array( 'key' => 'g_social', 'label' => 'Social links', 'name' => 'socials', 'type' => 'repeater', 'button_label' => 'Add link', 'layout' => 'table', 'sub_fields' => array(
 				array( 'key' => 'g_soc_net', 'label' => 'Network', 'name' => 'network', 'type' => 'select', 'choices' => array( 'facebook' => 'Facebook', 'linkedin' => 'LinkedIn', 'x' => 'X / Twitter' ) ),
 				array( 'key' => 'g_soc_url', 'label' => 'URL', 'name' => 'url', 'type' => 'text' ),

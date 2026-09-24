@@ -110,6 +110,7 @@ h1,h2,h3,h4,p{margin:0}
 .sectors .intro{color:#313131}
 .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:{21.33}}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:{23.5}}
+.grid3.is-short{grid-template-columns:repeat(auto-fit,calc((100% - 2 * {23.5}) / 3));justify-content:center}
 .sectors .grid4,.why .grid4{margin-top:{53}}
 .icard{min-height:{384};padding-bottom:{32};background:var(--card);border-radius:{10};padding-top:{64};text-align:center}
 .icard .ic{width:{78};height:{83};border-radius:50%;background:var(--icon-bg);margin:0 auto;display:flex;align-items:center;justify-content:center}
@@ -238,6 +239,7 @@ h1,h2,h3,h4,p{margin:0}
   .sectors,.why,.team,.products,.testimonials,.news{padding-top:56px;padding-bottom:56px}
   .grid4{grid-template-columns:repeat(2,1fr);gap:14px}
   .grid3{grid-template-columns:1fr;gap:18px}
+  .grid3.is-short{grid-template-columns:1fr}
   .icard{height:auto;padding:28px 14px 26px}
   .icard h3{font-size:19px;line-height:1.3;margin-top:14px}
   .team .wrap{flex-direction:column;align-items:stretch}

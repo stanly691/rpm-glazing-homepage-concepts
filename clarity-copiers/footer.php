@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 $mk       = get_template_directory_uri() . '/assets/mockup/';
-$fsectors = clarity_rows( 'footer_sectors', array( array( 'label' => 'Education' ), array( 'label' => 'Legal' ), array( 'label' => 'Healthcare' ), array( 'label' => 'Manufacturing' ), array( 'label' => 'Public Sector' ) ) );
+$fsectors = array_filter( array_map( function ( $r ) { return is_array( $r ) ? ( $r['title'] ?? '' ) : ''; }, clarity_home_rows( 'sectors', array( array( 'title' => 'Legal' ), array( 'title' => 'Hospitality' ), array( 'title' => 'Estate Agents' ), array( 'title' => 'Local Councils' ) ) ) ) );
 $socials  = clarity_rows( 'socials', array( array( 'network' => 'facebook', 'url' => 'https://www.facebook.com/clarityglamorgan/' ), array( 'network' => 'linkedin', 'url' => 'https://uk.linkedin.com/company/clarity-copiers-glamorgan' ), array( 'network' => 'x', 'url' => 'https://x.com/clarityglam' ) ) );
 $icons    = array( 'facebook' => 's-facebook.svg', 'linkedin' => 's-linkedin.svg', 'x' => 's-x.svg' );
 $phone    = clarity_opt( 'phone' );
@@ -36,7 +36,7 @@ $email    = clarity_opt( 'email' );
 			<h2 class="f-title">Sectors</h2>
 			<ul>
 				<?php foreach ( $fsectors as $row ) : ?>
-				<li><?php echo esc_html( is_array( $row ) ? ( $row['label'] ?? '' ) : $row ); ?></li>
+				<li><?php echo esc_html( $row ); ?></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
@@ -66,7 +66,7 @@ $email    = clarity_opt( 'email' );
 			<a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookies</a>
 			<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms of use</a>
 		</nav>
-		<span class="f-credits">Website development by <a href="https://www.itcs.co.uk/" target="_blank" rel="noopener">ITCS</a> &middot; Images courtesy <a href="https://www.dezines.online/" target="_blank" rel="noopener">DEZINES</a></span>
+		<span class="f-credits">Website development by <a href="https://www.itcs.co.uk/" target="_blank" rel="noopener">ITCS</a></span>
 	</div>
 </footer>
 <?php wp_footer(); ?>
