@@ -7,10 +7,11 @@ $icons    = array( 'facebook' => 's-facebook.svg', 'linkedin' => 's-linkedin.svg
 $phone    = clarity_opt( 'phone' );
 $email    = clarity_opt( 'email' );
 ?>
+</main>
 <footer class="site-footer">
 	<div class="wrap">
 		<div class="f-brand">
-			<img class="flogo" src="<?php echo esc_url( $mk . 'logo.webp' ); ?>" alt="<?php bloginfo( 'name' ); ?>">
+			<img class="flogo" src="<?php echo esc_url( $mk . 'logo.webp' ); ?>" alt="<?php bloginfo( 'name' ); ?>" width="246" height="72" loading="lazy" decoding="async">
 			<p><?php echo esc_html( clarity_field( 'footer_about', 'Your trusted Sharp technology partner since 1995. Delivering exceptional managed print and document solutions with local, personal service.' ) ); ?></p>
 			<p class="f-247">24/7 Remote Support Available</p>
 			<a class="f-remote" href="<?php echo esc_url( home_url( '/support/' ) ); ?>">Get Remote Assistance</a>
@@ -53,7 +54,7 @@ $email    = clarity_opt( 'email' );
 					$net = is_array( $s ) ? ( $s['network'] ?? '' ) : '';
 					if ( ! isset( $icons[ $net ] ) ) { continue; }
 					?>
-				<a class="<?php echo $net === 'facebook' ? 'fb' : esc_attr( $net ); ?>" href="<?php echo esc_url( $s['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( ucfirst( $net ) ); ?>" target="_blank" rel="noopener"><img src="<?php echo esc_url( $mk . $icons[ $net ] ); ?>" alt=""></a>
+				<a class="<?php echo $net === 'facebook' ? 'fb' : esc_attr( $net ); ?>" href="<?php echo esc_url( $s['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( ucfirst( $net ) ); ?>" target="_blank" rel="noopener"><img src="<?php echo esc_url( $mk . $icons[ $net ] ); ?>" alt="" width="31" height="31" loading="lazy" decoding="async"></a>
 				<?php endforeach; ?>
 			</div>
 		</div>

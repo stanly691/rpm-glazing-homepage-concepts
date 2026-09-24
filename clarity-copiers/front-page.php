@@ -32,7 +32,6 @@ $img_url = function ( $v ) {
 	if ( is_numeric( $v ) ) { return wp_get_attachment_url( (int) $v ); }
 	return $v;
 };
-$team_img   = $img_url( clarity_field( 'team_image', $mk . 'team.webp' ) );
 $hero_video = $img_url( clarity_field( 'hero_video', '' ) );
 $poster     = $mk . 'hero-poster.jpg';
 ?>
@@ -61,7 +60,7 @@ $poster     = $mk . 'hero-poster.jpg';
 		<div class="grid4">
 			<?php foreach ( clarity_rows( 'sectors', $def_sectors ) as $s ) : ?>
 			<div class="icard">
-				<div class="ic"><img src="<?php echo esc_url( clarity_mock_icon( $s['icon'] ) ); ?>" alt=""></div>
+				<div class="ic"><img src="<?php echo esc_url( clarity_mock_icon( $s['icon'] ) ); ?>" alt="" width="43" height="42" loading="lazy" decoding="async"></div>
 				<h3><?php echo esc_html( $s['title'] ); ?></h3>
 				<p><?php echo esc_html( $s['description'] ); ?></p>
 			</div>
@@ -77,7 +76,7 @@ $poster     = $mk . 'hero-poster.jpg';
 		<div class="grid4">
 			<?php foreach ( clarity_rows( 'why_items', $def_why ) as $w ) : ?>
 			<div class="icard">
-				<div class="ic"><img src="<?php echo esc_url( clarity_mock_icon( $w['icon'] ) ); ?>" alt=""></div>
+				<div class="ic"><img src="<?php echo esc_url( clarity_mock_icon( $w['icon'] ) ); ?>" alt="" width="43" height="42" loading="lazy" decoding="async"></div>
 				<h3><?php echo esc_html( $w['title'] ); ?></h3>
 				<p><?php echo esc_html( $w['description'] ); ?></p>
 			</div>
@@ -88,7 +87,7 @@ $poster     = $mk . 'hero-poster.jpg';
 
 <section class="team">
 	<div class="wrap">
-		<img class="team-img" src="<?php echo esc_url( $team_img ); ?>" alt="The Clarity Copiers team" loading="lazy">
+		<?php $team_raw = clarity_field( 'team_image', $mk . 'team.webp' ); echo clarity_img( $team_raw, 'large', array( 'class' => 'team-img', 'alt' => 'The Clarity Copiers team', 'sizes' => '(max-width:1023px) 100vw, 44vw' ) ); ?>
 		<div class="team-txt">
 			<h2><?php echo esc_html( clarity_field( 'team_heading', 'Meet Our Team' ) ); ?></h2>
 			<p><?php echo esc_html( clarity_field( 'team_text', "Led by Warren Dryden, our dedicated team combines decades of experience with a passion for exceptional customer service. We're not just your supplier – we're your technology partner." ) ); ?></p>
@@ -109,7 +108,7 @@ $poster     = $mk . 'hero-poster.jpg';
 		<div class="grid3">
 			<?php foreach ( clarity_rows( 'products', $def_products ) as $p ) : ?>
 			<a class="pcard" href="<?php echo esc_url( home_url( $p['link'] ) ); ?>">
-				<div class="thumb"><img src="<?php echo esc_url( $img_url( $p['image'] ) ); ?>" alt="<?php echo esc_attr( $p['title'] ); ?>" loading="lazy"></div>
+				<div class="thumb"><?php echo clarity_img( is_array( $p['image'] ) ? ( $p['image']['ID'] ?? $p['image']['url'] ?? '' ) : $p['image'], 'medium_large', array( 'alt' => $p['title'], 'sizes' => '(max-width:1023px) 100vw, 28vw' ) ); ?></div>
 				<h3><?php echo esc_html( $p['title'] ); ?></h3>
 				<p><?php echo esc_html( $p['description'] ); ?></p>
 				<span class="more">Explore more</span>
@@ -126,7 +125,7 @@ $poster     = $mk . 'hero-poster.jpg';
 		<div class="grid3">
 			<?php foreach ( clarity_rows( 'testimonials', $def_tests ) as $t ) : ?>
 			<div class="tcard">
-				<img class="stars" src="<?php echo esc_url( $mk . 'stars.webp' ); ?>" alt="5 stars">
+				<img class="stars" src="<?php echo esc_url( $mk . 'stars.webp' ); ?>" alt="5 out of 5 stars" width="89" height="89" loading="lazy" decoding="async">
 				<blockquote><?php echo esc_html( $t['quote'] ); ?></blockquote>
 				<div class="who"><?php echo esc_html( $t['name'] ); ?></div>
 				<div class="role"><?php echo esc_html( $t['role'] ); ?></div>
@@ -153,7 +152,7 @@ $poster     = $mk . 'hero-poster.jpg';
 					setup_postdata( $post );
 					?>
 			<a class="ncard" href="<?php the_permalink(); ?>">
-				<div class="thumb"><?php echo has_post_thumbnail() ? get_the_post_thumbnail( null, 'large', array( 'loading' => 'lazy' ) ) : '<img src="' . esc_url( $mk . 'news-mfp.webp' ) . '" alt="">'; ?></div>
+				<div class="thumb"><?php echo has_post_thumbnail() ? get_the_post_thumbnail( null, 'medium_large', array( 'loading' => 'lazy', 'decoding' => 'async', 'sizes' => '(max-width:1023px) 100vw, 28vw' ) ) : '<img src="' . esc_url( $mk . 'news-mfp.webp' ) . '" alt="" loading="lazy">'; ?></div>
 				<h3><?php the_title(); ?></h3>
 				<p><?php echo esc_html( get_the_excerpt() ); ?></p>
 				<span class="more">Read More</span>

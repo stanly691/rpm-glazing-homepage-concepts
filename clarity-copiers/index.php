@@ -1,36 +1,41 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
-$mk    = get_template_directory_uri() . '/assets/mockup/';
-$title = is_home() ? 'News & Insights' : ( is_search() ? 'Search Results' : ( is_archive() ? wp_strip_all_tags( get_the_archive_title() ) : 'News' ) );
+if ( is_home() ) {
+	$t = get_the_title( get_option( 'page_for_posts' ) );
+	$title = $t ? $t : 'News';
+	$sub   = 'Product releases, industry insights and company news from Clarity Copiers Glamorgan.';
+} elseif ( is_search() ) {
+	$title = 'Search results';
+	$sub   = 'Results for “' . get_search_query() . '”';
+} else {
+	$title = wp_strip_all_tags( get_the_archive_title() );
+	$sub   = '';
+}
+clarity_page_hero( array( 'title' => $title, 'subtitle' => $sub, 'image' => 0, 'crumbs' => array( array( 'Home', home_url( '/' ) ), array( $title, '' ) ) ) );
 ?>
-<section class="page-hero">
-	<div class="wrap">
-		<div class="crumbs"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> / <?php echo esc_html( $title ); ?></div>
-		<h1><?php echo esc_html( $title ); ?></h1>
-	</div>
-</section>
-<section class="news index-grid">
+<section class="sec news">
 	<div class="wrap">
 		<?php if ( have_posts() ) : ?>
-		<div class="grid3">
+		<div class="cgrid cols-3">
 			<?php
 			while ( have_posts() ) :
 				the_post();
 				?>
-			<a class="ncard" href="<?php the_permalink(); ?>">
-				<div class="thumb"><?php echo has_post_thumbnail() ? get_the_post_thumbnail( null, 'large' ) : '<img src="' . esc_url( $mk . 'news-mfp.webp' ) . '" alt="">'; ?></div>
+			<a class="ncard is-auto" href="<?php the_permalink(); ?>">
+				<div class="thumb"><?php echo has_post_thumbnail() ? get_the_post_thumbnail( null, 'medium_large', array( 'loading' => 'lazy', 'sizes' => '(max-width:1023px) 90vw, 28vw' ) ) : clarity_img( $mk . 'news-mfp.webp', 'full', array( 'alt' => '' ) ); ?></div>
 				<h3><?php the_title(); ?></h3>
 				<p><?php echo esc_html( get_the_excerpt() ); ?></p>
 				<span class="more">Read More</span>
 			</a>
 			<?php endwhile; ?>
 		</div>
-		<div style="margin-top:40px;text-align:center"><?php the_posts_pagination(); ?></div>
+		<div class="pager"><?php the_posts_pagination( array( 'mid_size' => 1 ) ); ?></div>
 		<?php else : ?>
-		<p>No posts found.</p>
+		<p class="intro">Nothing found.</p>
 		<?php endif; ?>
 	</div>
 </section>
 <?php
+clarity_default_cta();
 get_footer();

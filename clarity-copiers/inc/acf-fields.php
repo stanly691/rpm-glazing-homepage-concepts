@@ -12,7 +12,7 @@ add_action( 'acf/init', function () {
 			'page_title' => 'Theme Content',
 			'menu_title' => 'Theme Content',
 			'menu_slug'  => 'theme-content',
-			'capability' => 'edit_posts',
+			'capability' => 'edit_theme_options',
 			'icon_url'   => 'dashicons-layout',
 			'position'   => 3,
 			'redirect'   => false,
@@ -27,6 +27,7 @@ function clarity_icon_choices() {
 		'estate' => 'Keys (Estate Agents)', 'council' => 'Meeting (Councils)',
 		'clock' => 'Stopwatch', 'award' => 'Heart', 'pin' => 'Location pin',
 		'printer' => 'Printer', 'support' => 'Headset',
+		'phone' => 'Phone', 'audit' => 'Screen tick (audit)', 'remote' => 'Mouse (remote)', 'showroom' => 'Showroom',
 	);
 }
 
@@ -71,7 +72,7 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'f_team_tab', 'label' => 'Team', 'type' => 'tab' ),
 			array( 'key' => 'f_team_h', 'label' => 'Heading', 'name' => 'team_heading', 'type' => 'text', 'default_value' => 'Meet Our Team' ),
 			array( 'key' => 'f_team_t', 'label' => 'Text', 'name' => 'team_text', 'type' => 'textarea', 'rows' => 3, 'default_value' => "Led by Warren Dryden, our dedicated team combines decades of experience with a passion for exceptional customer service. We're not just your supplier – we're your technology partner." ),
-			array( 'key' => 'f_team_img', 'label' => 'Image', 'name' => 'team_image', 'type' => 'image', 'return_format' => 'url', 'preview_size' => 'medium' ),
+			array( 'key' => 'f_team_img', 'label' => 'Image', 'name' => 'team_image', 'type' => 'image', 'return_format' => 'id', 'preview_size' => 'medium' ),
 			array( 'key' => 'f_team_bl', 'label' => 'Button label', 'name' => 'team_btn_label', 'type' => 'text', 'default_value' => 'Learn More', 'wrapper' => array( 'width' => 50 ) ),
 			array( 'key' => 'f_team_bu', 'label' => 'Button URL', 'name' => 'team_btn_url', 'type' => 'text', 'default_value' => '/our-team/', 'wrapper' => array( 'width' => 50 ) ),
 
@@ -79,7 +80,7 @@ add_action( 'acf/init', function () {
 			array( 'key' => 'f_prod_h', 'label' => 'Heading', 'name' => 'products_heading', 'type' => 'text', 'default_value' => 'Products & Services' ),
 			array( 'key' => 'f_prod_i', 'label' => 'Intro', 'name' => 'products_intro', 'type' => 'textarea', 'rows' => 2, 'default_value' => 'Comprehensive Sharp technology solutions designed to meet every business need. From multifunction printers to interactive displays and cloud services.' ),
 			array( 'key' => 'f_prod_r', 'label' => 'Product cards', 'name' => 'products', 'type' => 'repeater', 'button_label' => 'Add product', 'layout' => 'block', 'sub_fields' => array(
-				array( 'key' => 'f_prod_img', 'label' => 'Image', 'name' => 'image', 'type' => 'image', 'return_format' => 'url', 'preview_size' => 'thumbnail', 'wrapper' => array( 'width' => 30 ) ),
+				array( 'key' => 'f_prod_img', 'label' => 'Image', 'name' => 'image', 'type' => 'image', 'return_format' => 'id', 'preview_size' => 'thumbnail', 'wrapper' => array( 'width' => 30 ) ),
 				array( 'key' => 'f_prod_t', 'label' => 'Title', 'name' => 'title', 'type' => 'text', 'wrapper' => array( 'width' => 35 ) ),
 				array( 'key' => 'f_prod_l', 'label' => 'Link', 'name' => 'link', 'type' => 'text', 'wrapper' => array( 'width' => 35 ) ),
 				array( 'key' => 'f_prod_d', 'label' => 'Description', 'name' => 'description', 'type' => 'textarea', 'rows' => 2 ),
@@ -122,3 +123,8 @@ add_action( 'acf/init', function () {
 		),
 	) );
 } );
+
+/* Sanitise global contact values on save (they are printed site-wide, incl. JSON-LD and mail headers). */
+add_filter( 'acf/update_value/name=phone', function ( $v ) { return preg_replace( '/[^0-9+ ()]/', '', (string) $v ); } );
+add_filter( 'acf/update_value/name=email', function ( $v ) { $v = sanitize_email( (string) $v ); return is_email( $v ) ? $v : ''; } );
+add_filter( 'acf/update_value/key=g_soc_url', function ( $v ) { return esc_url_raw( (string) $v ); } );

@@ -21,21 +21,27 @@ if ( ! function_exists( 'clarity_setup' ) ) {
 add_action( 'after_setup_theme', 'clarity_setup' );
 
 function clarity_assets() {
-	$v = wp_get_theme()->get( 'Version' );
-	// Exact families/weights used in the XD mockup.
-	wp_enqueue_style(
-		'clarity-fonts',
-		'https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@700&family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700;800&display=swap',
-		array(),
-		null
-	);
-	wp_enqueue_style( 'clarity-style', get_stylesheet_uri(), array( 'clarity-fonts' ), $v . '.' . filemtime( get_stylesheet_directory() . '/style.css' ) );
+	$dir = get_template_directory();
+	$uri = get_template_directory_uri();
+	// Fonts are self-hosted (assets/fonts, declared at the top of style.css) — no third-party requests.
+	wp_enqueue_style( 'clarity-style', $uri . '/style.css', array(), (string) filemtime( $dir . '/style.css' ) );
+	if ( is_child_theme() ) {
+		wp_enqueue_style( 'clarity-child', get_stylesheet_uri(), array( 'clarity-style' ), (string) filemtime( get_stylesheet_directory() . '/style.css' ) );
+	}
+	wp_enqueue_script( 'clarity-site', $uri . '/assets/js/site.js', array(), (string) filemtime( $dir . '/assets/js/site.js' ), array( 'strategy' => 'defer', 'in_footer' => true ) );
 }
 add_action( 'wp_enqueue_scripts', 'clarity_assets' );
 
+/** Preload the two fonts used above the fold. */
 add_action( 'wp_head', function () {
-	echo '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-}, 1 );
+	$f = get_template_directory_uri() . '/assets/fonts/';
+	foreach ( array( 'montserrat-latin.woff2', 'open-sans-latin.woff2' ) as $font ) {
+		echo '<link rel="preload" href="' . esc_url( $f . $font ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+	}
+	if ( is_front_page() ) {
+		echo '<link rel="preload" href="' . esc_url( get_template_directory_uri() . '/assets/mockup/hero-poster.jpg' ) . '" as="image" fetchpriority="high">' . "\n";
+	}
+}, 2 );
 
 /**
  * Map a card icon key (ACF select) to the mockup's exported icon file.
@@ -51,6 +57,10 @@ function clarity_mock_icon( $key ) {
 		'pin'     => 'w-local.svg',
 		'printer' => 'w-dealer.svg',
 		'support' => 'icon-customer-care.webp',
+		'phone'   => 'u-phone.svg',
+		'audit'   => 'u-audit.svg',
+		'remote'  => 'u-remote.svg',
+		'showroom'=> 'u-showroom.svg',
 	);
 	$file = isset( $map[ $key ] ) ? $map[ $key ] : 'w-dealer.svg';
 	return get_template_directory_uri() . '/assets/mockup/' . $file;
@@ -60,6 +70,18 @@ function clarity_mock_icon( $key ) {
 require get_template_directory() . '/inc/acf-fields.php';
 /* One-time content seeding so Theme Content opens pre-filled. */
 require get_template_directory() . '/inc/seed.php';
+require get_template_directory() . '/inc/acf-builder.php';
+require get_template_directory() . '/inc/template-tags.php';
+require get_template_directory() . '/inc/contact.php';
+require get_template_directory() . '/inc/performance.php';
+require get_template_directory() . '/inc/seo.php';
+
+/**
+ * get_field() that degrades gracefully when ACF is inactive.
+ */
+function clarity_get( $name, $post_id = false ) {
+	return function_exists( 'get_field' ) ? get_field( $name, $post_id ) : null;
+}
 
 /**
  * Read an ACF option, falling back to a default when empty or when ACF is absent.
