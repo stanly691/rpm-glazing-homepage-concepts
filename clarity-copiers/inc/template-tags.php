@@ -85,7 +85,7 @@ function clarity_page_hero( $args = array() ) {
 	if ( ! $explicit && ! $args['image'] && $post && 'page' === $post->post_type && 'template-model.php' !== get_page_template_slug( $post ) && has_post_thumbnail( $post ) ) {
 		$args['image'] = get_post_thumbnail_id( $post );
 	}
-	$bg_attrs = array( 'class' => 'page-hero-bg', 'alt' => '', 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '100vw' );
+	$bg_attrs = array( 'class' => 'page-hero-bg', 'alt' => '', 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(max-width:1023px) 200vw, 100vw' );
 	$bg_html  = is_numeric( $args['image'] ) && (int) $args['image'] > 0
 		? clarity_img( $args['image'], 'full', $bg_attrs )
 		: clarity_img( get_template_directory_uri() . '/assets/mockup/hero-poster.jpg', 'full', $bg_attrs );
@@ -127,7 +127,7 @@ function clarity_render_sections( $post_id = null ) {
 function clarity_default_cta() {
 	get_template_part( 'template-parts/section', 'cta', array( 's' => array(
 		'heading' => 'Ready to cut your print costs?',
-		'text'    => 'Talk to our local team about the right Sharp solution, a free print audit or a no-obligation quote.',
+		'text'    => 'Talk to our local team about the right Sharp solution or a no-obligation quote.',
 		'buttons' => array(
 			array( 'label' => 'Get a Quote', 'url' => '/contact/', 'style' => 'red' ),
 			array( 'label' => 'Call ' . clarity_opt( 'phone' ), 'url' => 'tel:' . preg_replace( '/\s+/', '', clarity_opt( 'phone' ) ), 'style' => 'outline' ),

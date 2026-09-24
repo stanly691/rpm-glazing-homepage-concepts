@@ -11,7 +11,6 @@ while ( have_posts() ) :
 		?>
 	<section class="sec bg-white"><div class="wrap narrow rte"><?php the_content(); ?></div></section>
 		<?php
-		clarity_default_cta();
 	endif;
 endwhile;
 get_footer();

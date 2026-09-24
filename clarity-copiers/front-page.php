@@ -19,12 +19,12 @@ $def_why = array(
 $def_products = array(
 	array( 'image' => $mk . 'product-colour.webp',  'title' => 'Colour MFPs',          'description' => 'High-performance multifunction printers delivering vibrant colour documents', 'link' => '/colour-mfps/' ),
 	array( 'image' => $mk . 'product-mono.webp',    'title' => 'Mono MFPs',            'description' => 'Cost-effective black and white printing solutions ideal for high-volume document workflows.', 'link' => '/mono-mfps/' ),
-	array( 'image' => $mk . 'product-display.webp', 'title' => 'Interactive Displays', 'description' => 'Sharp Big Pad touchscreen displays transform collaboration with intuitive', 'link' => '/sharp-big-pad/' ),
+	array( 'image' => $mk . 'product-display.webp', 'title' => 'Interactive Displays', 'description' => 'Sharp Big Pad touchscreen displays transform collaboration with intuitive, interactive meeting-room technology.', 'link' => '/sharp-big-pad/' ),
 );
 $def_tests = array(
-	array( 'quote' => '"Fantastic service! Would highly recommend. The team are knowledgeable and responsive to our needs."', 'name' => 'Sarah Johnson', 'role' => 'Operations Director' ),
-	array( 'quote' => '"We have used this company for over 10 years. Excellent support and they really understand our business."', 'name' => 'Michael Chen', 'role' => 'IT Manager' ),
-	array( 'quote' => '"Professional service from start to finish. The installation was seamless and the ongoing support is excellent."', 'name' => 'Emma Williams', 'role' => 'Finance Director' ),
+	array( 'quote' => '"I would recommend Clarity Copiers Glamorgan as a supplier and working partner to maintain a good level of service and support."', 'name' => 'Paul Nott', 'role' => 'Technical Projects Manager, HooverCandy Group' ),
+	array( 'quote' => '"If we have any problems with our copiers they are always quick to respond and do so in a friendly and professional manner."', 'name' => 'Pauline Williams', 'role' => 'The Welsh Whisky Company' ),
+	array( 'quote' => '"Staff are always helpful and courteous and any issues resolved quickly. We have not been disappointed."', 'name' => 'Marged Griffiths', 'role' => 'CEO, Y Bont' ),
 );
 
 $img_url = function ( $v ) {
@@ -72,7 +72,7 @@ $poster     = $mk . 'hero-poster.jpg';
 <section class="why center">
 	<div class="wrap">
 		<h2 class="h2"><?php echo esc_html( clarity_field( 'why_heading', 'Why Choose Clarity?' ) ); ?></h2>
-		<p class="intro"><?php echo esc_html( clarity_field( 'why_intro', 'We understand that every industry has unique challenges. Our tailored managed print solutions address sector-specific needs with precision and expertise.' ) ); ?></p>
+		<p class="intro"><?php echo esc_html( clarity_field( 'why_intro', 'Local engineers, genuine Sharp equipment and three decades of experience. Here is why businesses across South Wales choose Clarity Copiers Glamorgan.' ) ); ?></p>
 		<div class="grid4">
 			<?php foreach ( clarity_rows( 'why_items', $def_why ) as $w ) : ?>
 			<div class="icard">

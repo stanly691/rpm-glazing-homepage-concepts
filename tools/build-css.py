@@ -8,7 +8,7 @@
 
 Tokens (design px on the 1920 XD canvas):
   {N}  -> calc(N * var(--u))                       scales 1:1 with the mockup
-  [N]  -> max(<72% of N>px, calc(N * var(--u)))    same, with a readability floor
+  [N]  -> max(<floor>, calc(N * var(--u)))  same, never below 16px (N>=20) / 14px (N 15-19)
 
 Output is minified (comments/whitespace) except the theme header comment.
 """
@@ -33,9 +33,18 @@ def fmt(n):
 
 
 body = re.sub(r"\{(-?\d+(?:\.\d+)?)\}", lambda m: f"calc({m.group(1)} * var(--u))", body)
+def floor_px(n):
+    """Readability floor for [N] text: body copy never below 16px, small text never below 14px."""
+    if n >= 20:
+        return 16
+    if n >= 15:
+        return 14
+    return round(n * 0.72, 1)
+
+
 body = re.sub(
     r"\[(\d+(?:\.\d+)?)\]",
-    lambda m: f"max({fmt(round(float(m.group(1)) * 0.72, 1))}px, calc({m.group(1)} * var(--u)))",
+    lambda m: f"max({fmt(floor_px(float(m.group(1))))}px, calc({m.group(1)} * var(--u)))",
     body,
 )
 

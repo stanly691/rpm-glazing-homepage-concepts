@@ -11,7 +11,7 @@
 					<div class="member-photo">
 						<?php
 						if ( ! empty( $mb['photo'] ) ) {
-							echo clarity_img( $mb['photo'], 'medium_large', array( 'alt' => $mb['name'] ?? '', 'sizes' => '(max-width:560px) 90vw, (max-width:1023px) 45vw, 20vw' ) );
+							echo clarity_img( $mb['photo'], 'large', array( 'alt' => $mb['name'] ?? '', 'sizes' => '(max-width:560px) 90vw, (max-width:1023px) 45vw, 20vw' ) );
 						} else {
 							$initials = implode( '', array_map( function ( $w ) { return mb_substr( $w, 0, 1 ); }, array_slice( preg_split( '/\s+/', trim( $mb['name'] ?? '' ) ), 0, 2 ) ) );
 							echo '<span class="member-initials" aria-hidden="true">' . esc_html( mb_strtoupper( $initials ) ) . '</span>';

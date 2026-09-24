@@ -30,7 +30,7 @@ while ( have_posts() ) :
 		</div>
 		<div class="model-info">
 			<?php if ( $range ) : ?><p class="eyebrow"><?php echo esc_html( $range ); ?></p><?php endif; ?>
-			<h2 class="h2">Sharp <?php echo esc_html( $code ); ?></h2>
+			<p class="h2 model-title">Sharp <?php echo esc_html( $code ); ?></p>
 			<ul class="badges is-lg">
 				<?php if ( $ppm ) : ?><li><?php echo (int) $ppm; ?> ppm</li><?php endif; ?>
 				<?php if ( $paper ) : ?><li>Up to <?php echo esc_html( $paper ); ?></li><?php endif; ?>

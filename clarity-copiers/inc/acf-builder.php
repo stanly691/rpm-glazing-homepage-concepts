@@ -107,7 +107,7 @@ add_action( 'acf/init', function () {
 		) ) ),
 		cc_layout( 'videos', 'Video library', array_merge( cc_head( 'vd' ), array(
 			cc_f( 'vd_items', 'Videos', 'items', 'repeater', array( 'layout' => 'table', 'button_label' => 'Add video', 'sub_fields' => array(
-				cc_f( 'vd_id', 'YouTube ID', 'youtube_id', 'text' ),
+				cc_f( 'vd_id', 'Video ID', 'youtube_id', 'text', array( 'instructions' => 'YouTube video ID (e.g. dQw4w9WgXcQ), or vimeo:123456789 for a Vimeo video.' ) ),
 				cc_f( 'vd_t', 'Title', 'title', 'text' ),
 			) ) ),
 		) ) ),

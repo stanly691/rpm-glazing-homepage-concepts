@@ -14,7 +14,7 @@ $sum   = clarity_get( 'summary', $m->ID );
 		<h3><?php echo esc_html( $code ); ?></h3>
 		<ul class="badges">
 			<?php if ( $ppm ) : ?><li><?php echo (int) $ppm; ?> ppm</li><?php endif; ?>
-			<?php if ( $paper ) : ?><li><?php echo esc_html( $paper ); ?></li><?php endif; ?>
+			<?php if ( $paper && false === stripos( (string) $range, (string) $paper ) ) : ?><li><?php echo esc_html( $paper ); ?></li><?php endif; ?>
 			<?php if ( $mode ) : ?><li><?php echo 'colour' === $mode ? 'Colour' : 'Mono'; ?></li><?php endif; ?>
 		</ul>
 		<?php if ( $sum ) : ?><p class="mcard-sum"><?php echo esc_html( $sum ); ?></p><?php endif; ?>

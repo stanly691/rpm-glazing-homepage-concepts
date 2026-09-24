@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 $mk       = get_template_directory_uri() . '/assets/mockup/';
 $fsectors = clarity_rows( 'footer_sectors', array( array( 'label' => 'Education' ), array( 'label' => 'Legal' ), array( 'label' => 'Healthcare' ), array( 'label' => 'Manufacturing' ), array( 'label' => 'Public Sector' ) ) );
-$socials  = clarity_rows( 'socials', array( array( 'network' => 'facebook', 'url' => '#' ), array( 'network' => 'linkedin', 'url' => '#' ), array( 'network' => 'x', 'url' => '#' ) ) );
+$socials  = clarity_rows( 'socials', array( array( 'network' => 'facebook', 'url' => 'https://www.facebook.com/clarityglamorgan/' ), array( 'network' => 'linkedin', 'url' => 'https://uk.linkedin.com/company/clarity-copiers-glamorgan' ), array( 'network' => 'x', 'url' => 'https://x.com/clarityglam' ) ) );
 $icons    = array( 'facebook' => 's-facebook.svg', 'linkedin' => 's-linkedin.svg', 'x' => 's-x.svg' );
 $phone    = clarity_opt( 'phone' );
 $email    = clarity_opt( 'email' );
@@ -18,7 +18,7 @@ $email    = clarity_opt( 'email' );
 		</div>
 
 		<div class="f-col f-links">
-			<h4>Quick Links</h4>
+			<h2 class="f-title">Quick Links</h2>
 			<?php
 			if ( has_nav_menu( 'footer' ) ) {
 				wp_nav_menu( array( 'theme_location' => 'footer', 'container' => false, 'depth' => 1 ) );
@@ -33,7 +33,7 @@ $email    = clarity_opt( 'email' );
 		</div>
 
 		<div class="f-col f-sectors">
-			<h4>Sectors</h4>
+			<h2 class="f-title">Sectors</h2>
 			<ul>
 				<?php foreach ( $fsectors as $row ) : ?>
 				<li><?php echo esc_html( is_array( $row ) ? ( $row['label'] ?? '' ) : $row ); ?></li>
@@ -42,7 +42,7 @@ $email    = clarity_opt( 'email' );
 		</div>
 
 		<div class="f-col f-contact">
-			<h4>Contact</h4>
+			<h2 class="f-title">Contact</h2>
 			<ul>
 				<li><?php echo esc_html( clarity_opt( 'address' ) ); ?></li>
 				<li>T: <a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a></li>
@@ -54,7 +54,7 @@ $email    = clarity_opt( 'email' );
 					$net = is_array( $s ) ? ( $s['network'] ?? '' ) : '';
 					if ( ! isset( $icons[ $net ] ) ) { continue; }
 					?>
-				<a class="<?php echo $net === 'facebook' ? 'fb' : esc_attr( $net ); ?>" href="<?php echo esc_url( $s['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( ucfirst( $net ) ); ?>" target="_blank" rel="noopener"><img src="<?php echo esc_url( $mk . $icons[ $net ] ); ?>" alt="" width="31" height="31" loading="lazy" decoding="async"></a>
+				<a class="<?php echo $net === 'facebook' ? 'fb' : esc_attr( $net ); ?>" href="<?php echo esc_url( $s['url'] ?? '#' ); ?>" aria-label="<?php echo esc_attr( 'x' === $net ? 'X (Twitter)' : ( 'linkedin' === $net ? 'LinkedIn' : ucfirst( $net ) ) ); ?> (opens in a new tab)" target="_blank" rel="noopener"><img src="<?php echo esc_url( $mk . $icons[ $net ] ); ?>" alt="" width="31" height="31" loading="lazy" decoding="async"></a>
 				<?php endforeach; ?>
 			</div>
 		</div>
@@ -66,6 +66,7 @@ $email    = clarity_opt( 'email' );
 			<a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookies</a>
 			<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms of use</a>
 		</nav>
+		<span class="f-credits">Website development by <a href="https://www.itcs.co.uk/" target="_blank" rel="noopener">ITCS</a> &middot; Images courtesy <a href="https://www.dezines.online/" target="_blank" rel="noopener">DEZINES</a></span>
 	</div>
 </footer>
 <?php wp_footer(); ?>

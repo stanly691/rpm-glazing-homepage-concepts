@@ -8,10 +8,11 @@ if ( $range ) { $q['meta_query'] = array( array( 'key' => 'model_range', 'value'
 $models = get_posts( $q );
 if ( ! $models ) { return; }
 ?>
-<section class="sec bg-<?php echo esc_attr( $s['bg'] ?? 'white' ); ?>">
+<section class="sec model-grid-sec bg-<?php echo esc_attr( $s['bg'] ?? 'white' ); ?>">
 	<div class="wrap">
 		<?php clarity_section_head( $s['heading'] ?? '', $s['intro'] ?? '' ); ?>
-		<div class="cgrid cols-3<?php echo ( $range && false === strpos( $range, ',' ) ) ? ' is-filtered' : ''; ?>">
+		<?php $n = count( $models ); /* 4-up only when rows fill evenly; 5 or 6 read better as 3 + 2 / 3 + 3 */ ?>
+		<div class="cgrid cols-3<?php echo ( 0 === $n % 4 || 7 === $n ) ? ' is-4up' : ''; ?><?php echo ( $range && false === strpos( $range, ',' ) ) ? ' is-filtered' : ''; ?>">
 			<?php foreach ( $models as $m ) { get_template_part( 'template-parts/model', 'card', array( 'post' => $m ) ); } ?>
 		</div>
 	</div>

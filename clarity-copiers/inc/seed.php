@@ -12,8 +12,22 @@ add_action( 'acf/init', 'clarity_seed_content', 20 );
 function clarity_seed_content() {
 	if ( ! function_exists( 'update_field' ) ) { return; }
 
-	$version = '3';
-	if ( get_option( 'clarity_seeded_v' ) === $version ) { return; }
+	$seeded = (string) get_option( 'clarity_seeded_v' );
+	if ( '4' === $seeded ) { return; }
+	$set = clarity_seed_values();
+	if ( '3' === $seeded ) {
+		// v4 patch for sites seeded at v3: real client testimonials, a unique "Why choose"
+		// intro, the full Interactive Displays line and the live social URLs.
+		$set = array_intersect_key( $set, array_flip( array( 'why_intro', 'products', 'testimonials', 'socials' ) ) );
+	}
+	foreach ( $set as $name => $value ) {
+		update_field( $name, $value, 'option' );
+	}
+	update_option( 'clarity_seeded_v', '4' );
+}
+
+/** The approved seed copy for every Theme Content field. */
+function clarity_seed_values() {
 
 	// Media library attachment IDs uploaded for the theme.
 	$img_team   = 49;
@@ -41,7 +55,7 @@ function clarity_seed_content() {
 		),
 
 		'why_heading'        => 'Why Choose Clarity?',
-		'why_intro'          => 'We understand that every industry has unique challenges. Our tailored managed print solutions address sector-specific needs with precision and expertise.',
+		'why_intro'          => 'Local engineers, genuine Sharp equipment and three decades of experience. Here is why businesses across South Wales choose Clarity Copiers Glamorgan.',
 		'why_items'          => array(
 			array( 'icon' => 'clock',   'title' => 'Prompt Repairs',      'description' => 'Quick response times to minimize your business downtime' ),
 			array( 'icon' => 'award',   'title' => '30 Years Experience', 'description' => 'Serving businesses since 1995 with unmatched expertise' ),
@@ -60,15 +74,15 @@ function clarity_seed_content() {
 		'products'           => array(
 			array( 'image' => $img_colour, 'title' => 'Colour MFPs',          'link' => '/colour-mfps/',   'description' => 'High-performance multifunction printers delivering vibrant colour documents' ),
 			array( 'image' => $img_mono,   'title' => 'Mono MFPs',            'link' => '/mono-mfps/',     'description' => 'Cost-effective black and white printing solutions ideal for high-volume document workflows.' ),
-			array( 'image' => $img_bigpad, 'title' => 'Interactive Displays', 'link' => '/sharp-big-pad/', 'description' => 'Sharp Big Pad touchscreen displays transform collaboration with intuitive' ),
+			array( 'image' => $img_bigpad, 'title' => 'Interactive Displays', 'link' => '/sharp-big-pad/', 'description' => 'Sharp Big Pad touchscreen displays transform collaboration with intuitive, interactive meeting-room technology.' ),
 		),
 
 		'testimonials_heading' => 'What Our Clients Say',
 		'testimonials_intro'   => "Don't just take our word for it. Here's what our satisfied clients have to say about our service.",
 		'testimonials'         => array(
-			array( 'quote' => '"Fantastic service! Would highly recommend. The team are knowledgeable and responsive to our needs."', 'name' => 'Sarah Johnson', 'role' => 'Operations Director', 'rating' => 5 ),
-			array( 'quote' => '"We have used this company for over 10 years. Excellent support and they really understand our business."', 'name' => 'Michael Chen', 'role' => 'IT Manager', 'rating' => 5 ),
-			array( 'quote' => '"Professional service from start to finish. The installation was seamless and the ongoing support is excellent."', 'name' => 'Emma Williams', 'role' => 'Finance Director', 'rating' => 5 ),
+			array( 'quote' => '"I would recommend Clarity Copiers Glamorgan as a supplier and working partner to maintain a good level of service and support."', 'name' => 'Paul Nott', 'role' => 'Technical Projects Manager, HooverCandy Group', 'rating' => 5 ),
+			array( 'quote' => '"If we have any problems with our copiers they are always quick to respond and do so in a friendly and professional manner."', 'name' => 'Pauline Williams', 'role' => 'The Welsh Whisky Company', 'rating' => 5 ),
+			array( 'quote' => '"Staff are always helpful and courteous and any issues resolved quickly. We have not been disappointed."', 'name' => 'Marged Griffiths', 'role' => 'CEO, Y Bont', 'rating' => 5 ),
 		),
 
 		'news_heading'       => 'Latest News & Insights',
@@ -84,15 +98,11 @@ function clarity_seed_content() {
 			array( 'label' => 'Manufacturing' ), array( 'label' => 'Public Sector' ),
 		),
 		'socials'            => array(
-			array( 'network' => 'facebook', 'url' => '#' ),
-			array( 'network' => 'linkedin', 'url' => '#' ),
-			array( 'network' => 'x',        'url' => '#' ),
+			array( 'network' => 'facebook', 'url' => 'https://www.facebook.com/clarityglamorgan/' ),
+			array( 'network' => 'linkedin', 'url' => 'https://uk.linkedin.com/company/clarity-copiers-glamorgan' ),
+			array( 'network' => 'x',        'url' => 'https://x.com/clarityglam' ),
 		),
 	);
 
-	foreach ( $set as $name => $value ) {
-		update_field( $name, $value, 'option' );
-	}
-
-	update_option( 'clarity_seeded_v', $version );
+	return $set;
 }

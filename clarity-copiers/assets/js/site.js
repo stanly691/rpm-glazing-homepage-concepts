@@ -11,6 +11,9 @@
 			toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 			toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 		});
+		d.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && nav.classList.contains('open')) { toggle.click(); toggle.focus(); }
+		});
 		nav.querySelectorAll('.menu-item-has-children > a').forEach(function (a) {
 			var b = d.createElement('button');
 			b.type = 'button'; b.className = 'sub-toggle'; b.setAttribute('aria-expanded', 'false');
@@ -39,7 +42,12 @@
 			d.documentElement.classList.add('js-reveal');
 			var io = new IntersectionObserver(function (entries) {
 				entries.forEach(function (en) {
-					if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+					if (en.isIntersecting) {
+						var el = en.target;
+						el.classList.add('is-in'); io.unobserve(el);
+						// Hand transforms back to hover/focus styles once the entrance has played.
+						setTimeout(function () { el.removeAttribute('data-reveal'); el.style.transitionDelay = ''; }, 900);
+					}
 				});
 			}, { rootMargin: '0px 0px -8% 0px' });
 			targets.forEach(function (el, i) {
@@ -57,16 +65,18 @@
 		v.removeAttribute('autoplay'); v.pause();
 	}
 
-	// YouTube facade: load the (privacy-enhanced) player only on click.
+	// Video facades (YouTube privacy-enhanced / Vimeo do-not-track): load the player only on click.
 	d.addEventListener('click', function (e) {
 		var btn = e.target.closest && e.target.closest('.video-facade');
 		if (!btn) return;
-		var id = btn.getAttribute('data-yt');
-		if (!/^[\w-]{6,20}$/.test(id)) return;
+		var id = btn.getAttribute('data-yt'), vm = btn.getAttribute('data-vimeo'), src;
+		if (vm && /^\d{5,12}$/.test(vm)) src = 'https://player.vimeo.com/video/' + vm + '?autoplay=1&dnt=1';
+		else if (id && /^[\w-]{6,20}$/.test(id)) src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+		else return;
 		var f = d.createElement('iframe');
-		f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+		f.src = src;
 		f.title = btn.getAttribute('aria-label') || 'Video';
-		f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+		f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
 		f.allowFullscreen = true;
 		btn.replaceWith(f);
 	});

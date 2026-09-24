@@ -17,6 +17,7 @@ clarity_page_hero( array( 'title' => $title, 'subtitle' => $sub, 'image' => 0, '
 <section class="sec bg-white news">
 	<div class="wrap">
 		<?php if ( have_posts() ) : ?>
+		<?php if ( is_home() ) { clarity_section_head( 'Latest articles', '' ); } ?>
 		<div class="cgrid cols-3">
 			<?php
 			while ( have_posts() ) :

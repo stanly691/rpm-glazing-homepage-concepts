@@ -6,7 +6,7 @@ $fit  = ( $s['fit'] ?? 'cover' ) === 'contain' ? ' fit-contain' : '';
 <section class="sec split bg-<?php echo esc_attr( $s['bg'] ?? 'white' ); ?>">
 	<div class="wrap split-grid<?php echo esc_attr( $side . $fit ); ?>">
 		<?php if ( ! empty( $s['image'] ) ) : ?>
-		<div class="split-media"><?php echo clarity_img( $s['image'], 'large', array( 'sizes' => '(max-width:1023px) 100vw, 44vw' ) ); ?></div>
+		<div class="split-media"><?php echo clarity_img( $s['image'], 'large', array( 'sizes' => '(max-width:1023px) 140vw, 44vw' ) ); ?></div>
 		<?php endif; ?>
 		<div class="split-txt">
 			<?php if ( ! empty( $s['eyebrow'] ) ) : ?><p class="eyebrow"><?php echo esc_html( $s['eyebrow'] ); ?></p><?php endif; ?>
