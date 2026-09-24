@@ -45,7 +45,7 @@ while ( have_posts() ) :
 			</ul>
 			<?php endif; ?>
 			<div class="btns">
-				<a class="btn btn-red" href="<?php echo esc_url( add_query_arg( 'model', rawurlencode( $code ), home_url( '/contact/' ) ) . '#enquiry' ); ?>">Request a Quote</a>
+				<a class="btn btn-red" href="<?php echo esc_url( add_query_arg( 'your-message', rawurlencode( 'I would like a quote for the Sharp ' . $code . '.' ), home_url( '/contact/' ) ) . '#enquiry' ); ?>">Request a Quote</a>
 				<a class="btn btn-outline" href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $phone ) ); ?>">Call <?php echo esc_html( $phone ); ?></a>
 			</div>
 		</div>

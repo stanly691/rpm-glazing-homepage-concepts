@@ -82,7 +82,7 @@ add_action( 'acf/init', function () {
 		cc_layout( 'model_grid', 'Product model grid', array_merge( cc_head( 'mg' ), array(
 			cc_bg( 'mg_bg' ),
 			cc_f( 'mg_parent', 'Show models under', 'parent', 'post_object', array( 'post_type' => array( 'page' ), 'return_format' => 'id' ) ),
-			cc_f( 'mg_range', 'Only this range (optional)', 'range', 'text', array( 'instructions' => 'e.g. "Desktop A4" — leave blank for all' ) ),
+			cc_f( 'mg_range', 'Only this range (optional)', 'range', 'text', array( 'instructions' => 'e.g. "Desktop A4" or several separated by commas — leave blank for all' ) ),
 		) ) ),
 		cc_layout( 'team_grid', 'Team grid', array_merge( cc_head( 'tg' ), array(
 			cc_f( 'tg_groups', 'Groups', 'groups', 'repeater', array( 'layout' => 'block', 'button_label' => 'Add group', 'sub_fields' => array(
@@ -122,6 +122,7 @@ add_action( 'acf/init', function () {
 			cc_f( 'ct_form', 'Show enquiry form', 'show_form', 'true_false', array( 'default_value' => 1, 'ui' => 1, 'wrapper' => array( 'width' => 33 ) ) ),
 			cc_f( 'ct_map', 'Show map', 'show_map', 'true_false', array( 'default_value' => 1, 'ui' => 1, 'wrapper' => array( 'width' => 33 ) ) ),
 			cc_f( 'ct_mq', 'Map address', 'map_query', 'text', array( 'wrapper' => array( 'width' => 34 ) ) ),
+			cc_f( 'ct_sc', 'Form shortcode (optional)', 'form_shortcode', 'text', array( 'instructions' => 'Contact Form 7 shortcode. Leave empty to use the "Website enquiry" form.' ) ),
 		) ) ),
 		cc_layout( 'cta', 'Call to action band', array(
 			cc_f( 'cta_h', 'Heading', 'heading', 'text', cc_w( 50 ) ),

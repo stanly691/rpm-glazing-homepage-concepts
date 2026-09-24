@@ -85,6 +85,11 @@
 .cgrid{display:grid;gap:{24};align-items:stretch}
 .cols-2{grid-template-columns:repeat(2,1fr)}
 .cols-3{grid-template-columns:repeat(3,1fr)}
+/* 3-up grids centre an incomplete last row */
+.cgrid.cols-3{display:flex;flex-wrap:wrap;justify-content:center}
+.cgrid.cols-3 > *{width:calc((100% - calc(48 * var(--u))) / 3)}
+.cgrid.cols-3.tgrid{align-items:flex-start}
+.video-grid.is-single > *{width:min(100%, calc(980 * var(--u)))}
 .cols-4{grid-template-columns:repeat(4,1fr)}
 .icard.is-auto{height:auto;padding:{56} {34} {50}}
 .icard.is-auto p{width:auto;max-width:{330}}
@@ -177,19 +182,28 @@ dialog.lightbox img{max-width:90vw;max-height:86vh;border-radius:8px;display:blo
 .o-row img{flex:none;width:{22};height:{22};margin-top:{3};object-fit:contain}
 .o-row a:hover{color:var(--red)}
 .o-hours{margin-top:{18};padding-top:{16};border-top:1px solid #d5d5d5;font-size:[18];line-height:{28};color:#444}
-form.enquiry{background:#fff;border:1px solid #e3e3e3;border-radius:{12};padding:{46} {48};box-shadow:0 20px 50px rgba(0,0,0,.06)}
-form.enquiry h3{font-family:var(--montserrat);font-weight:700;font-size:{30};margin-bottom:{22}}
-form.enquiry label{display:block;margin-bottom:{18};font-weight:600;font-size:[17]}
-form.enquiry input,form.enquiry select,form.enquiry textarea{display:block;width:100%;margin-top:{8};padding:{14} {16};border:1px solid #cfcfcf;border-radius:{10};font:inherit;font-weight:400;font-size:[18];background:#fff;color:#000}
-form.enquiry input:focus,form.enquiry select:focus,form.enquiry textarea:focus{outline:0;border-color:var(--red);box-shadow:0 0 0 3px rgba(220,40,40,.15)}
-form.enquiry .btn{width:auto;padding:0 {48};border:0;cursor:pointer}
+/* Enquiry form (Contact Form 7) */
+.enquiry{background:#fff;border:1px solid #e3e3e3;border-radius:{12};padding:{46} {48};box-shadow:0 20px 50px rgba(0,0,0,.06)}
+.enquiry h3{font-family:var(--montserrat);font-weight:700;font-size:{30};margin-bottom:{22}}
+.enquiry label{display:block;margin-bottom:{18};font-weight:600;font-size:[17]}
+.enquiry .wpcf7-form-control-wrap{display:block;margin-top:{8}}
+.enquiry input:not([type=submit]):not([type=checkbox]),.enquiry select,.enquiry textarea{display:block;width:100%;padding:{14} {16};border:1px solid #cfcfcf;border-radius:{10};font:inherit;font-weight:400;font-size:[18];background:#fff;color:#000;transition:border-color .15s,box-shadow .15s}
+.enquiry textarea{min-height:{150};resize:vertical}
+.enquiry input:focus,.enquiry select:focus,.enquiry textarea:focus{outline:0;border-color:var(--red);box-shadow:0 0 0 3px rgba(220,40,40,.15)}
+.enquiry .wpcf7-not-valid{border-color:#b91f1f!important}
+.enquiry .wpcf7-not-valid-tip{display:block;margin-top:{6};color:#b91f1f;font-size:[15];font-weight:600}
+.enquiry input[type=submit]{display:inline-flex;align-items:center;justify-content:center;height:{69};padding:0 {48};border:0;border-radius:{23};background:var(--red);color:#fff;font-family:var(--opensans);font-size:[22];cursor:pointer;transition:background .15s}
+.enquiry input[type=submit]:hover{background:#b91f1f}
+.enquiry input[type=submit]:disabled{opacity:.6;cursor:wait}
+.enquiry .wpcf7-spinner{vertical-align:middle;margin-left:{14}}
 .f-row{display:grid;grid-template-columns:1fr 1fr;gap:{20}}
 .f-note{margin:{4} 0 {22};font-size:[15];color:#555}
 .f-note a{color:var(--red-link);text-decoration:underline}
 .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
-.form-msg{margin-bottom:{20};padding:{14} {18};border-radius:{10};font-weight:600;font-size:[17]}
-.form-msg.is-ok{background:#e8f6ec;color:#1d6b35}
-.form-msg.is-err{background:var(--pink);color:#b91f1f}
+.enquiry .wpcf7 form .wpcf7-response-output{margin:{22} 0 0;padding:{14} {18};border:0;border-radius:{10};font-weight:600;font-size:[17]}
+.enquiry .wpcf7 form.sent .wpcf7-response-output{background:#e8f6ec;color:#1d6b35}
+.enquiry .wpcf7 form.invalid .wpcf7-response-output,.enquiry .wpcf7 form.unaccepted .wpcf7-response-output,.enquiry .wpcf7 form.payment-required .wpcf7-response-output{background:#fff6e0;color:#8a5a00}
+.enquiry .wpcf7 form.failed .wpcf7-response-output,.enquiry .wpcf7 form.aborted .wpcf7-response-output,.enquiry .wpcf7 form.spam .wpcf7-response-output{background:var(--pink);color:#b91f1f}
 .map{margin-top:{60};height:{460};border-radius:{12};overflow:hidden;background:var(--card)}
 .map iframe{display:block;width:100%;height:100%;border:0}
 
@@ -253,6 +267,8 @@ form.enquiry .btn{width:auto;padding:0 {48};border:0;cursor:pointer}
   .btns{margin-top:22px}
   .btns .btn{min-width:0;padding:0 26px}
   .cols-3,.cols-4{grid-template-columns:repeat(2,1fr)}
+  .cgrid.cols-3 > *{width:calc((100% - 14px) / 2)}
+  .wrap.narrow{width:auto}
   .cgrid{gap:14px}
   .icard.is-auto{padding:28px 18px}
   .stats-grid{grid-template-columns:repeat(2,1fr);gap:26px}
@@ -269,9 +285,10 @@ form.enquiry .btn{width:auto;padding:0 {48};border:0;cursor:pointer}
   .video figcaption{font-size:14px}
   .contact-grid.no-form .offices{grid-template-columns:1fr}
   .office{padding:24px}.office h3{font-size:20px}.o-row{font-size:15px}.o-hours{font-size:14px}
-  form.enquiry{padding:26px 20px}
-  form.enquiry h3{font-size:22px}
-  form.enquiry input,form.enquiry select,form.enquiry textarea{font-size:16px;padding:12px 14px}
+  .enquiry{padding:26px 20px}
+  .enquiry h3{font-size:22px}
+  .enquiry input:not([type=submit]),.enquiry select,.enquiry textarea{font-size:16px;padding:12px 14px}
+  .enquiry input[type=submit]{height:52px;font-size:17px;padding:0 30px}
   .f-row{grid-template-columns:1fr;gap:0}
   .map{height:300px;margin-top:32px}
   .cta-band{padding:48px 0}
@@ -284,5 +301,6 @@ form.enquiry .btn{width:auto;padding:0 {48};border:0;cursor:pointer}
 }
 @media (max-width:640px){
   .cols-2,.cols-3,.cols-4:not(.team-cards){grid-template-columns:1fr}
+  .cgrid.cols-3 > *{width:100%}
   .stats-grid{grid-template-columns:1fr 1fr}
 }

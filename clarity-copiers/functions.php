@@ -72,7 +72,7 @@ require get_template_directory() . '/inc/acf-fields.php';
 require get_template_directory() . '/inc/seed.php';
 require get_template_directory() . '/inc/acf-builder.php';
 require get_template_directory() . '/inc/template-tags.php';
-require get_template_directory() . '/inc/contact.php';
+require get_template_directory() . '/inc/forms.php';
 require get_template_directory() . '/inc/performance.php';
 require get_template_directory() . '/inc/seo.php';
 
