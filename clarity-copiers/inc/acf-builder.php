@@ -194,17 +194,4 @@ add_action( 'acf/init', function () {
 		),
 	) );
 
-	acf_add_local_field_group( array(
-		'key'          => 'group_cc_seo',
-		'title'        => 'SEO',
-		'show_in_rest' => 1,
-		'position'     => 'side',
-		'location'     => array(
-			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'page' ) ),
-			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ),
-		),
-		'fields'       => array(
-			cc_f( 'seo_d', 'Meta description', 'seo_description', 'textarea', array( 'rows' => 4, 'maxlength' => 170, 'instructions' => '150–160 characters. Shown in Google results.' ) ),
-		),
-	) );
 } );

@@ -19,7 +19,7 @@ while ( have_posts() ) :
 	$phone = clarity_opt( 'phone' );
 	clarity_page_hero( array( 'subtitle' => $range ? 'Sharp ' . $range . ( 'colour' === $mode ? ' · Colour' : ' · Black & white' ) : '' ) );
 	?>
-<section class="sec model-top">
+<section class="sec bg-white model-top">
 	<div class="wrap model-grid">
 		<div class="model-media">
 			<?php
@@ -80,7 +80,7 @@ while ( have_posts() ) :
 	if ( $parent ) {
 		$siblings = get_posts( array( 'post_type' => 'page', 'post_parent' => $parent, 'post__not_in' => array( $id ), 'posts_per_page' => 3, 'orderby' => 'rand', 'no_found_rows' => true ) );
 		if ( $siblings ) {
-			echo '<section class="sec"><div class="wrap">';
+			echo '<section class="sec bg-white"><div class="wrap">';
 			clarity_section_head( 'You may also like', 'Other models in the ' . get_the_title( $parent ) . ' range.' );
 			echo '<div class="cgrid cols-3">';
 			foreach ( $siblings as $m ) { get_template_part( 'template-parts/model', 'card', array( 'post' => $m ) ); }

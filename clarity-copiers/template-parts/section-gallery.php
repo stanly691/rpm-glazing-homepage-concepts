@@ -1,5 +1,5 @@
 <?php $s = $args['s']; ?>
-<section class="sec">
+<section class="sec bg-white">
 	<div class="wrap">
 		<?php clarity_section_head( $s['heading'] ?? '', $s['intro'] ?? '' ); ?>
 		<div class="gallery-grid" data-lightbox>

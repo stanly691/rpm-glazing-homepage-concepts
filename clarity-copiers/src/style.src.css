@@ -172,8 +172,11 @@ h1,h2,h3,h4,p{margin:0}
 .ncard .more{margin:{4} 0 0 {26}}
 
 /* ============ Footer (6249–6810) ============ */
-.site-footer{background:var(--footer);color:#fff;letter-spacing:0;padding:{118} 0 {117}}
+.site-footer{background:var(--footer);color:#fff;letter-spacing:0;padding:{118} 0 {40}}
 .site-footer .wrap{display:flex}
+.site-footer .f-legal{justify-content:space-between;align-items:center;gap:{24};margin-top:{64};padding-top:{28};border-top:1px solid rgba(255,255,255,.1);font-size:[15];color:#8d8d8d}
+.f-legal nav{display:flex;gap:{28}}
+.f-legal a:hover{color:#fff}
 .f-brand{width:{572}}
 .f-brand .flogo{width:{246};height:{72};margin-top:{5}}
 .f-brand p{width:{448};margin-top:{38};font-size:[18];line-height:{38}}
@@ -251,6 +254,7 @@ h1,h2,h3,h4,p{margin:0}
   .tcard .who{font-size:19px}.tcard .role{font-size:15px}
   .site-footer{padding:56px 0 48px}
   .site-footer .wrap{flex-wrap:wrap;gap:36px 24px}
+  .site-footer .f-legal{flex-direction:column;align-items:flex-start;gap:12px;margin-top:36px;font-size:13px}
   .f-brand{width:100%}.f-brand p{width:auto}
   .f-links,.f-sectors{width:calc(50% - 12px)}
   .f-contact{width:100%;flex:none}

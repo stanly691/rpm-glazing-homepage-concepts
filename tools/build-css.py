@@ -3,7 +3,8 @@
 
   src/style.src.css   main stylesheet (keeps the WordPress theme header)
   src/fonts.src.css   self-hosted @font-face rules, inserted after the header
-  src/inner.src.css   inner-page sections, inserted at /*@@INNER@@*/
+  src/system.src.css  design-system tokens + global behaviours, inserted at /*@@INNER@@*/
+  src/inner.src.css   inner-page sections, inserted after the system layer
 
 Tokens (design px on the 1920 XD canvas):
   {N}  -> calc(N * var(--u))                       scales 1:1 with the mockup
@@ -20,10 +21,11 @@ SRC = ROOT / "src"
 main = (SRC / "style.src.css").read_text()
 fonts = (SRC / "fonts.src.css").read_text()
 inner = (SRC / "inner.src.css").read_text()
+system = (SRC / "system.src.css").read_text()
 
 header_end = main.index("*/") + 2
 header, body = main[:header_end], main[header_end:]
-body = fonts + "\n" + body.replace("/*@@INNER@@*/", inner)
+body = fonts + "\n" + body.replace("/*@@INNER@@*/", system + "\n" + inner)
 
 
 def fmt(n):

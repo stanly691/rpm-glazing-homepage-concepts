@@ -23,6 +23,34 @@
 		});
 	}
 
+	// Sticky header after the hero starts scrolling away (desktop floats; mobile uses CSS sticky).
+	var header = d.querySelector('.site-header');
+	if (header) {
+		var onScroll = function () { header.classList.toggle('is-stuck', window.scrollY > 160); };
+		window.addEventListener('scroll', onScroll, { passive: true });
+		onScroll();
+	}
+
+	// Scroll reveal for content blocks (skipped for reduced motion).
+	var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (!reduce && 'IntersectionObserver' in window) {
+		var targets = d.querySelectorAll('.sec-head, .cgrid > *, .grid4 > *, .grid3 > *, .split-grid > *, .stat, .step, .team-group, .model-grid > *, .model-detail > *, .contact-grid > *, .cta-inner > *, .team .wrap > *, .head-row, .section-head');
+		if (targets.length) {
+			d.documentElement.classList.add('js-reveal');
+			var io = new IntersectionObserver(function (entries) {
+				entries.forEach(function (en) {
+					if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+				});
+			}, { rootMargin: '0px 0px -8% 0px' });
+			targets.forEach(function (el, i) {
+				el.setAttribute('data-reveal', '');
+				var sib = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
+				el.style.transitionDelay = Math.min(sib, 4) * 70 + 'ms';
+				io.observe(el);
+			});
+		}
+	}
+
 	// Respect reduced-motion: don't autoplay the hero video.
 	var v = d.querySelector('.hero-video');
 	if (v && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

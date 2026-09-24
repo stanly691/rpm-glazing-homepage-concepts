@@ -59,6 +59,14 @@ $email    = clarity_opt( 'email' );
 			</div>
 		</div>
 	</div>
+	<div class="wrap f-legal">
+		<span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. All rights reserved.</span>
+		<nav aria-label="Legal">
+			<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy</a>
+			<a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookies</a>
+			<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms of use</a>
+		</nav>
+	</div>
 </footer>
 <?php wp_footer(); ?>
 </body>

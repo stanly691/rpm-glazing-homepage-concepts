@@ -2,7 +2,7 @@
 $s     = $args['s'];
 $count = count( array_filter( (array) ( $s['items'] ?? array() ), function ( $v ) { return ! empty( $v['youtube_id'] ); } ) );
 ?>
-<section class="sec">
+<section class="sec bg-white">
 	<div class="wrap">
 		<?php clarity_section_head( $s['heading'] ?? '', $s['intro'] ?? '' ); ?>
 		<div class="cgrid cols-3 video-grid<?php echo 1 === $count ? ' is-single' : ''; ?>">

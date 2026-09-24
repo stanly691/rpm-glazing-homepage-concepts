@@ -74,7 +74,6 @@ require get_template_directory() . '/inc/acf-builder.php';
 require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/forms.php';
 require get_template_directory() . '/inc/performance.php';
-require get_template_directory() . '/inc/seo.php';
 
 /**
  * get_field() that degrades gracefully when ACF is inactive.

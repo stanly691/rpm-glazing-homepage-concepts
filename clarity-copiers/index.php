@@ -14,7 +14,7 @@ if ( is_home() ) {
 }
 clarity_page_hero( array( 'title' => $title, 'subtitle' => $sub, 'image' => 0, 'crumbs' => array( array( 'Home', home_url( '/' ) ), array( $title, '' ) ) ) );
 ?>
-<section class="sec news">
+<section class="sec bg-white news">
 	<div class="wrap">
 		<?php if ( have_posts() ) : ?>
 		<div class="cgrid cols-3">

@@ -5,7 +5,7 @@ while ( have_posts() ) :
 	the_post();
 	clarity_page_hero( array( 'subtitle' => get_the_date(), 'image' => 0 ) );
 	?>
-<article class="sec">
+<article class="sec bg-white">
 	<div class="wrap narrow rte post-body">
 		<?php if ( has_post_thumbnail() ) : ?>
 		<figure class="post-feature"><?php the_post_thumbnail( 'large', array( 'loading' => 'eager', 'sizes' => '(max-width:1100px) 92vw, 1100px' ) ); ?></figure>

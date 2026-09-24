@@ -9,7 +9,7 @@ while ( have_posts() ) :
 	clarity_page_hero();
 	if ( post_password_required() || ! clarity_render_sections() ) :
 		?>
-	<section class="sec"><div class="wrap narrow rte"><?php the_content(); ?></div></section>
+	<section class="sec bg-white"><div class="wrap narrow rte"><?php the_content(); ?></div></section>
 		<?php
 		clarity_default_cta();
 	endif;

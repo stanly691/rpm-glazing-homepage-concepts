@@ -2,7 +2,7 @@
 $s         = $args['s'];
 $shortcode = ! empty( $s['show_form'] ) ? clarity_enquiry_shortcode( $s['form_shortcode'] ?? '' ) : '';
 ?>
-<section class="sec contact-sec" id="enquiry">
+<section class="sec bg-white contact-sec" id="enquiry">
 	<div class="wrap">
 		<?php clarity_section_head( $s['heading'] ?? '', $s['intro'] ?? '' ); ?>
 		<div class="contact-grid<?php echo $shortcode ? '' : ' no-form'; ?>">
