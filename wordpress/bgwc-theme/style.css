@@ -2,7 +2,7 @@
 Theme Name: BGWC Coming Soon
 Theme URI: https://billys.itcscloud.co.uk
 Description: Billy’s Gym & Wellness Centre CIC holding page. All content is editable through ACF fields on the front page.
-Version: 1.0.0
+Version: 1.3.2
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: bgwc
@@ -295,5 +295,458 @@ h1 span {
 @media(prefers-reduced-motion:reduce) {
     .bg {
         animation: none
+    }
+}
+
+/* Inner pages (Join etc.) */
+
+.bgwc-page .page-wrap {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden
+}
+
+.bgwc-page .page-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 53%;
+    opacity: .18;
+    z-index: 0
+}
+
+.bgwc-page .page-wrap:before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(9, 14, 10, .94) 0%, rgba(9, 14, 10, .82) 60%, rgba(9, 14, 10, .7) 100%);
+    z-index: 1
+}
+
+.bgwc-page .top,
+.bgwc-page .page-content,
+.bgwc-page .bottom {
+    position: relative;
+    z-index: 2
+}
+
+.bgwc-page .brand,
+.bgwc-page .back {
+    text-decoration: none
+}
+
+.bgwc-page .back:hover {
+    border-color: #fff
+}
+
+.page-content {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+    width: 100%;
+    max-width: 1440px;
+    padding: 24px clamp(24px, 7vw, 108px) 72px
+}
+
+.page-intro {
+    position: sticky;
+    top: 40px
+}
+
+.page-intro .intro {
+    margin: 0 0 24px
+}
+
+.page-help {
+    font-size: 14px;
+    color: rgba(255, 255, 255, .7)
+}
+
+.page-help a {
+    color: #fff;
+    text-underline-offset: 3px
+}
+
+.bgwc-page .entry {
+    padding: clamp(24px, 3vw, 40px);
+    background: rgba(12, 18, 13, .72);
+    border: 1px solid rgba(255, 255, 255, .12);
+    backdrop-filter: blur(8px)
+}
+
+.bgwc-page .gfield_required_text {
+    display: none
+}
+
+@media(max-width:1000px) {
+    .page-content {
+        grid-template-columns: 1fr;
+        gap: 8px
+    }
+
+    .page-intro {
+        position: static
+    }
+}
+
+.page-title {
+    font-size: clamp(44px, 5.6vw, 84px);
+    margin-bottom: 28px
+}
+
+.bgwc-page .bottom {
+    margin-top: auto;
+    padding-top: 28px
+}
+
+/* Gravity Forms: colours come from the shortcode "styles"; layout below */
+body.bgwc-page .gform-theme--orbital {
+    --gf-ctrl-label-color-primary: #fff;
+    --gf-ctrl-label-color-secondary: #c9d0c7;
+    --gf-ctrl-desc-color: #aeb6ac;
+    --gf-font-family-base: Arial, Helvetica, sans-serif;
+    --gf-font-family-primary: Arial, Helvetica, sans-serif;
+    --gf-font-family-secondary: Arial, Helvetica, sans-serif;
+    --gf-font-family-tertiary: Arial, Helvetica, sans-serif;
+    --gf-form-gap-y: 32px
+}
+
+.bgwc-page .intro {
+    margin: 0 0 36px
+}
+
+/* Step indicator */
+.bgwc-page .gform-theme--orbital .gf_page_steps {
+    display: flex;
+    gap: 8px;
+    border: 0;
+    margin: 0 0 36px;
+    padding: 0
+}
+
+.bgwc-page .gform-theme--orbital .gf_step {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 12px 0 0;
+    border-top: 3px solid rgba(255, 255, 255, .18);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .5);
+    opacity: 1
+}
+
+.bgwc-page .gform-theme--orbital .gf_step_active,
+.bgwc-page .gform-theme--orbital .gf_step_completed {
+    border-top-color: #a72b37;
+    color: #fff
+}
+
+.bgwc-page .gform-theme--orbital .gf_step_number {
+    width: auto;
+    height: auto;
+    border: 0;
+    background: none !important;
+    color: inherit !important;
+    font-size: 12px
+}
+
+.bgwc-page .gform-theme--orbital .gf_step_number:before,
+.bgwc-page .gform-theme--orbital .gf_step_number:after {
+    display: none
+}
+
+/* Segmented tabs (join type, who for, health) */
+.bgwc-page .gform-theme--orbital .bgwc-tabs .gfield_radio,
+.bgwc-page .gform-theme--orbital .bgwc-chips .gfield_checkbox {
+    flex-direction: row !important
+}
+
+.bgwc-page .gform-theme--orbital .bgwc-tabs .gchoice,
+.bgwc-page .gform-theme--orbital .bgwc-cards .gchoice,
+.bgwc-page .gform-theme--orbital .bgwc-chips .gchoice {
+    display: block !important
+}
+
+.bgwc-page .gform-theme--orbital .bgwc-tabs .gfield_radio {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.bgwc-page .bgwc-tabs .gchoice,
+.bgwc-page .bgwc-cards .gchoice,
+.bgwc-page .bgwc-chips .gchoice {
+    position: relative;
+    margin: 0
+}
+
+.bgwc-page .bgwc-tabs .gfield-choice-input,
+.bgwc-page .bgwc-cards .gfield-choice-input,
+.bgwc-page .bgwc-chips .gfield-choice-input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+    z-index: 1
+}
+
+.bgwc-page .bgwc-tabs label.gform-field-label,
+.bgwc-page .bgwc-chips label.gform-field-label {
+    display: block;
+    margin: 0;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, .3);
+    background: rgba(15, 22, 16, .6);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3
+}
+
+.bgwc-page .bgwc-tabs .gchoice:has(input:checked) label.gform-field-label,
+.bgwc-page .bgwc-chips .gchoice:has(input:checked) label.gform-field-label {
+    background: #a72b37;
+    border-color: #a72b37
+}
+
+/* Plan cards */
+.bgwc-page .bgwc-cards .gchoice,
+.bgwc-page .bgwc-cards label.gform-field-label {
+    width: 100%;
+    max-width: none
+}
+
+.bgwc-page .gform-theme--orbital .bgwc-cards .gfield_radio {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px
+}
+
+.bgwc-page .bgwc-cards label.gform-field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 100%;
+    margin: 0;
+    padding: 18px 20px 18px 50px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    background: rgba(15, 22, 16, .6);
+    color: #e5e8e3;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.35;
+    transition: border-color .15s, background .15s
+}
+
+.bgwc-page .bgwc-cards label.gform-field-label:before {
+    content: "";
+    position: absolute;
+    left: 18px;
+    top: 20px;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 50%
+}
+
+.bgwc-page .bgwc-cards .gchoice:hover label.gform-field-label {
+    border-color: rgba(255, 255, 255, .6)
+}
+
+.bgwc-page .bgwc-cards .gchoice:has(input:checked) label.gform-field-label {
+    border-color: #a72b37;
+    background: rgba(167, 43, 55, .18);
+    box-shadow: inset 0 0 0 1px #a72b37;
+    color: #fff
+}
+
+.bgwc-page .bgwc-cards .gchoice:has(input:checked) label.gform-field-label:before {
+    border-color: #a72b37;
+    background: #a72b37;
+    box-shadow: inset 0 0 0 3px #1a221c
+}
+
+.bgwc-page .bgwc-price {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: #fff
+}
+
+.bgwc-page .bgwc-price small {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: #aeb6ac
+}
+
+.bgwc-page .gchoice:has(input:focus-visible) label.gform-field-label {
+    outline: 2px solid #fff;
+    outline-offset: 2px
+}
+
+/* Chips (interests) */
+.bgwc-page .gform-theme--orbital .bgwc-chips .gfield_checkbox {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.bgwc-page .bgwc-chips label.gform-field-label {
+    padding: 10px 16px;
+    font-weight: 400;
+    font-size: 14px
+}
+
+/* Notes */
+.bgwc-page .bgwc-note p {
+    margin: 0;
+    padding: 16px 18px;
+    border-left: 3px solid #a72b37;
+    background: rgba(255, 255, 255, .06);
+    color: #e5e8e3;
+    line-height: 1.55
+}
+
+.bgwc-page .bgwc-reassure p {
+    margin: 0;
+    font-size: 13px;
+    color: #aeb6ac
+}
+
+/* Total */
+.bgwc-page .bgwc-total {
+    padding: 18px 20px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.bgwc-page .bgwc-total .gform-field-label {
+    margin: 0;
+    white-space: nowrap
+}
+
+.bgwc-page .bgwc-total .ginput_container_total {
+    flex: 1;
+    min-width: 0
+}
+
+.bgwc-page .gform-theme--orbital .ginput_container_total .ginput_total {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    text-align: right;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    width: 100%
+}
+
+/* Errors: readable on the dark background */
+.bgwc-page .gform-theme--orbital .gfield_validation_message,
+.bgwc-page .gform-theme--orbital .gform_validation_errors .gform_submission_error {
+    color: #ff9a9a
+}
+
+.bgwc-page .gform-theme--orbital .gform_validation_errors {
+    background: rgba(167, 43, 55, .15);
+    border-color: #a72b37
+}
+
+.bgwc-page .gform-theme--orbital .gf_step_label {
+    white-space: nowrap
+}
+
+/* Buttons */
+.bgwc-page .gform-theme--orbital .gform_page_footer,
+.bgwc-page .gform-theme--orbital .gform_footer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 32px
+}
+
+.bgwc-page .gform-theme--orbital .gform_next_button,
+.bgwc-page .gform-theme--orbital .gform_button {
+    min-width: 200px;
+    padding: 18px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 0
+}
+
+.bgwc-page .gform-theme--orbital .gform_previous_button {
+    padding: 18px 22px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .4);
+    color: #fff;
+    border-radius: 0
+}
+
+.bgwc-page .gform_confirmation_message {
+    font-size: 18px;
+    line-height: 1.6;
+    padding: 28px;
+    border-left: 3px solid #a72b37;
+    background: rgba(255, 255, 255, .06)
+}
+
+@media(max-width:700px) {
+    .bgwc-page .back {
+        display: inline-block;
+        padding: 9px 12px
+    }
+
+    .bgwc-page .back span {
+        display: none
+    }
+
+    .bgwc-page .gform-theme--orbital .bgwc-cards .gfield_radio {
+        grid-template-columns: 1fr
+    }
+
+    .bgwc-page .gform-theme--orbital .bgwc-tabs .gchoice {
+        flex: 1 1 auto
+    }
+
+    .bgwc-page .gform-theme--orbital .gf_step:not(.gf_step_active) .gf_step_label {
+        display: none
+    }
+
+    .bgwc-page .entry {
+        padding: 20px 16px;
+        margin: 0 -8px
+    }
+
+    .bgwc-page .gform-theme--orbital .gform_page_footer,
+    .bgwc-page .gform-theme--orbital .gform_footer {
+        flex-direction: column-reverse
+    }
+
+    .bgwc-page .gform-theme--orbital .gform_next_button,
+    .bgwc-page .gform-theme--orbital .gform_button,
+    .bgwc-page .gform-theme--orbital .gform_previous_button {
+        width: 100%
+    }
+
+    .page-content {
+        padding: 12px 22px 48px
     }
 }

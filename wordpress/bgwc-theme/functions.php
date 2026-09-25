@@ -10,6 +10,7 @@ require_once get_theme_file_path( 'inc/acf-fields.php' );
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
+	add_post_type_support( 'page', 'excerpt' );
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
@@ -71,4 +72,28 @@ add_action( 'admin_notices', function () {
 		return;
 	}
 	echo '<div class="notice notice-warning"><p><strong>BGWC theme:</strong> activate Advanced Custom Fields (or Secure Custom Fields) to edit the homepage content. The page still shows the default design without it.</p></div>';
+} );
+
+/**
+ * Show the price on each membership card, e.g. "£25.99 / month".
+ * Monthly plans are the product fields with the "bgwc-monthly" class.
+ */
+add_filter( 'gform_field_choice_markup_pre_render', function ( $markup, $choice, $field ) {
+	if ( 'product' !== $field->type || false === strpos( (string) $field->cssClass, 'bgwc-cards' ) || '' === rgar( $choice, 'price' ) ) {
+		return $markup;
+	}
+	$price = GFCommon::to_money( GFCommon::to_number( $choice['price'] ) );
+	$per   = false !== strpos( $field->cssClass, 'bgwc-monthly' ) ? '<small> / month</small>' : '';
+
+	return str_replace( '</label>', '<span class="bgwc-price">' . esc_html( str_replace( array( ' ', "\xc2\xa0" ), '', $price ) ) . $per . '</span></label>', $markup );
+}, 10, 3 );
+
+/**
+ * UK-style prices: "£19.99", not "£ 19.99".
+ */
+add_filter( 'gform_currencies', function ( $currencies ) {
+	if ( isset( $currencies['GBP'] ) ) {
+		$currencies['GBP']['symbol_padding'] = '';
+	}
+	return $currencies;
 } );

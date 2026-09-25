@@ -1,0 +1,697 @@
+{
+  "0": {
+    "title": "Join Billy’s",
+    "description": "",
+    "labelPlacement": "top_label",
+    "descriptionPlacement": "below",
+    "button": {
+      "type": "text",
+      "text": "Join Billy’s →",
+      "imageUrl": ""
+    },
+    "lastPageButton": {
+      "type": "text",
+      "text": "Back"
+    },
+    "pagination": {
+      "type": "steps",
+      "pages": [
+        "Your plan",
+        "Your details",
+        "Confirm"
+      ],
+      "display_progressbar_on_confirmation": false
+    },
+    "cssClass": "bgwc-form",
+    "markupVersion": 2,
+    "enableHoneypot": true,
+    "enableAnimation": true,
+    "fields": [
+      {
+        "type": "radio",
+        "id": 2,
+        "label": "How would you like to join?",
+        "isRequired": true,
+        "cssClass": "bgwc-tabs",
+        "choices": [
+          {
+            "text": "Monthly membership",
+            "value": "Monthly membership",
+            "isSelected": true,
+            "price": ""
+          },
+          {
+            "text": "Day, week or session pass",
+            "value": "Day, week or session pass",
+            "isSelected": false,
+            "price": ""
+          },
+          {
+            "text": "GP referral (free, ages 16–25)",
+            "value": "GP referral (free, ages 16–25)",
+            "isSelected": false,
+            "price": ""
+          }
+        ],
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "product",
+        "inputType": "radio",
+        "id": 3,
+        "label": "Choose your membership",
+        "cssClass": "bgwc-cards bgwc-monthly",
+        "isRequired": true,
+        "enablePrice": true,
+        "errorMessage": "Please choose a membership to continue.",
+        "choices": [
+          {
+            "text": "Gym – adult",
+            "value": "Gym – adult",
+            "isSelected": false,
+            "price": "£25.99"
+          },
+          {
+            "text": "Gym – junior",
+            "value": "Gym – junior",
+            "isSelected": false,
+            "price": "£19.99"
+          },
+          {
+            "text": "Gym – veteran",
+            "value": "Gym – veteran",
+            "isSelected": false,
+            "price": "£19.99"
+          },
+          {
+            "text": "Gym – blue light",
+            "value": "Gym – blue light",
+            "isSelected": false,
+            "price": "£19.99"
+          },
+          {
+            "text": "Gym – Universal Credit",
+            "value": "Gym – Universal Credit",
+            "isSelected": false,
+            "price": "£19.99"
+          },
+          {
+            "text": "Children’s wellbeing gym",
+            "value": "Children’s wellbeing gym",
+            "isSelected": false,
+            "price": "£15.00"
+          },
+          {
+            "text": "Maesteg Fighting Academy – BJJ",
+            "value": "Maesteg Fighting Academy – BJJ",
+            "isSelected": false,
+            "price": "£30.00"
+          },
+          {
+            "text": "Dual membership – BJJ + gym",
+            "value": "Dual membership – BJJ + gym",
+            "isSelected": false,
+            "price": "£44.99"
+          }
+        ],
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "2",
+              "operator": "is",
+              "value": "Monthly membership"
+            }
+          ]
+        },
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "product",
+        "inputType": "radio",
+        "id": 4,
+        "label": "Choose your pass",
+        "cssClass": "bgwc-cards",
+        "isRequired": true,
+        "enablePrice": true,
+        "errorMessage": "Please choose a pass to continue.",
+        "choices": [
+          {
+            "text": "Day pass – adult",
+            "value": "Day pass – adult",
+            "isSelected": false,
+            "price": "£5.00"
+          },
+          {
+            "text": "Day pass – junior",
+            "value": "Day pass – junior",
+            "isSelected": false,
+            "price": "£3.00"
+          },
+          {
+            "text": "Week pass – adult",
+            "value": "Week pass – adult",
+            "isSelected": false,
+            "price": "£15.00"
+          },
+          {
+            "text": "Week pass – junior",
+            "value": "Week pass – junior",
+            "isSelected": false,
+            "price": "£10.00"
+          },
+          {
+            "text": "Children’s wellbeing gym – single session",
+            "value": "Children’s wellbeing gym – single session",
+            "isSelected": false,
+            "price": "£2.50"
+          },
+          {
+            "text": "BJJ – single session",
+            "value": "BJJ – single session",
+            "isSelected": false,
+            "price": "£5.00"
+          }
+        ],
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "2",
+              "operator": "is",
+              "value": "Day, week or session pass"
+            }
+          ]
+        },
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "html",
+        "id": 5,
+        "label": "GP referral info",
+        "cssClass": "bgwc-note",
+        "content": "<p><strong>Free for 16–25 year olds referred by their GP.</strong> A 6-week wellbeing course plus free use of the gym. Add your details on the next step and we’ll be in touch to get you started.</p>",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "2",
+              "operator": "is",
+              "value": "GP referral (free, ages 16–25)"
+            }
+          ]
+        },
+        "isRequired": false,
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "html",
+        "id": 6,
+        "label": "Concession info",
+        "cssClass": "bgwc-note",
+        "content": "<p>Just bring proof of eligibility (veteran, blue light or Universal Credit) on your first visit.</p>",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "any",
+          "rules": [
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Gym – veteran"
+            },
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Gym – blue light"
+            },
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Gym – Universal Credit"
+            }
+          ]
+        },
+        "isRequired": false,
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "page",
+        "id": 7,
+        "label": "Your details",
+        "nextButton": {
+          "type": "text",
+          "text": "Continue"
+        },
+        "previousButton": {
+          "type": "text",
+          "text": "Back"
+        },
+        "isRequired": false,
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "radio",
+        "id": 8,
+        "label": "Who is this membership for?",
+        "isRequired": true,
+        "cssClass": "bgwc-tabs",
+        "choices": [
+          {
+            "text": "Me (18 or over)",
+            "value": "Me (18 or over)",
+            "isSelected": true,
+            "price": ""
+          },
+          {
+            "text": "My child (under 18)",
+            "value": "My child (under 18)",
+            "isSelected": false,
+            "price": ""
+          }
+        ],
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "name",
+        "id": 9,
+        "label": "Member’s name",
+        "isRequired": true,
+        "nameFormat": "advanced",
+        "enableAutocomplete": true,
+        "inputs": [
+          {
+            "id": "9.2",
+            "label": "Prefix",
+            "name": "",
+            "isHidden": true
+          },
+          {
+            "id": "9.3",
+            "label": "First name",
+            "name": "",
+            "autocompleteAttribute": "given-name"
+          },
+          {
+            "id": "9.4",
+            "label": "Middle",
+            "name": "",
+            "isHidden": true
+          },
+          {
+            "id": "9.6",
+            "label": "Last name",
+            "name": "",
+            "autocompleteAttribute": "family-name"
+          },
+          {
+            "id": "9.8",
+            "label": "Suffix",
+            "name": "",
+            "isHidden": true
+          }
+        ],
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "date",
+        "id": 10,
+        "label": "Member’s date of birth",
+        "isRequired": true,
+        "dateType": "datefield",
+        "dateFormat": "dmy",
+        "enableAutocomplete": true,
+        "inputs": [
+          {
+            "id": "10.1",
+            "label": "MM",
+            "name": "",
+            "placeholder": "MM",
+            "autocompleteAttribute": "bday-month"
+          },
+          {
+            "id": "10.2",
+            "label": "DD",
+            "name": "",
+            "placeholder": "DD",
+            "autocompleteAttribute": "bday-day"
+          },
+          {
+            "id": "10.3",
+            "label": "YYYY",
+            "name": "",
+            "placeholder": "YYYY",
+            "autocompleteAttribute": "bday-year"
+          }
+        ],
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "email",
+        "id": 11,
+        "label": "Email",
+        "isRequired": true,
+        "layoutGridColumnSpan": 6,
+        "enableAutocomplete": true,
+        "autocompleteAttribute": "email",
+        "description": "We’ll send your confirmation here.",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "phone",
+        "id": 12,
+        "label": "Mobile number",
+        "isRequired": true,
+        "phoneFormat": "international",
+        "layoutGridColumnSpan": 6,
+        "enableAutocomplete": true,
+        "autocompleteAttribute": "tel",
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "text",
+        "id": 15,
+        "label": "Parent or guardian’s name",
+        "isRequired": true,
+        "layoutGridColumnSpan": 6,
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "8",
+              "operator": "is",
+              "value": "My child (under 18)"
+            }
+          ]
+        },
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "phone",
+        "id": 16,
+        "label": "Parent or guardian’s mobile",
+        "isRequired": true,
+        "layoutGridColumnSpan": 6,
+        "phoneFormat": "international",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "8",
+              "operator": "is",
+              "value": "My child (under 18)"
+            }
+          ]
+        },
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "text",
+        "id": 18,
+        "label": "Emergency contact name",
+        "isRequired": true,
+        "layoutGridColumnSpan": 6,
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "phone",
+        "id": 19,
+        "label": "Emergency contact number",
+        "isRequired": true,
+        "layoutGridColumnSpan": 6,
+        "phoneFormat": "international",
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "page",
+        "id": 20,
+        "label": "Confirm",
+        "nextButton": {
+          "type": "text",
+          "text": "Continue"
+        },
+        "previousButton": {
+          "type": "text",
+          "text": "Back"
+        },
+        "isRequired": false,
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "radio",
+        "id": 21,
+        "cssClass": "bgwc-tabs",
+        "label": "Any medical conditions, injuries or medication we should know about?",
+        "isRequired": true,
+        "choices": [
+          {
+            "text": "No",
+            "value": "No",
+            "isSelected": false,
+            "price": ""
+          },
+          {
+            "text": "Yes",
+            "value": "Yes",
+            "isSelected": false,
+            "price": ""
+          }
+        ],
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "textarea",
+        "id": 22,
+        "label": "Tell us a little more",
+        "isRequired": true,
+        "size": "small",
+        "description": "This helps our coaches keep you safe. It stays private.",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "21",
+              "operator": "is",
+              "value": "Yes"
+            }
+          ]
+        },
+        "formId": 1
+      },
+      {
+        "type": "checkbox",
+        "id": 24,
+        "label": "Anything else you’re interested in? (optional)",
+        "cssClass": "bgwc-chips",
+        "choices": [
+          {
+            "text": "Classes",
+            "value": "Classes",
+            "isSelected": false,
+            "price": ""
+          },
+          {
+            "text": "Combat sports",
+            "value": "Combat sports",
+            "isSelected": false,
+            "price": ""
+          },
+          {
+            "text": "Health suite",
+            "value": "Health suite",
+            "isSelected": false,
+            "price": ""
+          },
+          {
+            "text": "Community programmes",
+            "value": "Community programmes",
+            "isSelected": false,
+            "price": ""
+          }
+        ],
+        "inputs": [
+          {
+            "id": "24.1",
+            "label": "Classes",
+            "name": ""
+          },
+          {
+            "id": "24.2",
+            "label": "Combat sports",
+            "name": ""
+          },
+          {
+            "id": "24.3",
+            "label": "Health suite",
+            "name": ""
+          },
+          {
+            "id": "24.4",
+            "label": "Community programmes",
+            "name": ""
+          }
+        ],
+        "isRequired": false,
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "total",
+        "id": 27,
+        "label": "Total today",
+        "cssClass": "bgwc-total",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "2",
+              "operator": "isnot",
+              "value": "GP referral (free, ages 16–25)"
+            }
+          ]
+        },
+        "isRequired": false,
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "consent",
+        "id": 25,
+        "label": "Declaration",
+        "isRequired": true,
+        "cssClass": "bgwc-consent",
+        "errorMessage": "Please tick to confirm.",
+        "checkboxLabel": "I confirm these details are correct and I’m fit to exercise, or I’ll check with my GP first.",
+        "inputs": [
+          {
+            "id": "25.1",
+            "label": "Consent",
+            "name": ""
+          },
+          {
+            "id": "25.2",
+            "label": "Text",
+            "name": "",
+            "isHidden": true
+          },
+          {
+            "id": "25.3",
+            "label": "Description",
+            "name": "",
+            "isHidden": true
+          }
+        ],
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "checkbox",
+        "id": 26,
+        "label": "Stay in the loop (optional)",
+        "cssClass": "bgwc-optin",
+        "choices": [
+          {
+            "text": "Email me about opening dates, classes and offers",
+            "value": "Email me about opening dates, classes and offers",
+            "isSelected": false,
+            "price": ""
+          }
+        ],
+        "inputs": [
+          {
+            "id": "26.1",
+            "label": "Email me about opening dates, classes and offers",
+            "name": ""
+          }
+        ],
+        "isRequired": false,
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "html",
+        "id": 28,
+        "label": "Reassurance",
+        "cssClass": "bgwc-reassure",
+        "content": "<p>Your details are only used to set up your membership. We never share them.</p>",
+        "isRequired": false,
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      }
+    ],
+    "notifications": {
+      "bgwcadmin0001": {
+        "id": "bgwcadmin0001",
+        "isActive": true,
+        "name": "New sign-up (staff)",
+        "event": "form_submission",
+        "to": "{admin_email}",
+        "toType": "email",
+        "subject": "New sign-up: {Member’s name (First):9.3} {Member’s name (Last):9.6}",
+        "message": "{all_fields}",
+        "replyTo": "{Email:11}",
+        "from": "{admin_email}",
+        "fromName": "Billy’s Gym & Wellness Centre"
+      },
+      "bgwcmember001": {
+        "id": "bgwcmember001",
+        "isActive": true,
+        "name": "Welcome email (member)",
+        "event": "form_submission",
+        "to": "11",
+        "toType": "field",
+        "subject": "Welcome to Billy’s Gym & Wellness Centre",
+        "message": "<p>Hi {Member’s name (First):9.3},</p><p>Thanks for signing up to Billy’s Gym &amp; Wellness Centre in Maesteg. We’ve got your details and we’ll be in touch soon.</p><p>Here’s a copy of what you sent us:</p>{all_fields}<p>See you soon,<br>The Billy’s team</p>",
+        "from": "{admin_email}",
+        "fromName": "Billy’s Gym & Wellness Centre"
+      }
+    },
+    "confirmations": {
+      "bgwcconfirm01": {
+        "id": "bgwcconfirm01",
+        "name": "Default Confirmation",
+        "isDefault": true,
+        "type": "message",
+        "message": "<h2>Thanks, {Member’s name (First):9.3}!</h2><p>You’re signed up. We’ve emailed you a copy of your details and we’ll be in touch before we open to confirm your membership.</p>"
+      }
+    }
+  },
+  "version": "3.1.2"
+}
