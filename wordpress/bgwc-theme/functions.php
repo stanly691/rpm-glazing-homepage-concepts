@@ -21,6 +21,10 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_dequeue_style( 'wp-block-library-theme' );
 	wp_dequeue_style( 'global-styles' );
 	wp_dequeue_style( 'classic-theme-styles' );
+
+	if ( is_page() && ! is_front_page() ) {
+		wp_enqueue_script( 'bgwc-join', get_theme_file_uri( 'assets/join.js' ), array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
+	}
 }, 20 );
 
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );

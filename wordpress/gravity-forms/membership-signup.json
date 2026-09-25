@@ -68,14 +68,14 @@
         "errorMessage": "Please choose a membership to continue.",
         "choices": [
           {
-            "text": "Gym – adult",
-            "value": "Gym – adult",
+            "text": "Gym – adult (16+)",
+            "value": "Gym – adult (16+)",
             "isSelected": false,
             "price": "£25.99"
           },
           {
-            "text": "Gym – junior",
-            "value": "Gym – junior",
+            "text": "Gym – junior (11–15)",
+            "value": "Gym – junior (11–15)",
             "isSelected": false,
             "price": "£19.99"
           },
@@ -141,26 +141,26 @@
         "errorMessage": "Please choose a pass to continue.",
         "choices": [
           {
-            "text": "Day pass – adult",
-            "value": "Day pass – adult",
+            "text": "Day pass – adult (16+)",
+            "value": "Day pass – adult (16+)",
             "isSelected": false,
             "price": "£5.00"
           },
           {
-            "text": "Day pass – junior",
-            "value": "Day pass – junior",
+            "text": "Day pass – junior (11–15)",
+            "value": "Day pass – junior (11–15)",
             "isSelected": false,
             "price": "£3.00"
           },
           {
-            "text": "Week pass – adult",
-            "value": "Week pass – adult",
+            "text": "Week pass – adult (16+)",
+            "value": "Week pass – adult (16+)",
             "isSelected": false,
             "price": "£15.00"
           },
           {
-            "text": "Week pass – junior",
-            "value": "Week pass – junior",
+            "text": "Week pass – junior (11–15)",
+            "value": "Week pass – junior (11–15)",
             "isSelected": false,
             "price": "£10.00"
           },
@@ -249,7 +249,7 @@
         "label": "Your details",
         "nextButton": {
           "type": "text",
-          "text": "Continue"
+          "text": "Continue to your details →"
         },
         "previousButton": {
           "type": "text",
@@ -455,7 +455,7 @@
         "label": "Confirm",
         "nextButton": {
           "type": "text",
-          "text": "Continue"
+          "text": "Continue to confirm →"
         },
         "previousButton": {
           "type": "text",

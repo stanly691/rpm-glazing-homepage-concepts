@@ -34,6 +34,13 @@ defined( 'ABSPATH' ) || exit;
 					<?php if ( has_excerpt() ) : ?>
 						<p class="intro"><?php echo esc_html( get_the_excerpt() ); ?></p>
 					<?php endif; ?>
+					<?php if ( is_page( 'join' ) ) : ?>
+						<ul class="page-points">
+							<li>Takes about 2 minutes</li>
+							<li>Concession rates for veterans, blue light &amp; Universal Credit</li>
+							<li>Free 6-week wellbeing course for GP referrals aged 16–25</li>
+						</ul>
+					<?php endif; ?>
 					<?php if ( bgwc_field( 'social_url' ) ) : ?>
 						<p class="page-help">Questions first? <a href="<?php echo esc_url( bgwc_field( 'social_url' ) ); ?>">Message us on Instagram ↗</a></p>
 					<?php endif; ?>
