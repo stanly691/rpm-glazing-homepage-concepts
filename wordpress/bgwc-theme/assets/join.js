@@ -229,10 +229,79 @@
 		$input.closest('.ginput_container').after($hint);
 	}
 
+	/* ---------- Gliding pill for the toggles ---------- */
+
+	function placePill($group, animate) {
+		var $pill = $group.children('.bgwc-pill');
+		var $label = $group.find('input:checked').closest('.gchoice').find('label');
+		if (!$label.length) {
+			$pill.css('opacity', 0);
+			return;
+		}
+		var el = $label[0];
+		if (!el.offsetWidth) {
+			return;
+		}
+		$pill.data('placed', true);
+		var group = $group[0];
+		var g = group.getBoundingClientRect();
+		var r = el.getBoundingClientRect();
+		var x = r.left - g.left - group.clientLeft;
+		var y = r.top - g.top - group.clientTop;
+		if (!animate) {
+			$pill.addClass('bgwc-pill--instant');
+		}
+		$pill.css({
+			opacity: 1,
+			width: el.offsetWidth + 'px',
+			height: el.offsetHeight + 'px',
+			transform: 'translate(' + x + 'px,' + y + 'px)'
+		});
+		if (!animate) {
+			void $pill[0].offsetWidth;
+			$pill.removeClass('bgwc-pill--instant');
+		}
+	}
+
+	function setupPills($form) {
+		$form.find('.bgwc-tabs .gfield_radio').each(function () {
+			var $group = $(this);
+			if (!$group.children('.bgwc-pill').length) {
+				$group.addClass('bgwc-has-pill').prepend('<span class="bgwc-pill" aria-hidden="true"></span>');
+			}
+			if ($group.is(':visible')) {
+				placePill($group, false);
+			}
+		});
+		$form.off('change.bgwcp').on('change.bgwcp', '.bgwc-tabs input[type=radio]', function () {
+			placePill($(this).closest('.gfield_radio'), true);
+		});
+		// Groups that were hidden (e.g. "Which concession?") need placing once shown.
+		$(document).off('gform_post_conditional_logic.bgwcp').on('gform_post_conditional_logic.bgwcp', function () {
+			$form.find('.bgwc-tabs .gfield_radio:visible').each(function () {
+				var $pill = $(this).children('.bgwc-pill');
+				if (!$pill.data('placed')) {
+					placePill($(this), false);
+				}
+			});
+		});
+	}
+
+	var resizeTimer;
+	$(window).on('resize', function () {
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(function () {
+			$('#gform_' + FORM_ID + ' .bgwc-tabs .gfield_radio:visible').each(function () {
+				placePill($(this), false);
+			});
+		}, 100);
+	});
+
 	/* ---------- Wiring ---------- */
 
 	function enhance($form, page) {
 		var $page = $('#gform_page_' + FORM_ID + '_' + page);
+		setupPills($form);
 
 		// Date of birth: one typed field, number keypad, slashes added automatically.
 		var $dob = $form.find('#input_' + FORM_ID + '_10');
@@ -249,6 +318,33 @@
 			}
 			this.value = out;
 		});
+
+		// Optional calendar: opens the device's own date picker, fills DD/MM/YYYY.
+		if ($dob.length && !$dob.siblings('.bgwc-cal').length) {
+			var today = new Date().toISOString().slice(0, 10);
+			var $native = $('<input type="date" class="bgwc-cal__native" tabindex="-1" aria-hidden="true" min="1916-01-01">').attr('max', today);
+			var $btn = $('<button type="button" class="bgwc-cal" aria-label="Choose date of birth from a calendar"></button>');
+			$dob.after($btn, $native);
+			$btn.on('click', function () {
+				var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec($dob.val());
+				$native.val(m ? m[3] + '-' + m[2] + '-' + m[1] : '');
+				try {
+					$native[0].showPicker();
+				} catch (e) {
+					$native.trigger('focus').trigger('click');
+				}
+			});
+			$native.on('change', function () {
+				var parts = this.value.split('-');
+				if (parts.length === 3) {
+					$dob.val(parts[2] + '/' + parts[1] + '/' + parts[0]).trigger('change');
+					var $field = $dob.closest('.gfield');
+					if (checkField($field) === true) {
+						clearError($field);
+					}
+				}
+			});
+		}
 
 		// Check a field when the person leaves it, but never flag an untouched empty field.
 		$form.off('focusout.bgwcb').on('focusout.bgwcb', 'input[type=text], input[type=email], input[type=tel]', function () {

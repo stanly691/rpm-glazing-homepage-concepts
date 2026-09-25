@@ -2,7 +2,7 @@
 Theme Name: BGWC Coming Soon
 Theme URI: https://billys.itcscloud.co.uk
 Description: Billy’s Gym & Wellness Centre CIC holding page. All content is editable through ACF fields on the front page.
-Version: 2.1.2
+Version: 2.3.2
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: bgwc
@@ -1147,4 +1147,115 @@ body.bgwc-page .gform-theme--orbital {
         flex: 0 0 auto;
         align-self: center
     }
+}
+
+/* Toggles: white pill glides to the chosen option */
+.bgwc-page .bgwc-tabs .gfield_radio.bgwc-has-pill {
+    position: relative
+}
+
+.bgwc-page .bgwc-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 99px;
+    background: #f4f7f2;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .38s cubic-bezier(.3, .7, .2, 1), width .38s cubic-bezier(.3, .7, .2, 1), opacity .2s
+}
+
+.bgwc-page .bgwc-pill--instant {
+    transition: none
+}
+
+.bgwc-page .bgwc-has-pill .gchoice {
+    z-index: 1
+}
+
+.bgwc-page .bgwc-has-pill .gchoice:has(input:checked) label.gform-field-label {
+    background: transparent;
+    transition: color .25s .08s
+}
+
+/* Plan lists and follow-up questions fade in when they appear */
+.bgwc-page .gform-theme--orbital .gfield.bgwc-cards,
+.bgwc-page .gform-theme--orbital .gfield.bgwc-note,
+.bgwc-page .gform-theme--orbital #field_1_29 {
+    animation: bgwc-fade .3s ease-out
+}
+
+@keyframes bgwc-fade {
+    from {
+        opacity: 0;
+        transform: translateY(4px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .bgwc-page .bgwc-pill {
+        transition: none
+    }
+
+    .bgwc-page .gform-theme--orbital .gfield.bgwc-cards,
+    .bgwc-page .gform-theme--orbital .gfield.bgwc-note,
+    .bgwc-page .gform-theme--orbital #field_1_29 {
+        animation: none
+    }
+}
+
+/* Date of birth: optional calendar button inside the field */
+.bgwc-page .gform-theme--orbital .ginput_container_date {
+    position: relative;
+    max-width: 220px
+}
+
+.bgwc-page .gform-theme--orbital #input_1_10 {
+    padding-inline-end: 52px !important
+}
+
+body.bgwc-page #gform_wrapper_1 button.bgwc-cal.bgwc-cal {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    width: 40px !important;
+    height: 40px !important;
+    margin: -20px 0 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d7ddd5' stroke-width='1.6'%3E%3Crect x='3.5' y='5' width='17' height='15.5' rx='1.5'/%3E%3Cpath d='M3.5 9.5h17M8 3v4M16 3v4'/%3E%3C/svg%3E") !important;
+    background-position: center !important;
+    background-size: 20px !important;
+    background-repeat: no-repeat !important;
+    cursor: pointer;
+    transition: background-color .2s
+}
+
+body.bgwc-page #gform_wrapper_1 button.bgwc-cal.bgwc-cal:hover,
+body.bgwc-page #gform_wrapper_1 button.bgwc-cal.bgwc-cal:focus-visible {
+    background-color: rgba(255, 255, 255, .08) !important;
+    outline: none
+}
+
+.bgwc-page .bgwc-cal__native {
+    position: absolute;
+    right: 6px;
+    bottom: 0;
+    width: 40px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+    color-scheme: dark
 }
