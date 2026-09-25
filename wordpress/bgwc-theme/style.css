@@ -2,7 +2,7 @@
 Theme Name: BGWC Coming Soon
 Theme URI: https://billys.itcscloud.co.uk
 Description: Billy’s Gym & Wellness Centre CIC holding page. All content is editable through ACF fields on the front page.
-Version: 1.5.3
+Version: 2.0.2
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: bgwc
@@ -373,14 +373,14 @@ h1 span {
 }
 
 .bgwc-page .entry {
-    padding: clamp(24px, 3vw, 40px);
-    background: rgba(12, 18, 13, .72);
-    border: 1px solid rgba(255, 255, 255, .12);
-    backdrop-filter: blur(8px)
+    padding: clamp(28px, 3.4vw, 48px);
+    background: rgba(14, 20, 15, .78);
+    border: 1px solid rgba(255, 255, 255, .08);
+    backdrop-filter: blur(10px)
 }
 
-.bgwc-page .gfield_required_text {
-    display: none
+.bgwc-page .gform-theme--orbital .gfield_required {
+    display: none !important
 }
 
 @media(max-width:1000px) {
@@ -404,353 +404,106 @@ h1 span {
     padding-top: 28px
 }
 
-/* Gravity Forms: colours come from the shortcode "styles"; layout below */
+/* ==========================================================
+   Join form. Calm, premium: hairlines, sentence case, white for
+   selection, brand red only for progress and the main button.
+   ========================================================== */
+
 body.bgwc-page .gform-theme--orbital {
-    --gf-ctrl-label-color-primary: #fff;
-    --gf-ctrl-label-color-secondary: #c9d0c7;
-    --gf-ctrl-desc-color: #aeb6ac;
+    --bgwc-line: rgba(255, 255, 255, .12);
+    --bgwc-line-strong: rgba(255, 255, 255, .45);
+    --bgwc-muted: #9aa398;
+    --bgwc-soft: #d7ddd5;
+    --bgwc-red: #a72b37;
     --gf-font-family-base: Arial, Helvetica, sans-serif;
     --gf-font-family-primary: Arial, Helvetica, sans-serif;
     --gf-font-family-secondary: Arial, Helvetica, sans-serif;
     --gf-font-family-tertiary: Arial, Helvetica, sans-serif;
-    --gf-form-gap-y: 32px
+    --gf-form-gap-y: 36px
 }
 
-.bgwc-page .intro {
-    margin: 0 0 36px
-}
-
-/* Step indicator */
-.bgwc-page .gform-theme--orbital .gf_page_steps {
-    display: flex;
-    gap: 8px;
-    border: 0;
-    margin: 0 0 36px;
-    padding: 0
-}
-
-.bgwc-page .gform-theme--orbital .gf_step {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-    padding: 12px 0 0;
-    border-top: 3px solid rgba(255, 255, 255, .18);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, .5);
-    opacity: 1
-}
-
-.bgwc-page .gform-theme--orbital .gf_step_active,
-.bgwc-page .gform-theme--orbital .gf_step_completed {
-    border-top-color: #a72b37;
-    color: #fff
-}
-
-.bgwc-page .gform-theme--orbital .gf_step_number {
-    width: auto;
-    height: auto;
-    border: 0;
-    background: none !important;
-    color: inherit !important;
-    font-size: 12px
-}
-
-.bgwc-page .gform-theme--orbital .gf_step_number:before,
-.bgwc-page .gform-theme--orbital .gf_step_number:after {
-    display: none
-}
-
-/* Segmented tabs (join type, who for, health) */
-.bgwc-page .gform-theme--orbital .bgwc-tabs .gfield_radio,
-.bgwc-page .gform-theme--orbital .bgwc-chips .gfield_checkbox {
-    flex-direction: row !important
-}
-
-.bgwc-page .gform-theme--orbital .bgwc-tabs .gchoice,
-.bgwc-page .gform-theme--orbital .bgwc-cards .gchoice,
-.bgwc-page .gform-theme--orbital .bgwc-chips .gchoice {
-    display: block !important
-}
-
-.bgwc-page .gform-theme--orbital .bgwc-tabs .gfield_radio {
-    display: flex !important;
-    flex-wrap: wrap;
-    gap: 8px
-}
-
-.bgwc-page .bgwc-tabs .gchoice,
-.bgwc-page .bgwc-cards .gchoice,
-.bgwc-page .bgwc-chips .gchoice {
-    position: relative;
-    margin: 0
-}
-
-.bgwc-page .bgwc-tabs .gfield-choice-input,
-.bgwc-page .bgwc-cards .gfield-choice-input,
-.bgwc-page .bgwc-chips .gfield-choice-input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    cursor: pointer;
-    z-index: 1
-}
-
-.bgwc-page .bgwc-tabs label.gform-field-label,
-.bgwc-page .bgwc-chips label.gform-field-label {
-    display: block;
-    margin: 0;
-    padding: 14px 18px;
-    border: 1px solid rgba(255, 255, 255, .3);
-    background: rgba(15, 22, 16, .6);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.3
-}
-
-.bgwc-page .bgwc-tabs .gchoice:has(input:checked) label.gform-field-label,
-.bgwc-page .bgwc-chips .gchoice:has(input:checked) label.gform-field-label {
-    background: #a72b37;
-    border-color: #a72b37
-}
-
-/* Plan cards */
-.bgwc-page .bgwc-cards .gchoice,
-.bgwc-page .bgwc-cards label.gform-field-label {
-    width: 100%;
-    max-width: none
-}
-
-.bgwc-page .gform-theme--orbital .bgwc-cards .gfield_radio {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px
-}
-
-.bgwc-page .bgwc-cards label.gform-field-label {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-height: 100%;
-    margin: 0;
-    padding: 18px 20px 18px 50px;
-    border: 1px solid rgba(255, 255, 255, .25);
-    background: rgba(15, 22, 16, .6);
-    color: #e5e8e3;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.35;
-    transition: border-color .15s, background .15s
-}
-
-.bgwc-page .bgwc-cards label.gform-field-label:before {
-    content: "";
-    position: absolute;
-    left: 18px;
-    top: 20px;
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255, 255, 255, .5);
-    border-radius: 50%
-}
-
-.bgwc-page .bgwc-cards .gchoice:hover label.gform-field-label {
-    border-color: rgba(255, 255, 255, .6)
-}
-
-.bgwc-page .bgwc-cards .gchoice:has(input:checked) label.gform-field-label {
-    border-color: #a72b37;
-    background: rgba(167, 43, 55, .18);
-    box-shadow: inset 0 0 0 1px #a72b37;
-    color: #fff
-}
-
-.bgwc-page .bgwc-cards .gchoice:has(input:checked) label.gform-field-label:before {
-    border-color: #a72b37;
-    background: #a72b37;
-    box-shadow: inset 0 0 0 3px #1a221c
-}
-
-.bgwc-page .bgwc-price {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -.02em;
-    color: #fff
-}
-
-.bgwc-page .bgwc-price small {
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0;
-    color: #aeb6ac
-}
-
-.bgwc-page .gchoice:has(input:focus-visible) label.gform-field-label {
-    outline: 2px solid #fff;
-    outline-offset: 2px
-}
-
-/* Chips (interests) */
-.bgwc-page .gform-theme--orbital .bgwc-chips .gfield_checkbox {
-    display: flex !important;
-    flex-wrap: wrap;
-    gap: 8px
-}
-
-.bgwc-page .bgwc-chips label.gform-field-label {
-    padding: 10px 16px;
-    font-weight: 400;
-    font-size: 14px
-}
-
-/* Notes */
-.bgwc-page .bgwc-note p {
-    margin: 0;
-    padding: 16px 18px;
-    border-left: 3px solid #a72b37;
-    background: rgba(255, 255, 255, .06);
-    color: #e5e8e3;
-    line-height: 1.55
-}
-
-.bgwc-page .bgwc-reassure p {
-    margin: 0;
-    font-size: 13px;
-    color: #aeb6ac
-}
-
-/* Total */
-.bgwc-page .bgwc-total {
-    padding: 18px 20px;
-    border: 1px solid rgba(255, 255, 255, .25);
-    display: flex;
-    align-items: center;
-    justify-content: space-between
-}
-
-.bgwc-page .bgwc-total .gform-field-label {
-    margin: 0;
-    white-space: nowrap
-}
-
-.bgwc-page .bgwc-total .ginput_container_total {
-    flex: 1;
-    min-width: 0
-}
-
-.bgwc-page .gform-theme--orbital .ginput_container_total .ginput_total {
-    padding: 0;
-    border: 0;
-    background: none;
-    box-shadow: none;
-    text-align: right;
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-    width: 100%
-}
-
-/* Errors: readable on the dark background */
-.bgwc-page .gform-theme--orbital .gfield_validation_message,
-.bgwc-page .gform-theme--orbital .gform_validation_errors .gform_submission_error {
-    color: #ff9a9a
-}
-
-.bgwc-page .gform-theme--orbital .gform_validation_errors {
-    background: rgba(167, 43, 55, .15);
-    border-color: #a72b37
-}
-
-.bgwc-page .gform-theme--orbital .gf_step_label {
-    white-space: nowrap
-}
-
-/* Buttons */
-.bgwc-page .gform-theme--orbital .gform_page_footer,
-.bgwc-page .gform-theme--orbital .gform_footer {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 32px
-}
-
-.bgwc-page .gform-theme--orbital .gform_next_button,
-.bgwc-page .gform-theme--orbital .gform_button {
-    min-width: 200px;
-    padding: 18px 28px;
-    font-size: 16px;
-    font-weight: 700;
-    border-radius: 0
-}
-
-.bgwc-page .gform-theme--orbital .gform_previous_button {
-    padding: 18px 22px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, .4);
-    color: #fff;
-    border-radius: 0
-}
-
-.bgwc-page .gform_confirmation_message {
-    font-size: 18px;
-    line-height: 1.6;
-    padding: 28px;
-    border-left: 3px solid #a72b37;
-    background: rgba(255, 255, 255, .06)
-}
-
-/* ---------- Join form: design-system polish ---------- */
-
-/* Reassurance points */
+/* Reassurance points beside the form */
 .page-points {
     list-style: none;
     margin: 0 0 28px;
     padding: 0;
     display: grid;
-    gap: 12px
+    gap: 10px
 }
 
 .page-points li {
     position: relative;
-    padding-left: 30px;
+    padding-left: 26px;
     font-size: 15px;
-    line-height: 1.45;
-    color: #e5e8e3
+    line-height: 1.5;
+    color: #c9d0c7
 }
 
 .page-points li:before {
     content: "";
     position: absolute;
     left: 0;
-    top: 2px;
-    width: 18px;
-    height: 18px;
-    background: #a72b37 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center/12px no-repeat
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 8.5l3.5 3.5 7.5-8' fill='none' stroke='%23c23a47' stroke-width='2'/%3E%3C/svg%3E") center/14px no-repeat
 }
 
-/* Labels in the eyebrow style */
+/* Progress: "Step 1 of 3 - Your plan" with a thin bar */
+.bgwc-page .gform-theme--orbital .gf_progressbar_wrapper {
+    margin: 0 0 40px;
+    padding: 0;
+    border: 0
+}
+
+.bgwc-page .gform-theme--orbital .gf_progressbar_title {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: .02em;
+    text-transform: none;
+    color: var(--bgwc-muted)
+}
+
+.bgwc-page .gform-theme--orbital .gf_progressbar {
+    height: 2px;
+    padding: 0;
+    border-radius: 0;
+    background: var(--bgwc-line);
+    box-shadow: none
+}
+
+.bgwc-page .gform-theme--orbital .gf_progressbar_percentage {
+    height: 2px !important;
+    border-radius: 0 !important;
+    background: var(--bgwc-red) !important;
+    transition: width .4s ease
+}
+
+.bgwc-page .gform-theme--orbital .gf_progressbar_percentage span {
+    display: none
+}
+
+/* Questions: sentence case, calm */
 .bgwc-page .gform-theme--orbital .gfield_label,
 .bgwc-page .gform-theme--orbital legend.gfield_label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: #d7ddd5;
-    margin-bottom: 12px
+    margin: 0 0 14px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    line-height: 1.35;
+    text-transform: none;
+    color: #fff
+}
+
+.bgwc-page .gform-theme--orbital .gfield_description {
+    font-size: 14px;
+    color: var(--bgwc-muted)
 }
 
 .bgwc-page .gform-theme--orbital .gform-field-label--type-sub {
     font-size: 12px;
-    color: #8f988d
+    color: var(--bgwc-muted)
 }
 
 /* Inputs */
@@ -759,9 +512,22 @@ body.bgwc-page .gform-theme--orbital {
 .bgwc-page .gform-theme--orbital input[type=tel],
 .bgwc-page .gform-theme--orbital input[type=number],
 .bgwc-page .gform-theme--orbital textarea {
-    min-height: 54px;
+    min-height: 52px;
+    border: 1px solid var(--bgwc-line) !important;
+    border-radius: 0;
+    background: rgba(255, 255, 255, .04) !important;
+    box-shadow: none !important;
+    color: #fff;
     font-size: 16px;
-    transition: border-color .15s, box-shadow .15s
+    transition: border-color .2s, background .2s
+}
+
+.bgwc-page .gform-theme--orbital input[type=text]:hover,
+.bgwc-page .gform-theme--orbital input[type=email]:hover,
+.bgwc-page .gform-theme--orbital input[type=tel]:hover,
+.bgwc-page .gform-theme--orbital input[type=number]:hover,
+.bgwc-page .gform-theme--orbital textarea:hover {
+    border-color: rgba(255, 255, 255, .25) !important
 }
 
 .bgwc-page .gform-theme--orbital input[type=text]:focus,
@@ -769,8 +535,8 @@ body.bgwc-page .gform-theme--orbital {
 .bgwc-page .gform-theme--orbital input[type=tel]:focus,
 .bgwc-page .gform-theme--orbital input[type=number]:focus,
 .bgwc-page .gform-theme--orbital textarea:focus {
-    border-color: #a72b37;
-    box-shadow: 0 0 0 3px rgba(167, 43, 55, .35);
+    border-color: var(--bgwc-line-strong) !important;
+    background: rgba(255, 255, 255, .07) !important;
     outline: none
 }
 
@@ -778,147 +544,390 @@ body.bgwc-page .gform-theme--orbital {
     color: #6f786d
 }
 
-/* Segmented control */
+/* Hidden native inputs for custom choices */
+.bgwc-page .bgwc-tabs .gchoice,
+.bgwc-page .bgwc-cards .gchoice,
+.bgwc-page .bgwc-chips .gchoice {
+    position: relative;
+    margin: 0
+}
+
+.bgwc-page .gform-theme--orbital .bgwc-tabs .gchoice,
+.bgwc-page .gform-theme--orbital .bgwc-cards .gchoice,
+.bgwc-page .gform-theme--orbital .bgwc-chips .gchoice {
+    display: block !important
+}
+
+.bgwc-page .bgwc-tabs .gfield-choice-input,
+.bgwc-page .bgwc-cards .gfield-choice-input,
+.bgwc-page .bgwc-chips .gfield-choice-input {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1
+}
+
+.bgwc-page .gchoice:has(input:focus-visible) label.gform-field-label {
+    outline: 2px solid #fff;
+    outline-offset: 2px
+}
+
+/* Pill toggle (join type, who for, concession, health) */
 .bgwc-page .gform-theme--orbital .bgwc-tabs .gfield_radio {
-    display: grid !important;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 1fr);
-    gap: 0 !important;
-    border: 1px solid rgba(255, 255, 255, .3)
+    display: inline-flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 4px !important;
+    padding: 4px;
+    border: 1px solid var(--bgwc-line);
+    border-radius: 99px;
+    background: rgba(255, 255, 255, .03)
 }
 
 .bgwc-page .bgwc-tabs label.gform-field-label {
-    height: 100%;
-    display: flex !important;
-    align-items: center;
-    justify-content: center
-}
-
-.bgwc-page .gform-theme--orbital .bgwc-tabs .gchoice {
-    flex: 1 1 auto
-}
-
-.bgwc-page .bgwc-tabs label.gform-field-label {
-    border: 0;
-    border-left: 1px solid rgba(255, 255, 255, .15);
-    background: transparent;
-    text-align: center;
-    transition: background .15s, color .15s
-}
-
-.bgwc-page .bgwc-tabs .gchoice:first-child label.gform-field-label {
-    border-left: 0
+    display: block;
+    margin: 0;
+    padding: 11px 20px;
+    border-radius: 99px;
+    color: var(--bgwc-soft);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: background .2s, color .2s
 }
 
 .bgwc-page .bgwc-tabs .gchoice:hover label.gform-field-label {
-    background: rgba(255, 255, 255, .06)
+    color: #fff
 }
 
-/* Cards: tick badge instead of a radio dot when selected */
-.bgwc-page .bgwc-cards .gchoice {
-    transition: transform .15s
+.bgwc-page .bgwc-tabs .gchoice:has(input:checked) label.gform-field-label {
+    background: #f4f7f2;
+    color: #111713
 }
 
-.bgwc-page .bgwc-cards .gchoice:hover {
-    transform: translateY(-2px)
+/* Plan list */
+.bgwc-page .gform-theme--orbital .bgwc-cards .gfield_radio {
+    display: block !important
+}
+
+.bgwc-page .bgwc-cards .gchoice + .gchoice {
+    margin-top: -1px
+}
+
+.bgwc-page .bgwc-cards label.gform-field-label {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 18px 20px 18px 54px;
+    border: 1px solid var(--bgwc-line);
+    background: transparent;
+    color: #e5e8e3;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.35;
+    transition: background .2s, border-color .2s
+}
+
+.bgwc-page .bgwc-cards label.gform-field-label:before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin-top: -9px;
+    border: 1.5px solid rgba(255, 255, 255, .4);
+    border-radius: 50%;
+    transition: border-color .2s, box-shadow .2s
+}
+
+.bgwc-page .bgwc-cards .gchoice:hover label.gform-field-label {
+    background: rgba(255, 255, 255, .03)
+}
+
+.bgwc-page .bgwc-cards .gchoice:has(input:checked) {
+    z-index: 2
+}
+
+.bgwc-page .bgwc-cards .gchoice:has(input:checked) label.gform-field-label {
+    border-color: var(--bgwc-line-strong);
+    background: rgba(255, 255, 255, .06);
+    color: #fff
 }
 
 .bgwc-page .bgwc-cards .gchoice:has(input:checked) label.gform-field-label:before {
-    background: #a72b37 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3C/svg%3E") center/12px no-repeat;
-    box-shadow: none
+    border-color: #fff;
+    box-shadow: inset 0 0 0 4px #1a211c, inset 0 0 0 9px #fff
 }
 
-/* Checkboxes (declaration, updates) */
-.bgwc-page .bgwc-consent .gfield-choice-input,
-.bgwc-page .bgwc-optin .gfield-choice-input,
-.bgwc-page .bgwc-consent input[type=checkbox] {
+.bgwc-page .bgwc-price {
+    flex-shrink: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap
+}
+
+.bgwc-page .bgwc-price small {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--bgwc-muted)
+}
+
+/* Interest chips */
+.bgwc-page .gform-theme--orbital .bgwc-chips .gfield_checkbox {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 8px !important
+}
+
+.bgwc-page .bgwc-chips label.gform-field-label {
+    display: block;
+    margin: 0;
+    padding: 9px 16px;
+    border: 1px solid var(--bgwc-line);
+    border-radius: 99px;
+    color: var(--bgwc-soft);
+    font-size: 14px;
+    transition: background .2s, color .2s, border-color .2s
+}
+
+.bgwc-page .bgwc-chips .gchoice:has(input:checked) label.gform-field-label {
+    border-color: #f4f7f2;
+    background: #f4f7f2;
+    color: #111713
+}
+
+/* Notes */
+.bgwc-page .bgwc-note p {
+    margin: 0;
+    padding: 2px 0 2px 16px;
+    border-left: 2px solid var(--bgwc-red);
+    color: #c9d0c7;
+    font-size: 15px;
+    line-height: 1.55
+}
+
+.bgwc-page .bgwc-reassure p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--bgwc-muted)
+}
+
+/* Total */
+.bgwc-page .bgwc-total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--bgwc-line)
+}
+
+.bgwc-page .gform-theme--orbital .bgwc-total .gfield_label {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--bgwc-muted);
+    white-space: nowrap
+}
+
+.bgwc-page .bgwc-total .ginput_container_total {
+    flex: 1;
+    min-width: 0
+}
+
+.bgwc-page .gform-theme--orbital .ginput_container_total input.ginput_total {
+    width: 100%;
+    min-height: 0;
+    padding: 0;
+    border: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    text-align: right;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -.02em
+}
+
+/* Checkboxes: square hairline, white when ticked */
+.bgwc-page .bgwc-consent input[type=checkbox],
+.bgwc-page .bgwc-optin input[type=checkbox] {
     appearance: none;
     -webkit-appearance: none;
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px;
-    border: 2px solid rgba(255, 255, 255, .5) !important;
+    flex-shrink: 0;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px;
+    margin-top: 1px;
+    border: 1.5px solid rgba(255, 255, 255, .4) !important;
     border-radius: 0 !important;
     background: transparent !important;
     box-shadow: none !important;
-    cursor: pointer
+    cursor: pointer;
+    transition: background .2s, border-color .2s
 }
 
 .bgwc-page .bgwc-consent input[type=checkbox]:checked,
-.bgwc-page .bgwc-optin .gfield-choice-input:checked {
-    border-color: #a72b37 !important;
-    background: #a72b37 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3C/svg%3E") center/14px no-repeat !important
+.bgwc-page .bgwc-optin input[type=checkbox]:checked {
+    border-color: #f4f7f2 !important;
+    background: #f4f7f2 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23111713' stroke-width='2.2'/%3E%3C/svg%3E") center/14px no-repeat !important
+}
+
+.bgwc-page .bgwc-consent input[type=checkbox]:focus,
+.bgwc-page .bgwc-optin input[type=checkbox]:focus {
+    outline: none !important
+}
+
+.bgwc-page .bgwc-consent input[type=checkbox]:focus-visible,
+.bgwc-page .bgwc-optin input[type=checkbox]:focus-visible {
+    outline: 2px solid #fff !important;
+    outline-offset: 2px
 }
 
 .bgwc-page .bgwc-consent input[type=checkbox]:before,
-.bgwc-page .bgwc-optin .gfield-choice-input:before {
+.bgwc-page .bgwc-optin input[type=checkbox]:before {
     display: none !important
 }
 
 .bgwc-page .bgwc-consent .gfield_consent_label,
 .bgwc-page .bgwc-optin label.gform-field-label {
+    color: var(--bgwc-soft);
     font-size: 15px;
-    line-height: 1.5;
-    color: #e5e8e3
-}
-
-.bgwc-page .gform-theme--orbital .bgwc-total .gfield_label {
-    margin: 0
+    line-height: 1.5
 }
 
 /* Plan summary on steps 2 and 3 */
 .bgwc-summary {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     flex-wrap: wrap;
-    gap: 6px 14px;
-    margin: 0 0 32px;
-    padding: 14px 18px;
-    border-left: 3px solid #a72b37;
-    background: rgba(255, 255, 255, .06)
+    gap: 4px 10px;
+    margin: 0 0 36px;
+    padding: 0 0 20px;
+    border-bottom: 1px solid var(--bgwc-line);
+    font-size: 15px
 }
 
 .bgwc-summary__label {
-    flex-basis: 100%;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: #aeb6ac
+    color: var(--bgwc-muted)
 }
 
 .bgwc-summary__name {
-    font-weight: 700;
-    color: #fff
+    color: #fff;
+    font-weight: 600
 }
 
 .bgwc-summary__price {
-    color: #e5e8e3
+    color: var(--bgwc-soft)
 }
 
-.bgwc-page .gform-theme--orbital .bgwc-summary__change,
 .bgwc-summary__change {
     margin-left: auto;
-    min-height: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: none !important;
-    box-shadow: none;
     color: #fff;
-    font-weight: 400;
-    font: inherit;
     font-size: 14px;
     text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor: pointer
+    text-decoration-color: rgba(255, 255, 255, .4);
+    text-underline-offset: 4px
 }
 
-/* Step transition */
+.bgwc-summary__change:hover {
+    text-decoration-color: #fff
+}
+
+/* Errors */
+.bgwc-page .gform-theme--orbital .gfield_validation_message,
+.bgwc-page .gform-theme--orbital .gform_validation_errors .gform_submission_error {
+    color: #ff9a9a;
+    font-size: 14px
+}
+
+.bgwc-page .gform-theme--orbital .gform_validation_errors {
+    border: 0;
+    border-left: 2px solid var(--bgwc-red);
+    border-radius: 0;
+    background: rgba(167, 43, 55, .12);
+    box-shadow: none
+}
+
+/* Buttons: one strong action, a quiet way back */
+.bgwc-page .gform-theme--orbital .gform_page_footer,
+.bgwc-page .gform-theme--orbital .gform_footer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 0
+}
+
+.bgwc-page .gform-theme--orbital .gform_next_button,
+.bgwc-page .gform-theme--orbital .gform_button {
+    min-width: 220px;
+    padding: 17px 26px;
+    border: 0;
+    border-radius: 0;
+    background: var(--bgwc-red);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background .2s
+}
+
+.bgwc-page .gform-theme--orbital .gform_next_button:hover,
+.bgwc-page .gform-theme--orbital .gform_button:hover {
+    background: #8d202c
+}
+
+.bgwc-page .gform-theme--orbital .gform_previous_button {
+    min-width: 0;
+    padding: 10px 0 !important;
+    border: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    color: var(--bgwc-muted);
+    font-size: 15px;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition: color .2s, text-decoration-color .2s
+}
+
+.bgwc-page .gform-theme--orbital .gform_previous_button:hover {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, .5)
+}
+
+.bgwc-page .gform_confirmation_message {
+    padding: 8px 0;
+    color: var(--bgwc-soft);
+    font-size: 17px;
+    line-height: 1.6
+}
+
+.bgwc-page .gform_confirmation_message h2 {
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: 28px;
+    letter-spacing: -.02em
+}
+
+/* Gentle step transition */
 @keyframes bgwc-in {
     from {
         opacity: 0;
-        transform: translateY(8px)
+        transform: translateY(6px)
     }
 
     to {
@@ -928,25 +937,12 @@ body.bgwc-page .gform-theme--orbital {
 }
 
 .bgwc-page .gform_page {
-    animation: bgwc-in .3s ease-out
-}
-
-.bgwc-page .gform-theme--orbital .gform_next_button,
-.bgwc-page .gform-theme--orbital .gform_button {
-    transition: background .15s, transform .15s
-}
-
-.bgwc-page .gform-theme--orbital .gform_next_button:hover,
-.bgwc-page .gform-theme--orbital .gform_button:hover {
-    background: #8d202c;
-    transform: translateY(-1px)
+    animation: bgwc-in .35s ease-out
 }
 
 @media(prefers-reduced-motion:reduce) {
-    .bgwc-page .gform_page,
-    .bgwc-page .bgwc-cards .gchoice {
-        animation: none;
-        transition: none
+    .bgwc-page .gform_page {
+        animation: none
     }
 }
 
@@ -960,8 +956,38 @@ body.bgwc-page .gform-theme--orbital {
         display: none
     }
 
+    .page-content {
+        padding: 12px 22px 48px
+    }
+
+    .bgwc-page .entry {
+        margin: 0 -8px;
+        padding: 28px 18px
+    }
+
     .bgwc-page .gform-theme--orbital .bgwc-tabs .gfield_radio {
-        grid-auto-flow: row
+        display: flex !important;
+        flex-wrap: nowrap
+    }
+
+    .bgwc-page .gform-theme--orbital .bgwc-tabs .gchoice {
+        flex: 1 1 auto;
+        min-width: 0
+    }
+
+    .bgwc-page .bgwc-tabs label.gform-field-label {
+        padding: 11px 10px;
+        font-size: 14px;
+        text-align: center
+    }
+
+    .bgwc-page .bgwc-cards label.gform-field-label {
+        padding: 16px 16px 16px 48px;
+        font-size: 15px
+    }
+
+    .bgwc-page .bgwc-cards label.gform-field-label:before {
+        left: 16px
     }
 
     .bgwc-page .gform-theme--orbital #input_1_9,
@@ -979,56 +1005,18 @@ body.bgwc-page .gform-theme--orbital {
         padding: 0
     }
 
-    .bgwc-page .gform-theme--orbital #field_1_8 .gfield_radio,
-    .bgwc-page .gform-theme--orbital #field_1_21 .gfield_radio {
-        grid-auto-flow: column
-    }
-
-    .bgwc-page .bgwc-tabs label.gform-field-label {
-        border-left: 0;
-        border-top: 1px solid rgba(255, 255, 255, .15)
-    }
-
-    .bgwc-page .bgwc-tabs .gchoice:first-child label.gform-field-label,
-    .bgwc-page #field_1_8 .bgwc-tabs label.gform-field-label,
-    .bgwc-page #field_1_21 label.gform-field-label {
-        border-top: 0
-    }
-
-    .bgwc-page #field_1_8 .gchoice + .gchoice label.gform-field-label,
-    .bgwc-page #field_1_21 .gchoice + .gchoice label.gform-field-label {
-        border-left: 1px solid rgba(255, 255, 255, .15)
-    }
-
-    .bgwc-page .gform-theme--orbital .bgwc-cards .gfield_radio {
-        grid-template-columns: 1fr
-    }
-
-    .bgwc-page .gform-theme--orbital .bgwc-tabs .gchoice {
-        flex: 1 1 auto
-    }
-
-    .bgwc-page .gform-theme--orbital .gf_step:not(.gf_step_active) .gf_step_label {
-        display: none
-    }
-
-    .bgwc-page .entry {
-        padding: 20px 16px;
-        margin: 0 -8px
-    }
-
     .bgwc-page .gform-theme--orbital .gform_page_footer,
     .bgwc-page .gform-theme--orbital .gform_footer {
-        flex-direction: column-reverse
+        flex-direction: column-reverse;
+        align-items: stretch
     }
 
     .bgwc-page .gform-theme--orbital .gform_next_button,
-    .bgwc-page .gform-theme--orbital .gform_button,
-    .bgwc-page .gform-theme--orbital .gform_previous_button {
+    .bgwc-page .gform-theme--orbital .gform_button {
         width: 100%
     }
 
-    .page-content {
-        padding: 12px 22px 48px
+    .bgwc-page .gform-theme--orbital .gform_previous_button {
+        align-self: center
     }
 }

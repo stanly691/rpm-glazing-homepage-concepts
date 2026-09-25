@@ -14,7 +14,7 @@
       "text": "Back"
     },
     "pagination": {
-      "type": "steps",
+      "type": "percentage",
       "pages": [
         "Your plan",
         "Your details",
@@ -35,20 +35,20 @@
         "cssClass": "bgwc-tabs",
         "choices": [
           {
-            "text": "Monthly membership",
-            "value": "Monthly membership",
+            "text": "Monthly",
+            "value": "Monthly",
             "isSelected": true,
             "price": ""
           },
           {
-            "text": "Day, week or session pass",
-            "value": "Day, week or session pass",
+            "text": "Pay as you go",
+            "value": "Pay as you go",
             "isSelected": false,
             "price": ""
           },
           {
-            "text": "GP referral (free, ages 16–25)",
-            "value": "GP referral (free, ages 16–25)",
+            "text": "GP referral (free)",
+            "value": "GP referral (free)",
             "isSelected": false,
             "price": ""
           }
@@ -61,11 +61,11 @@
         "type": "product",
         "inputType": "radio",
         "id": 3,
-        "label": "Choose your membership",
+        "label": "Choose your plan",
         "cssClass": "bgwc-cards bgwc-monthly",
         "isRequired": true,
         "enablePrice": true,
-        "errorMessage": "Please choose a membership to continue.",
+        "errorMessage": "Please choose a plan to continue.",
         "choices": [
           {
             "text": "Gym – adult (16+)",
@@ -80,20 +80,8 @@
             "price": "£19.99"
           },
           {
-            "text": "Gym – veteran",
-            "value": "Gym – veteran",
-            "isSelected": false,
-            "price": "£19.99"
-          },
-          {
-            "text": "Gym – blue light",
-            "value": "Gym – blue light",
-            "isSelected": false,
-            "price": "£19.99"
-          },
-          {
-            "text": "Gym – Universal Credit",
-            "value": "Gym – Universal Credit",
+            "text": "Gym – concession",
+            "value": "Gym – concession",
             "isSelected": false,
             "price": "£19.99"
           },
@@ -123,7 +111,7 @@
             {
               "fieldId": "2",
               "operator": "is",
-              "value": "Monthly membership"
+              "value": "Monthly"
             }
           ]
         },
@@ -184,7 +172,7 @@
             {
               "fieldId": "2",
               "operator": "is",
-              "value": "Day, week or session pass"
+              "value": "Pay as you go"
             }
           ]
         },
@@ -204,7 +192,7 @@
             {
               "fieldId": "2",
               "operator": "is",
-              "value": "GP referral (free, ages 16–25)"
+              "value": "GP referral (free)"
             }
           ]
         },
@@ -213,29 +201,60 @@
         "formId": 1
       },
       {
-        "type": "html",
-        "id": 6,
-        "label": "Concession info",
-        "cssClass": "bgwc-note",
-        "content": "<p>Just bring proof of eligibility (veteran, blue light or Universal Credit) on your first visit.</p>",
+        "type": "radio",
+        "id": 29,
+        "label": "Which concession?",
+        "isRequired": true,
+        "cssClass": "bgwc-tabs",
+        "errorMessage": "Please choose your concession.",
+        "choices": [
+          {
+            "text": "Veteran",
+            "value": "Veteran",
+            "isSelected": false,
+            "price": ""
+          },
+          {
+            "text": "Blue light",
+            "value": "Blue light",
+            "isSelected": false,
+            "price": ""
+          },
+          {
+            "text": "Universal Credit",
+            "value": "Universal Credit",
+            "isSelected": false,
+            "price": ""
+          }
+        ],
         "conditionalLogic": {
           "actionType": "show",
-          "logicType": "any",
+          "logicType": "all",
           "rules": [
             {
               "fieldId": "3",
               "operator": "is",
-              "value": "Gym – veteran"
-            },
+              "value": "Gym – concession"
+            }
+          ]
+        },
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "html",
+        "id": 6,
+        "label": "Concession info",
+        "cssClass": "bgwc-note",
+        "content": "<p>Please bring proof of eligibility on your first visit.</p>",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
             {
               "fieldId": "3",
               "operator": "is",
-              "value": "Gym – blue light"
-            },
-            {
-              "fieldId": "3",
-              "operator": "is",
-              "value": "Gym – Universal Credit"
+              "value": "Gym – concession"
             }
           ]
         },
@@ -470,7 +489,7 @@
         "type": "radio",
         "id": 21,
         "cssClass": "bgwc-tabs",
-        "label": "Any medical conditions, injuries or medication we should know about?",
+        "label": "Any medical conditions or injuries we should know about?",
         "isRequired": true,
         "choices": [
           {
@@ -513,7 +532,7 @@
       {
         "type": "checkbox",
         "id": 24,
-        "label": "Anything else you’re interested in? (optional)",
+        "label": "Anything else you’d like to hear about? (optional)",
         "cssClass": "bgwc-chips",
         "choices": [
           {
@@ -571,7 +590,7 @@
       {
         "type": "total",
         "id": 27,
-        "label": "Total today",
+        "label": "Due today",
         "cssClass": "bgwc-total",
         "conditionalLogic": {
           "actionType": "show",
@@ -580,7 +599,7 @@
             {
               "fieldId": "2",
               "operator": "isnot",
-              "value": "GP referral (free, ages 16–25)"
+              "value": "GP referral (free)"
             }
           ]
         },
@@ -592,6 +611,7 @@
         "type": "consent",
         "id": 25,
         "label": "Declaration",
+        "labelPlacement": "hidden_label",
         "isRequired": true,
         "cssClass": "bgwc-consent",
         "errorMessage": "Please tick to confirm.",
@@ -623,6 +643,7 @@
         "type": "checkbox",
         "id": 26,
         "label": "Stay in the loop (optional)",
+        "labelPlacement": "hidden_label",
         "cssClass": "bgwc-optin",
         "choices": [
           {
