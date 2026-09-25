@@ -114,3 +114,18 @@ add_action( 'after_setup_theme', function () {
 	wp_safe_redirect( add_query_arg( array( 'gf_page' => 'preview', 'id' => absint( $_GET['id'] ?? 0 ) ), admin_url( 'index.php' ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
 	exit;
 } );
+
+/**
+ * Date of birth is typed (DD/MM/YYYY), so no calendar pop-up:
+ * dropping the datepicker class stops Gravity Forms attaching one.
+ */
+add_filter( 'gform_field_content_1_10', function ( $content ) {
+	return preg_replace_callback(
+		"/class='([^']*)'/",
+		function ( $m ) {
+			$classes = array_diff( preg_split( '/\s+/', trim( $m[1] ) ), array( 'datepicker' ) );
+			return "class='" . implode( ' ', $classes ) . "'";
+		},
+		$content
+	);
+} );

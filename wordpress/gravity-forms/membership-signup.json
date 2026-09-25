@@ -351,32 +351,13 @@
         "id": 10,
         "label": "Member’s date of birth",
         "isRequired": true,
-        "dateType": "datefield",
+        "dateType": "datepicker",
         "dateFormat": "dmy",
+        "calendarIconType": "none",
+        "placeholder": "DD/MM/YYYY",
         "enableAutocomplete": true,
-        "inputs": [
-          {
-            "id": "10.1",
-            "label": "MM",
-            "name": "",
-            "placeholder": "MM",
-            "autocompleteAttribute": "bday-month"
-          },
-          {
-            "id": "10.2",
-            "label": "DD",
-            "name": "",
-            "placeholder": "DD",
-            "autocompleteAttribute": "bday-day"
-          },
-          {
-            "id": "10.3",
-            "label": "YYYY",
-            "name": "",
-            "placeholder": "YYYY",
-            "autocompleteAttribute": "bday-year"
-          }
-        ],
+        "autocompleteAttribute": "bday",
+        "errorMessage": "Please enter the date of birth as DD/MM/YYYY.",
         "description": "",
         "conditionalLogic": "",
         "formId": 1
