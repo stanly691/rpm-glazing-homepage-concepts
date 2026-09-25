@@ -299,8 +299,79 @@
             "price": ""
           }
         ],
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "3",
+              "operator": "isnot",
+              "value": "Gym – junior (11–15)"
+            },
+            {
+              "fieldId": "3",
+              "operator": "isnot",
+              "value": "Children’s wellbeing gym"
+            },
+            {
+              "fieldId": "4",
+              "operator": "isnot",
+              "value": "Day pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "isnot",
+              "value": "Week pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "isnot",
+              "value": "Children’s wellbeing gym – single session"
+            }
+          ]
+        },
         "description": "",
-        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
+        "type": "html",
+        "id": 30,
+        "label": "Child plan info",
+        "cssClass": "bgwc-note",
+        "content": "<p>This plan is for a child, so please add their details below along with a parent or guardian’s.</p>",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "any",
+          "rules": [
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Gym – junior (11–15)"
+            },
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Children’s wellbeing gym"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Day pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Week pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Children’s wellbeing gym – single session"
+            }
+          ]
+        },
+        "isRequired": false,
+        "description": "",
         "formId": 1
       },
       {
@@ -395,12 +466,37 @@
         "layoutGridColumnSpan": 6,
         "conditionalLogic": {
           "actionType": "show",
-          "logicType": "all",
+          "logicType": "any",
           "rules": [
             {
               "fieldId": "8",
               "operator": "is",
               "value": "My child (under 18)"
+            },
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Gym – junior (11–15)"
+            },
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Children’s wellbeing gym"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Day pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Week pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Children’s wellbeing gym – single session"
             }
           ]
         },
@@ -416,12 +512,37 @@
         "phoneFormat": "international",
         "conditionalLogic": {
           "actionType": "show",
-          "logicType": "all",
+          "logicType": "any",
           "rules": [
             {
               "fieldId": "8",
               "operator": "is",
               "value": "My child (under 18)"
+            },
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Gym – junior (11–15)"
+            },
+            {
+              "fieldId": "3",
+              "operator": "is",
+              "value": "Children’s wellbeing gym"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Day pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Week pass – junior (11–15)"
+            },
+            {
+              "fieldId": "4",
+              "operator": "is",
+              "value": "Children’s wellbeing gym – single session"
             }
           ]
         },

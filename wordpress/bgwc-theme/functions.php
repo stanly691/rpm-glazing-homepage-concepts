@@ -129,3 +129,73 @@ add_filter( 'gform_field_content_1_10', function ( $content ) {
 		$content
 	);
 } );
+
+/**
+ * Age rules for the Join form (mirrors checkAge() in assets/join.js).
+ *
+ * @param int    $age  Member's age in years.
+ * @param string $join "How would you like to join?" value.
+ * @param string $plan Chosen plan name (no price), '' for GP referral.
+ * @param string $who  "Who is this membership for?" value, '' when hidden.
+ * @return string Error message, or '' when the age fits.
+ */
+function bgwc_age_problem( $age, $join, $plan, $who ) {
+	$rules = array();
+	if ( false !== stripos( $plan, 'junior' ) ) {
+		$rules[] = array( 11, 15, 'Junior plans are for ages 11–15' );
+	} elseif ( false !== strpos( $plan, 'Children' ) ) {
+		$rules[] = array( 0, 15, 'The children’s wellbeing gym is for under-16s' );
+	} elseif ( false !== strpos( $plan, '16+' ) ) {
+		$rules[] = array( 16, 200, 'Adult plans are for ages 16 and over' );
+	} elseif ( false !== strpos( $plan, 'concession' ) ) {
+		$rules[] = array( 16, 200, 'Concession memberships are for ages 16 and over' );
+	} elseif ( false !== strpos( $plan, 'Dual' ) ) {
+		$rules[] = array( 16, 200, 'The dual BJJ + gym membership is for ages 16 and over' );
+	}
+	if ( false !== strpos( $join, 'GP referral' ) ) {
+		$rules[] = array( 16, 25, 'GP referrals are for ages 16–25' );
+	}
+	foreach ( $rules as $rule ) {
+		if ( $age < $rule[0] || $age > $rule[1] ) {
+			return sprintf( '%s, but this date of birth makes them %d. Please change the plan or check the date.', $rule[2], $age );
+		}
+	}
+	if ( 0 === strpos( $who, 'Me' ) && $age < 18 ) {
+		return sprintf( 'You chose “Me (18 or over)”, but this date of birth makes the member %d. Choose “My child (under 18)” or check the date.', $age );
+	}
+	if ( 0 === strpos( $who, 'My child' ) && $age >= 18 ) {
+		return sprintf( 'You chose “My child (under 18)”, but this date of birth makes them %d. Choose “Me (18 or over)” or check the date.', $age );
+	}
+	return '';
+}
+
+add_filter( 'gform_field_validation_1_10', function ( $result, $value, $form ) {
+	if ( ! $result['is_valid'] || ! is_string( $value ) || ! preg_match( '#^(\d{2})/(\d{2})/(\d{4})$#', trim( $value ), $m ) ) {
+		return $result;
+	}
+	$tz  = wp_timezone();
+	$dob = DateTime::createFromFormat( '!d/m/Y', $m[0], $tz );
+	if ( ! $dob ) {
+		return $result;
+	}
+	$age = $dob->diff( new DateTime( 'today', $tz ) )->y;
+
+	$join = (string) rgpost( 'input_2' );
+	$plan = '';
+	if ( false === strpos( $join, 'GP referral' ) ) {
+		$raw  = (string) rgpost( false !== strpos( $join, 'Pay as you go' ) ? 'input_4' : 'input_3' );
+		$plan = explode( '|', $raw )[0];
+	}
+	$who      = '';
+	$who_field = GFAPI::get_field( $form, 8 );
+	if ( $who_field && ! GFFormsModel::is_field_hidden( $form, $who_field, array() ) ) {
+		$who = (string) rgpost( 'input_8' );
+	}
+
+	$problem = bgwc_age_problem( $age, wp_unslash( $join ), wp_unslash( $plan ), wp_unslash( $who ) );
+	if ( $problem ) {
+		$result['is_valid'] = false;
+		$result['message']  = $problem;
+	}
+	return $result;
+}, 10, 3 );

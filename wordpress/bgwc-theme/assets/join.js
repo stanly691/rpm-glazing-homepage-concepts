@@ -128,8 +128,14 @@
 		if (empty.length) {
 			return $field.hasClass('gfield--type-date') ? 'Please enter the date of birth.' : 'Please fill this in.';
 		}
-		if ($field.hasClass('gfield--type-date') && !validDate($inputs.first().val())) {
-			return 'Please enter the date of birth as DD/MM/YYYY.';
+		if ($field.hasClass('gfield--type-date')) {
+			if (!validDate($inputs.first().val())) {
+				return 'Please enter the date of birth as DD/MM/YYYY.';
+			}
+			var ageProblem = checkAge($field.closest('form'), $inputs.first().val());
+			if (ageProblem) {
+				return ageProblem;
+			}
 		}
 		var $email = $field.find('input[type=email]');
 		if ($email.length && !EMAIL.test($.trim($email.val()))) {
@@ -173,6 +179,58 @@
 		var d = new Date(+m[3], +m[2] - 1, +m[1]);
 		var year = new Date().getFullYear();
 		return d.getDate() === +m[1] && d.getMonth() === +m[2] - 1 && +m[3] > year - 110 && d <= new Date();
+	}
+
+	/* ---------- Plan and age rules (mirrored on the server in functions.php) ---------- */
+
+	function ageOn(value) {
+		var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec($.trim(value));
+		var now = new Date();
+		var age = now.getFullYear() - +m[3];
+		if (now.getMonth() + 1 < +m[2] || (now.getMonth() + 1 === +m[2] && now.getDate() < +m[1])) {
+			age--;
+		}
+		return age;
+	}
+
+	function checkAge($form, value) {
+		var join = $form.find('input[name="input_2"]:checked').val() || '';
+		var planInput = /Pay as you go/.test(join) ? 'input_4' : 'input_3';
+		var plan = /GP referral/.test(join) ? '' : ($form.find('input[name="' + planInput + '"]:checked').val() || '').split('|')[0];
+		var $who = $form.find('#field_' + FORM_ID + '_8');
+		var who = $who.css('display') !== 'none' ? ($who.find('input:checked').val() || '') : '';
+		return ageProblem(ageOn(value), join, plan, who);
+	}
+
+	// Pure rules: mirrored by bgwc_age_problem() in functions.php.
+	function ageProblem(age, join, plan, who) {
+		var rules = [];
+		if (/junior/i.test(plan)) {
+			rules.push([11, 15, 'Junior plans are for ages 11–15']);
+		} else if (/Children/.test(plan)) {
+			rules.push([0, 15, 'The children’s wellbeing gym is for under-16s']);
+		} else if (/16\+/.test(plan)) {
+			rules.push([16, 200, 'Adult plans are for ages 16 and over']);
+		} else if (/concession/.test(plan)) {
+			rules.push([16, 200, 'Concession memberships are for ages 16 and over']);
+		} else if (/Dual/.test(plan)) {
+			rules.push([16, 200, 'The dual BJJ + gym membership is for ages 16 and over']);
+		}
+		if (/GP referral/.test(join)) {
+			rules.push([16, 25, 'GP referrals are for ages 16–25']);
+		}
+		for (var i = 0; i < rules.length; i++) {
+			if (age < rules[i][0] || age > rules[i][1]) {
+				return rules[i][2] + ', but this date of birth makes them ' + age + '. Please change the plan or check the date.';
+			}
+		}
+		if (/^Me/.test(who) && age < 18) {
+			return 'You chose “Me (18 or over)”, but this date of birth makes the member ' + age + '. Choose “My child (under 18)” or check the date.';
+		}
+		if (/^My child/.test(who) && age >= 18) {
+			return 'You chose “My child (under 18)”, but this date of birth makes them ' + age + '. Choose “Me (18 or over)” or check the date.';
+		}
+		return '';
 	}
 
 	/* ---------- Helpers ---------- */
@@ -345,6 +403,19 @@
 				}
 			});
 		}
+
+		// Re-check the date of birth when "Who is this for?" changes.
+		$form.off('change.bgwcw').on('change.bgwcw', 'input[name="input_8"]', function () {
+			var $dobField = $('#field_' + FORM_ID + '_10');
+			if ($.trim($dob.val())) {
+				var result = checkField($dobField);
+				if (result === true) {
+					clearError($dobField);
+				} else {
+					setError($dobField, result);
+				}
+			}
+		});
 
 		// Check a field when the person leaves it, but never flag an untouched empty field.
 		$form.off('focusout.bgwcb').on('focusout.bgwcb', 'input[type=text], input[type=email], input[type=tel]', function () {

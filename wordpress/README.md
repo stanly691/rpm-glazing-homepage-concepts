@@ -29,6 +29,20 @@ The form has 3 steps:
 3. **Confirm.** Health question (details only if they answer "Yes"), optional interests,
    the total, the declaration and an email opt-in.
 
+**Age rules** (checked in the browser by `assets/join.js` and again on the server by
+`bgwc_age_problem()` in `functions.php`, using the date of birth):
+
+| Plan | Ages |
+|---|---|
+| Junior gym / day / week pass | 11–15 |
+| Children’s wellbeing gym (monthly or session) | under 16 |
+| Adult gym / day / week pass, Gym – concession, Dual BJJ + gym | 16+ |
+| GP referral | 16–25 |
+| BJJ (monthly or session) | no limit |
+
+Junior and children’s plans skip "Who is this membership for?" and always ask for a parent or
+guardian. For every other plan, "Me (18 or over)" needs 18+ and "My child (under 18)" needs under 18.
+
 Emails: "New sign-up (staff)" goes to the site admin email, and "Welcome email (member)"
 goes to the person signing up. Entries are under Forms → Entries.
 
