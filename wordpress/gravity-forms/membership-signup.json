@@ -282,55 +282,25 @@
       {
         "type": "radio",
         "id": 8,
-        "label": "Who is this membership for?",
+        "label": "Who’s filling this in?",
         "isRequired": true,
         "cssClass": "bgwc-tabs",
         "choices": [
           {
-            "text": "Me (18 or over)",
-            "value": "Me (18 or over)",
+            "text": "I’m joining",
+            "value": "I’m joining",
             "isSelected": true,
             "price": ""
           },
           {
-            "text": "My child (under 18)",
-            "value": "My child (under 18)",
+            "text": "I’m a parent or guardian",
+            "value": "I’m a parent or guardian",
             "isSelected": false,
             "price": ""
           }
         ],
-        "conditionalLogic": {
-          "actionType": "show",
-          "logicType": "all",
-          "rules": [
-            {
-              "fieldId": "3",
-              "operator": "isnot",
-              "value": "Gym – junior (11–15)"
-            },
-            {
-              "fieldId": "3",
-              "operator": "isnot",
-              "value": "Children’s wellbeing gym"
-            },
-            {
-              "fieldId": "4",
-              "operator": "isnot",
-              "value": "Day pass – junior (11–15)"
-            },
-            {
-              "fieldId": "4",
-              "operator": "isnot",
-              "value": "Week pass – junior (11–15)"
-            },
-            {
-              "fieldId": "4",
-              "operator": "isnot",
-              "value": "Children’s wellbeing gym – single session"
-            }
-          ]
-        },
         "description": "",
+        "conditionalLogic": "",
         "formId": 1
       },
       {
@@ -338,7 +308,7 @@
         "id": 30,
         "label": "Child plan info",
         "cssClass": "bgwc-note",
-        "content": "<p>This plan is for a child, so please add their details below along with a parent or guardian’s.</p>",
+        "content": "<p>This plan is for under-16s, so we’ll also need a parent or guardian’s details.</p>",
         "conditionalLogic": {
           "actionType": "show",
           "logicType": "any",
@@ -459,11 +429,22 @@
         "formId": 1
       },
       {
+        "type": "hidden",
+        "id": 31,
+        "label": "Member is under 18",
+        "defaultValue": "",
+        "isRequired": false,
+        "description": "",
+        "conditionalLogic": "",
+        "formId": 1
+      },
+      {
         "type": "text",
         "id": 15,
         "label": "Parent or guardian’s name",
         "isRequired": true,
-        "layoutGridColumnSpan": 6,
+        "enableAutocomplete": true,
+        "autocompleteAttribute": "off",
         "conditionalLogic": {
           "actionType": "show",
           "logicType": "any",
@@ -471,32 +452,12 @@
             {
               "fieldId": "8",
               "operator": "is",
-              "value": "My child (under 18)"
+              "value": "I’m a parent or guardian"
             },
             {
-              "fieldId": "3",
+              "fieldId": "31",
               "operator": "is",
-              "value": "Gym – junior (11–15)"
-            },
-            {
-              "fieldId": "3",
-              "operator": "is",
-              "value": "Children’s wellbeing gym"
-            },
-            {
-              "fieldId": "4",
-              "operator": "is",
-              "value": "Day pass – junior (11–15)"
-            },
-            {
-              "fieldId": "4",
-              "operator": "is",
-              "value": "Week pass – junior (11–15)"
-            },
-            {
-              "fieldId": "4",
-              "operator": "is",
-              "value": "Children’s wellbeing gym – single session"
+              "value": "yes"
             }
           ]
         },
@@ -512,37 +473,89 @@
         "phoneFormat": "international",
         "conditionalLogic": {
           "actionType": "show",
-          "logicType": "any",
+          "logicType": "all",
           "rules": [
             {
               "fieldId": "8",
               "operator": "is",
-              "value": "My child (under 18)"
+              "value": "I’m joining"
             },
             {
-              "fieldId": "3",
+              "fieldId": "31",
               "operator": "is",
-              "value": "Gym – junior (11–15)"
+              "value": "yes"
+            }
+          ]
+        },
+        "description": "",
+        "formId": 1
+      },
+      {
+        "type": "email",
+        "id": 32,
+        "label": "Parent or guardian’s email",
+        "isRequired": true,
+        "layoutGridColumnSpan": 6,
+        "description": "We’ll send them a copy of your sign-up.",
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "8",
+              "operator": "is",
+              "value": "I’m joining"
             },
             {
-              "fieldId": "3",
+              "fieldId": "31",
               "operator": "is",
-              "value": "Children’s wellbeing gym"
+              "value": "yes"
+            }
+          ]
+        },
+        "formId": 1
+      },
+      {
+        "type": "consent",
+        "id": 33,
+        "label": "Parent or guardian agreement",
+        "labelPlacement": "hidden_label",
+        "isRequired": true,
+        "cssClass": "bgwc-consent",
+        "errorMessage": "Please tick to confirm.",
+        "checkboxLabel": "My parent or guardian knows I’m joining and is happy for me to.",
+        "inputs": [
+          {
+            "id": "33.1",
+            "label": "Consent",
+            "name": ""
+          },
+          {
+            "id": "33.2",
+            "label": "Text",
+            "name": "",
+            "isHidden": true
+          },
+          {
+            "id": "33.3",
+            "label": "Description",
+            "name": "",
+            "isHidden": true
+          }
+        ],
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "8",
+              "operator": "is",
+              "value": "I’m joining"
             },
             {
-              "fieldId": "4",
+              "fieldId": "31",
               "operator": "is",
-              "value": "Day pass – junior (11–15)"
-            },
-            {
-              "fieldId": "4",
-              "operator": "is",
-              "value": "Week pass – junior (11–15)"
-            },
-            {
-              "fieldId": "4",
-              "operator": "is",
-              "value": "Children’s wellbeing gym – single session"
+              "value": "yes"
             }
           ]
         },
@@ -717,7 +730,7 @@
         "isRequired": true,
         "cssClass": "bgwc-consent",
         "errorMessage": "Please tick to confirm.",
-        "checkboxLabel": "I confirm these details are correct and I’m fit to exercise, or I’ll check with my GP first.",
+        "checkboxLabel": "I confirm these details are correct and the member is fit to exercise, or will check with a GP first.",
         "inputs": [
           {
             "id": "25.1",

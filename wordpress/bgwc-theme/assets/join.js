@@ -102,6 +102,17 @@
 		}
 		$msg.text(message);
 
+		// Under 13 filling it in themselves: one tap hands over to a parent or guardian.
+		if ($field.hasClass('gfield--type-date') && /under 13/.test(message)) {
+			$('<a href="#" class="bgwc-error__fix"></a>').text('I’m their parent or guardian – switch →').on('click', function (event) {
+				event.preventDefault();
+				var $parent = $field.closest('form').find('input[name="input_8"]').filter(function () {
+					return /parent/.test(this.value);
+				});
+				$parent.prop('checked', true).trigger('click').trigger('change');
+			}).appendTo($msg.append(' '));
+		}
+
 		// Plan doesn't fit the age: offer the plan that does.
 		if ($field.hasClass('gfield--type-date') && / (are|is) for (ages|under)/.test(message)) {
 			var $form = $field.closest('form');
@@ -211,13 +222,15 @@
 		var join = $form.find('input[name="input_2"]:checked').val() || '';
 		var planInput = /Pay as you go/.test(join) ? 'input_4' : 'input_3';
 		var plan = /GP referral/.test(join) ? '' : ($form.find('input[name="' + planInput + '"]:checked').val() || '').split('|')[0];
-		var $who = $form.find('#field_' + FORM_ID + '_8');
-		var who = $who.css('display') !== 'none' ? ($who.find('input:checked').val() || '') : '';
+		var who = $form.find('input[name="input_8"]:checked').val() || '';
 		return ageProblem(ageOn(value), join, plan, who);
 	}
 
 	// Pure rules: mirrored by bgwc_age_problem() in functions.php.
 	function ageProblem(age, join, plan, who) {
+		if (/joining/.test(who) && age < 13) {
+			return 'As you’re under 13, a parent or guardian needs to fill this in.';
+		}
 		var rules = [];
 		if (/junior/i.test(plan)) {
 			rules.push([11, 15, 'Junior plans are for ages 11–15']);
@@ -237,12 +250,6 @@
 			if (age < rules[i][0] || age > rules[i][1]) {
 				return rules[i][2] + ', but this date of birth makes them ' + age + '. Please change the plan or check the date.';
 			}
-		}
-		if (/^Me/.test(who) && age < 18) {
-			return 'You chose “Me (18 or over)”, but this date of birth makes the member ' + age + '. Choose “My child (under 18)” or check the date.';
-		}
-		if (/^My child/.test(who) && age >= 18) {
-			return 'You chose “My child (under 18)”, but this date of birth makes them ' + age + '. Choose “Me (18 or over)” or check the date.';
 		}
 		return '';
 	}
@@ -391,6 +398,69 @@
 		}, 100);
 	});
 
+	/* ---------- Who's filling this in / under 18 ---------- */
+
+	function isParentFilling($form) {
+		return /parent/.test($form.find('input[name="input_8"]:checked').val() || '');
+	}
+
+	// Mirrors the server: field 31 is "yes" when the member is under 18.
+	function updateMinorFlag($form) {
+		var value = $.trim($form.find('#input_' + FORM_ID + '_10').val());
+		if (!validDate(value)) {
+			return; // keep the last known answer while the date is being edited
+		}
+		var flag = ageOn(value) < 18 ? 'yes' : 'no';
+		var $flag = $form.find('#input_' + FORM_ID + '_31');
+		if ($flag.val() !== flag) {
+			$flag.val(flag);
+			if (window.gf_apply_rules) {
+				window.gf_apply_rules(FORM_ID, [15, 16, 32, 33], false);
+			}
+		}
+	}
+
+	function setLabel(fieldId, text) {
+		$('#field_' + FORM_ID + '_' + fieldId).find('.gfield_label .gform-field-label__text, legend.gfield_label .gform-field-label__text').first().text(text);
+	}
+
+	function updateLabels($form) {
+		var parent = isParentFilling($form);
+		setLabel(9, parent ? 'Member’s name' : 'Your name');
+		setLabel(10, parent ? 'Member’s date of birth' : 'Your date of birth');
+		setLabel(11, 'Your email');
+		setLabel(12, 'Your mobile number');
+		setLabel(15, parent ? 'Your name (parent or guardian)' : 'Parent or guardian’s name');
+	}
+
+	// Emergency contact: one tap to reuse the parent or guardian's details.
+	// The link is updated in place (never rebuilt) so a click is not lost when
+	// leaving the name box fires a change event mid-click.
+	function emergencyHelper($form) {
+		var $field = $('#field_' + FORM_ID + '_18');
+		var $link = $field.find('.bgwc-reuse');
+		var parent = isParentFilling($form);
+		var name = $.trim($form.find('#input_' + FORM_ID + '_15').val());
+		var phone = $.trim($form.find(parent ? '#input_' + FORM_ID + '_12' : '#input_' + FORM_ID + '_16').val());
+		var filled = $.trim($form.find('#input_' + FORM_ID + '_18').val()) || $.trim($form.find('#input_' + FORM_ID + '_19').val());
+		if (!name || !phone || filled || $('#field_' + FORM_ID + '_15').css('display') === 'none') {
+			$link.remove();
+			return;
+		}
+		if (!$link.length) {
+			$link = $('<a href="#" class="bgwc-reuse"></a>').on('click', function (event) {
+				event.preventDefault();
+				var $a = $(this);
+				$form.find('#input_' + FORM_ID + '_18').val($a.data('name')).trigger('change');
+				$form.find('#input_' + FORM_ID + '_19').val($a.data('phone')).trigger('change');
+				clearError($field);
+				clearError($('#field_' + FORM_ID + '_19'));
+				$a.remove();
+			}).insertAfter($field.find('.gfield_label').first());
+		}
+		$link.data({ name: name, phone: phone }).text('Use ' + name + '’s details');
+	}
+
 	/* ---------- Wiring ---------- */
 
 	function enhance($form, page) {
@@ -443,7 +513,22 @@
 			});
 		}
 
-		// Re-check the date of birth when "Who is this for?" changes.
+		// Under-18 flag, labels and helpers follow the date of birth and who's filling in.
+		$dob.off('input.bgwcm change.bgwcm').on('input.bgwcm change.bgwcm', function () {
+			updateMinorFlag($form);
+		});
+		$form.off('change.bgwcl').on('change.bgwcl', 'input[name="input_8"]', function () {
+			updateLabels($form);
+			emergencyHelper($form);
+		});
+		$form.off('input.bgwch change.bgwch').on('input.bgwch change.bgwch', '#input_' + FORM_ID + '_15, #input_' + FORM_ID + '_16, #input_' + FORM_ID + '_12', function () {
+			emergencyHelper($form);
+		});
+		updateMinorFlag($form);
+		updateLabels($form);
+		emergencyHelper($form);
+
+		// Re-check the date of birth when "Who's filling this in?" changes.
 		$form.off('change.bgwcw').on('change.bgwcw', 'input[name="input_8"]', function () {
 			var $dobField = $('#field_' + FORM_ID + '_10');
 			if ($.trim($dob.val())) {
@@ -465,7 +550,7 @@
 			var result = checkField($field);
 			if (result === true) {
 				clearError($field);
-			} else if (!/fill this in|full date/.test(result)) {
+			} else if (result !== 'Please fill this in.' && result !== 'Please enter the date of birth.') {
 				setError($field, result);
 			}
 		});
@@ -533,6 +618,14 @@
 		}
 		$(button).addClass('bgwc-loading').attr('aria-busy', 'true');
 	}, true);
+
+	// Keep what people typed if a field hides and comes back (e.g. switching who's
+	// filling in). Hidden fields are still ignored when the form is submitted.
+	if (window.gform && gform.addFilter) {
+		gform.addFilter('gform_reset_pre_conditional_logic_field_action', function (reset, formId) {
+			return parseInt(formId, 10) === FORM_ID ? false : reset;
+		});
+	}
 
 	$(document).on('gform_post_render', function (event, formId, page) {
 		if (parseInt(formId, 10) !== FORM_ID) {

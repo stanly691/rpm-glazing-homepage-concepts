@@ -2,7 +2,7 @@
 Theme Name: BGWC Coming Soon
 Theme URI: https://billys.itcscloud.co.uk
 Description: Billy’s Gym & Wellness Centre CIC holding page. All content is editable through ACF fields on the front page.
-Version: 2.4.2
+Version: 2.5.3
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: bgwc
@@ -1292,4 +1292,27 @@ body.bgwc-page #gform_wrapper_1 button.bgwc-cal.bgwc-cal:focus-visible {
     .bgwc-page .bgwc-cards .gchoice.bgwc-suggested label.gform-field-label {
         animation: none
     }
+}
+
+/* "Use ...'s details" helper on the emergency contact */
+.bgwc-page .bgwc-reuse {
+    display: inline-block;
+    margin: -6px 0 12px;
+    color: #fff;
+    font-size: 14px;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, .45);
+    text-underline-offset: 3px
+}
+
+.bgwc-page .bgwc-reuse:hover {
+    text-decoration-color: #fff
+}
+
+/* Parent or guardian fields ease in when the date of birth needs them */
+.bgwc-page .gform-theme--orbital #field_1_15,
+.bgwc-page .gform-theme--orbital #field_1_16,
+.bgwc-page .gform-theme--orbital #field_1_32,
+.bgwc-page .gform-theme--orbital #field_1_33 {
+    animation: bgwc-fade .3s ease-out
 }

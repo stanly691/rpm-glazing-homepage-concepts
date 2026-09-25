@@ -40,8 +40,18 @@ The form has 3 steps:
 | GP referral | 16–25 |
 | BJJ (monthly or session) | no limit |
 
-Junior and children’s plans skip "Who is this membership for?" and always ask for a parent or
-guardian. For every other plan, "Me (18 or over)" needs 18+ and "My child (under 18)" needs under 18.
+**Who’s filling this in?** ("I’m joining" / "I’m a parent or guardian") decides the wording and,
+together with the date of birth, which extra fields appear. The server works out "Member is under 18"
+(hidden field 31) from the date of birth, so the browser can’t skip these:
+
+| Who’s filling in | Member under 18 | Member 18+ |
+|---|---|---|
+| I’m joining (13+) | Parent/guardian name, mobile, email + "My parent or guardian knows I’m joining" tick | nothing extra |
+| Parent or guardian | "Your name" (their email/mobile are the contact fields) | "Your name" |
+
+Under-13s can’t sign themselves up (UK GDPR parental consent): the message offers a one-tap switch
+to "I’m a parent or guardian" and keeps everything typed. The welcome email is copied to the
+parent/guardian email (field 32) and greets the parent when they filled it in.
 
 Emails: "New sign-up (staff)" goes to the site admin email, and "Welcome email (member)"
 goes to the person signing up. Entries are under Forms → Entries.

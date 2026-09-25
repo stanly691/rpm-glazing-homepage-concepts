@@ -136,10 +136,13 @@ add_filter( 'gform_field_content_1_10', function ( $content ) {
  * @param int    $age  Member's age in years.
  * @param string $join "How would you like to join?" value.
  * @param string $plan Chosen plan name (no price), '' for GP referral.
- * @param string $who  "Who is this membership for?" value, '' when hidden.
+ * @param string $who  "Who's filling this in?" value.
  * @return string Error message, or '' when the age fits.
  */
 function bgwc_age_problem( $age, $join, $plan, $who ) {
+	if ( false !== strpos( $who, 'joining' ) && $age < 13 ) {
+		return 'As you’re under 13, a parent or guardian needs to fill this in.';
+	}
 	$rules = array();
 	if ( false !== stripos( $plan, 'junior' ) ) {
 		$rules[] = array( 11, 15, 'Junior plans are for ages 11–15' );
@@ -160,25 +163,60 @@ function bgwc_age_problem( $age, $join, $plan, $who ) {
 			return sprintf( '%s, but this date of birth makes them %d. Please change the plan or check the date.', $rule[2], $age );
 		}
 	}
-	if ( 0 === strpos( $who, 'Me' ) && $age < 18 ) {
-		return sprintf( 'You chose “Me (18 or over)”, but this date of birth makes the member %d. Choose “My child (under 18)” or check the date.', $age );
-	}
-	if ( 0 === strpos( $who, 'My child' ) && $age >= 18 ) {
-		return sprintf( 'You chose “My child (under 18)”, but this date of birth makes them %d. Choose “Me (18 or over)” or check the date.', $age );
-	}
 	return '';
 }
 
-add_filter( 'gform_field_validation_1_10', function ( $result, $value, $form ) {
-	if ( ! $result['is_valid'] || ! is_string( $value ) || ! preg_match( '#^(\d{2})/(\d{2})/(\d{4})$#', trim( $value ), $m ) ) {
-		return $result;
+/**
+ * Age in years from a DD/MM/YYYY date, in the site's timezone; null if not a date.
+ */
+function bgwc_age_from( $value ) {
+	if ( ! is_string( $value ) || ! preg_match( '#^\d{2}/\d{2}/\d{4}$#', trim( $value ) ) ) {
+		return null;
 	}
 	$tz  = wp_timezone();
-	$dob = DateTime::createFromFormat( '!d/m/Y', $m[0], $tz );
-	if ( ! $dob ) {
+	$dob = DateTime::createFromFormat( '!d/m/Y', trim( $value ), $tz );
+	return $dob ? $dob->diff( new DateTime( 'today', $tz ) )->y : null;
+}
+
+/**
+ * "Member is under 18" (field 31) always comes from the date of birth on the
+ * server, before validation and saving, so the parent or guardian fields
+ * cannot be skipped by editing the page.
+ */
+function bgwc_set_minor_flag( $form ) {
+	$age                = bgwc_age_from( rgpost( 'input_10' ) );
+	$_POST['input_31'] = ( null !== $age && $age < 18 ) ? 'yes' : ( null === $age ? '' : 'no' );
+	return $form;
+}
+add_filter( 'gform_pre_validation_1', 'bgwc_set_minor_flag' );
+add_filter( 'gform_pre_submission_filter_1', 'bgwc_set_minor_flag' );
+
+/**
+ * Welcome email: copy the parent or guardian, and greet them when they filled it in.
+ */
+add_filter( 'gform_notification_1', function ( $notification, $form, $entry ) {
+	if ( 'Welcome email (member)' !== rgar( $notification, 'name' ) ) {
+		return $notification;
+	}
+	$guardian_email = sanitize_email( rgar( $entry, '32' ) );
+	if ( $guardian_email ) {
+		$notification['cc'] = $guardian_email;
+	}
+	if ( false !== strpos( (string) rgar( $entry, '8' ), 'parent' ) && rgar( $entry, '15' ) ) {
+		$first                   = strtok( trim( rgar( $entry, '15' ) ), ' ' );
+		$notification['message'] = preg_replace( '#<p>Hi [^<]*,</p>#', '<p>Hi ' . esc_html( $first ) . ',</p>', $notification['message'], 1 );
+	}
+	return $notification;
+}, 10, 3 );
+
+add_filter( 'gform_field_validation_1_10', function ( $result, $value, $form ) {
+	if ( ! $result['is_valid'] ) {
 		return $result;
 	}
-	$age = $dob->diff( new DateTime( 'today', $tz ) )->y;
+	$age = bgwc_age_from( $value );
+	if ( null === $age ) {
+		return $result;
+	}
 
 	$join = (string) rgpost( 'input_2' );
 	$plan = '';
@@ -186,11 +224,7 @@ add_filter( 'gform_field_validation_1_10', function ( $result, $value, $form ) {
 		$raw  = (string) rgpost( false !== strpos( $join, 'Pay as you go' ) ? 'input_4' : 'input_3' );
 		$plan = explode( '|', $raw )[0];
 	}
-	$who      = '';
-	$who_field = GFAPI::get_field( $form, 8 );
-	if ( $who_field && ! GFFormsModel::is_field_hidden( $form, $who_field, array() ) ) {
-		$who = (string) rgpost( 'input_8' );
-	}
+	$who = (string) rgpost( 'input_8' );
 
 	$problem = bgwc_age_problem( $age, wp_unslash( $join ), wp_unslash( $plan ), wp_unslash( $who ) );
 	if ( $problem ) {
