@@ -97,3 +97,16 @@ add_filter( 'gform_currencies', function ( $currencies ) {
 	}
 	return $currencies;
 } );
+
+/**
+ * The host firewall blocks Gravity Forms previews on front-end URLs
+ * (/?gf_page=preview) with a 403, but allows the same preview under
+ * /wp-admin/. Send the editor's Preview button there instead.
+ */
+add_action( 'after_setup_theme', function () {
+	if ( is_admin() || 'preview' !== ( $_GET['gf_page'] ?? '' ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		return;
+	}
+	wp_safe_redirect( add_query_arg( array( 'gf_page' => 'preview', 'id' => absint( $_GET['id'] ?? 0 ) ), admin_url( 'index.php' ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
+	exit;
+} );
