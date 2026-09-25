@@ -11,6 +11,7 @@
 	var FORM_ID = 1;
 	var BACK_KEY = 'bgwc-back-to-plan';
 	var PLAN_KEY = 'bgwc-plan';
+	var SELECT_KEY = 'bgwc-select-plan';
 	var lastPage = null;
 	var finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
 	var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -84,8 +85,7 @@
 		$bar.find('.bgwc-summary__price').text(plan.price);
 		$bar.find('.bgwc-summary__change').on('click', function (event) {
 			event.preventDefault();
-			store(BACK_KEY, '1');
-			$('#gform_page_' + FORM_ID + '_' + page + ' .gform_previous_button').trigger('click');
+			goToPlan(page, null);
 		});
 		$('#gform_page_' + FORM_ID + '_' + page + ' .gform_page_fields').before($bar);
 	}
@@ -101,6 +101,20 @@
 			$msg = $('<div class="bgwc-error" role="alert"></div>').appendTo($field);
 		}
 		$msg.text(message);
+
+		// Plan doesn't fit the age: offer the plan that does.
+		if ($field.hasClass('gfield--type-date') && / (are|is) for (ages|under)/.test(message)) {
+			var $form = $field.closest('form');
+			var tip = suggestPlan($form, ageOn($field.find('input[type=text]').val()));
+			var page = parseInt($field.closest('.gform_page').attr('id').split('_').pop(), 10);
+			var $link = $('<a href="#" class="bgwc-error__fix"></a>')
+				.text(tip ? 'Switch to ' + tip.name + ' →' : 'Choose a different plan →')
+				.on('click', function (event) {
+					event.preventDefault();
+					goToPlan(page, tip && tip.id);
+				});
+			$msg.append(' ').append($link);
+		}
 	}
 
 	function clearError($field) {
@@ -231,6 +245,28 @@
 			return 'You chose “My child (under 18)”, but this date of birth makes them ' + age + '. Choose “Me (18 or over)” or check the date.';
 		}
 		return '';
+	}
+
+	// The plan that fits this age, for the one-tap "Switch to ..." fix.
+	function suggestPlan($form, age) {
+		var join = $form.find('input[name="input_2"]:checked').val() || '';
+		if (/GP referral/.test(join)) {
+			return null;
+		}
+		var payg = /Pay as you go/.test(join);
+		var name = age < 11 ? (payg ? 'Children’s wellbeing gym – single session' : 'Children’s wellbeing gym')
+			: age < 16 ? (payg ? 'Day pass – junior (11–15)' : 'Gym – junior (11–15)')
+			: (payg ? 'Day pass – adult (16+)' : 'Gym – adult (16+)');
+		var $input = $form.find('input[name="' + (payg ? 'input_4' : 'input_3') + '"]').filter(function () {
+			return this.value.split('|')[0] === name;
+		});
+		return $input.length && !$input.is(':checked') ? { name: name, id: $input.attr('id') } : null;
+	}
+
+	function goToPlan(page, inputId) {
+		store(SELECT_KEY, inputId || null);
+		store(BACK_KEY, '1');
+		$('#gform_page_' + FORM_ID + '_' + page + ' .gform_previous_button').trigger('click');
 	}
 
 	/* ---------- Helpers ---------- */
@@ -397,8 +433,11 @@
 				if (parts.length === 3) {
 					$dob.val(parts[2] + '/' + parts[1] + '/' + parts[0]).trigger('change');
 					var $field = $dob.closest('.gfield');
-					if (checkField($field) === true) {
+					var picked = checkField($field);
+					if (picked === true) {
 						clearError($field);
+					} else {
+						setError($field, picked);
 					}
 				}
 			});
@@ -442,6 +481,18 @@
 		$form.off('blur.bgwce').on('blur.bgwce', 'input[type=email]', function () {
 			suggestEmail($(this));
 		});
+
+		if (page === 1 && read(SELECT_KEY)) {
+			var $pick = $('#' + read(SELECT_KEY));
+			store(SELECT_KEY, null);
+			if ($pick.length) {
+				$pick.prop('checked', true).trigger('click').trigger('change');
+				var $choice = $pick.closest('.gchoice').addClass('bgwc-suggested');
+				setTimeout(function () {
+					scrollTo($choice, -120);
+				}, 50);
+			}
+		}
 
 		if (page === 1) {
 			$form.off('change.bgwc').on('change.bgwc', 'input[name="input_2"], input[name="input_3"], input[name="input_4"], input[name="input_29"]', function () {
