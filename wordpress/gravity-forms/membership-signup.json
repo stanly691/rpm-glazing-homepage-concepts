@@ -723,6 +723,46 @@
         "formId": 1
       },
       {
+        "type": "stripe_creditcard",
+        "id": 34,
+        "label": "Payment",
+        "isRequired": true,
+        "is_payment": true,
+        "cssClass": "bgwc-payment",
+        "description": "Payments go through Stripe. We never see or store your card number.",
+        "inputs": [
+          {
+            "id": "34.1",
+            "label": "Card Details",
+            "customLabel": "Card details",
+            "name": ""
+          },
+          {
+            "id": "34.4",
+            "label": "Card Type",
+            "name": ""
+          },
+          {
+            "id": "34.5",
+            "label": "Cardholder Name",
+            "customLabel": "Name on card",
+            "name": ""
+          }
+        ],
+        "conditionalLogic": {
+          "actionType": "show",
+          "logicType": "all",
+          "rules": [
+            {
+              "fieldId": "2",
+              "operator": "isnot",
+              "value": "GP referral (free)"
+            }
+          ]
+        },
+        "formId": 1
+      },
+      {
         "type": "consent",
         "id": 25,
         "label": "Declaration",

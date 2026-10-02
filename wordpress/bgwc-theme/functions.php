@@ -233,3 +233,76 @@ add_filter( 'gform_field_validation_1_10', function ( $result, $value, $form ) {
 	}
 	return $result;
 }, 10, 3 );
+
+/**
+ * Wording that depends on how they joined and whether payment went through.
+ * Returns array( 'title' => ..., 'line' => ..., 'email' => ... ) or null.
+ */
+function bgwc_join_copy( $entry ) {
+	$join = (string) rgar( $entry, '2' );
+	$name = false !== strpos( (string) rgar( $entry, '8' ), 'parent' ) && rgar( $entry, '15' ) ? rgar( $entry, '15' ) : rgar( $entry, '9.3' );
+	$first = esc_html( strtok( trim( (string) $name ), ' ' ) );
+	$paid  = in_array( rgar( $entry, 'payment_status' ), array( 'Paid', 'Active' ), true );
+	$amount = str_replace( array( ' ', "\xc2\xa0" ), '', GFCommon::to_money( rgar( $entry, 'payment_amount' ) ) );
+
+	if ( false !== strpos( $join, 'GP referral' ) ) {
+		return array(
+			'title' => "Thanks, {$first}.",
+			'line'  => 'We’ve got your details and we’ll be in touch about your free wellbeing course.',
+			'email' => 'We’ve got your details and we’ll be in touch about your free wellbeing course.',
+		);
+	}
+	if ( ! $paid ) {
+		return null;
+	}
+	if ( false !== strpos( $join, 'Monthly' ) ) {
+		return array(
+			'title' => "Thanks, {$first}.",
+			'line'  => 'You’re in. Your first month is paid and we’ve emailed you the details.',
+			'email' => "Your first payment of {$amount} has gone through. Your membership renews each month.",
+		);
+	}
+	return array(
+		'title' => "Thanks, {$first}.",
+		'line'  => 'Your pass is paid and we’ve emailed you the details.',
+		'email' => "Your payment of {$amount} has gone through.",
+	);
+}
+
+add_filter( 'gform_confirmation_1', function ( $confirmation, $form, $entry ) {
+	$copy = bgwc_join_copy( $entry );
+	if ( ! $copy || ! is_string( $confirmation ) ) {
+		return $confirmation;
+	}
+	$inner = '<h2>' . $copy['title'] . '</h2><p>' . $copy['line'] . '</p>';
+	return preg_replace( "#(class='gform_confirmation_message_1 gform_confirmation_message'[^>]*>).*?(</div>)#s", '${1}' . $inner . '${2}', $confirmation, 1 );
+}, 10, 3 );
+
+add_filter( 'gform_notification_1', function ( $notification, $form, $entry ) {
+	if ( 'Welcome email (member)' !== rgar( $notification, 'name' ) ) {
+		return $notification;
+	}
+	$copy = bgwc_join_copy( $entry );
+	if ( $copy ) {
+		$notification['message'] = str_replace( 'We’ve got your details and we’ll be in touch soon.', $copy['email'], $notification['message'] );
+	}
+	return $notification;
+}, 20, 3 );
+
+/**
+ * Stripe amounts are sent in pence. 19.99 * 100 is 1998.9999… in floating
+ * point, and the Stripe add-on truncates it, so a £19.99 subscription was
+ * created at £19.98. A millionth of a pound on top makes it convert to
+ * exactly 1999p whether the add-on truncates or rounds.
+ */
+add_filter( 'gform_submission_data_pre_process_payment', function ( $submission_data, $feed, $form ) {
+	if ( 1 !== (int) rgar( $form, 'id' ) ) {
+		return $submission_data;
+	}
+	foreach ( array( 'payment_amount', 'setup_fee', 'trial' ) as $key ) {
+		if ( isset( $submission_data[ $key ] ) && is_numeric( $submission_data[ $key ] ) && $submission_data[ $key ] > 0 ) {
+			$submission_data[ $key ] = round( (float) $submission_data[ $key ], 2 ) + 0.000001;
+		}
+	}
+	return $submission_data;
+}, 10, 3 );

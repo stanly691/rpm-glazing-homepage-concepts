@@ -461,6 +461,34 @@
 		$link.data({ name: name, phone: phone }).text('Use ' + name + '’s details');
 	}
 
+	/* ---------- Payment step: say what the button does ---------- */
+
+	function paymentCopy($form) {
+		var $button = $form.find('#gform_submit_button_' + FORM_ID);
+		var $total = $('#field_' + FORM_ID + '_27');
+		$total.find('.bgwc-then').remove();
+		var plan = null;
+		try {
+			plan = JSON.parse(read(PLAN_KEY) || 'null');
+		} catch (e) {}
+		var join = $form.find('input[name="input_2"]:checked').val() || '';
+		var label = 'Join Billy’s →';
+		if (plan && plan.price && !/GP referral/.test(join)) {
+			var amount = plan.price.replace(/\s*\/\s*month/, '');
+			if (/Monthly/.test(join)) {
+				label = 'Pay ' + amount + ' and join →';
+				$('<p class="bgwc-then"></p>').text('Then ' + amount + ' each month.').appendTo($total);
+			} else {
+				label = 'Pay ' + amount + ' →';
+			}
+		}
+		if ($button.is('input')) {
+			$button.val(label);
+		} else {
+			$button.text(label);
+		}
+	}
+
 	/* ---------- Wiring ---------- */
 
 	function enhance($form, page) {
@@ -590,6 +618,9 @@
 		} else {
 			summaryBar(page);
 		}
+		if (page === 3) {
+			paymentCopy($form);
+		}
 
 		// Arriving on a new step: bring it into view, focus the first field on desktop.
 		if (lastPage !== null && lastPage !== page) {
@@ -618,6 +649,19 @@
 		}
 		$(button).addClass('bgwc-loading').attr('aria-busy', 'true');
 	}, true);
+
+	// Card errors from Stripe don't reload the step, so stop the loading state
+	// as soon as one shows, or as soon as they start correcting something.
+	function stopLoading() {
+		$('#gform_' + FORM_ID + ' .bgwc-loading').removeClass('bgwc-loading').removeAttr('aria-busy');
+	}
+	new MutationObserver(function () {
+		var $card = $('#field_' + FORM_ID + '_34');
+		if ($card.length && $.trim($card.find('.validation_message, .gfield_validation_message, [role=alert]').text())) {
+			stopLoading();
+		}
+	}).observe(document.body, { childList: true, subtree: true, characterData: true });
+	$(document).on('input focusin', '#gform_' + FORM_ID + ' :input', stopLoading);
 
 	// Keep what people typed if a field hides and comes back (e.g. switching who's
 	// filling in). Hidden fields are still ignored when the form is submitted.

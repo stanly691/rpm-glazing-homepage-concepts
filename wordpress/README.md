@@ -60,18 +60,21 @@ The theme adds the plan prices, UK price format (£19.99), the "Your plan" summa
 (`assets/join.js`) and the styling (`functions.php`, `style.css`).
 Colours are set in the shortcode's `styles` attribute on the Join page.
 
-### Go-live with Stripe (once the client has an account)
+### Stripe payments
 
-The Stripe Add-On is installed and active. The currency is GBP.
+Stripe is connected (test and live) as "Billys Gym and Wellness Centre CIC". The site is in **Test** mode.
 
-1. Forms → Settings → Stripe → **Connect with Stripe** (Live), and log in with the client's account.
-2. Edit the form. On step 3, add a **Stripe** field above the Declaration.
-   Give it conditional logic: show if "How would you like to join?" **is not** "GP referral (free)".
-3. Form Settings → Stripe → add two feeds:
-   - **Monthly memberships:** Transaction type *Subscription*, Recurring amount *Form total*,
-     Billing cycle *1 month*. Condition: "How would you like to join?" is "Monthly".
-   - **Passes:** Transaction type *Products and Services*, Payment amount *Form total*.
-     Condition: "How would you like to join?" is "Pay as you go".
-   - In both feeds, map Email → Email and Name → Member’s name.
-4. Change the confirmation text from "we’ll be in touch before we open" to a payment-received message.
-5. Make one live payment with a real card, then refund it in Stripe.
+- **Card field** (field 34) on step 3, hidden for GP referrals. Card details go straight to Stripe.
+- **Feeds** (Form Settings → Stripe):
+  - *Monthly memberships*: subscription, amount = chosen plan, every 1 month, when join type is "Monthly".
+    Charged from the day they sign up.
+  - *Pay as you go*: one-off payment, amount = chosen pass, Stripe receipt to Email, when join type is "Pay as you go".
+- The button reads "Pay £25.99 and join →" / "Pay £5.00 →"; monthly plans show "Then £25.99 each month."
+- Thank-you message and welcome email say the payment went through (`bgwc_join_copy()` in `functions.php`).
+- `gform_submission_data_pre_process_payment` adds £0.000001 so £19.99 is sent to Stripe as 1999p
+  (the add-on truncated 1998.999… to 1998p, so £19.99 plans were billed £19.98).
+
+Tested in test mode: monthly, pass, parent paying for a child, concession, declined card, 3-D Secure, GP referral.
+
+To go live: Forms → Settings → Stripe → Mode **Live** → Save, then make one real small payment and refund it.
+Clear the test entries (Forms → Entries) and test-mode subscriptions first.
