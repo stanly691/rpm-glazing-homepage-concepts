@@ -29,29 +29,26 @@ The form has 3 steps:
 3. **Confirm.** Health question (details only if they answer "Yes"), optional interests,
    the total, the declaration and an email opt-in.
 
-**Age rules** (checked in the browser by `assets/join.js` and again on the server by
-`bgwc_age_problem()` in `functions.php`, using the date of birth):
+**Age rules** (from Dione, 2 October 2026). Checked in the browser by `assets/join.js` and again on the
+server by `bgwc_age_problem()` in `functions.php`, using the date of birth:
 
 | Plan | Ages |
 |---|---|
-| Junior gym / day / week pass | 11–15 |
-| Children’s wellbeing gym (monthly or session) | under 16 |
+| Children’s Wellbeing Gym (monthly or session) | 1–9 (toddler to 9) |
+| Junior gym / junior day or week pass | 9–15 |
 | Adult gym / day / week pass, Gym – concession, Dual BJJ + gym | 16+ |
 | GP referral | 16–25 |
 | BJJ (monthly or session) | no limit |
 
-**Who’s filling this in?** ("I’m joining" / "I’m a parent or guardian") decides the wording and,
-together with the date of birth, which extra fields appear. The server works out "Member is under 18"
-(hidden field 31) from the date of birth, so the browser can’t skip these:
+**Under-16s: a parent or guardian must complete the sign-up.** The server sets "Member is under 16"
+(field 31) and "Age group" (field 35) from the date of birth and plan, so this can’t be skipped:
 
-| Who’s filling in | Member under 18 | Member 18+ |
-|---|---|---|
-| I’m joining (13+) | Parent/guardian name, mobile, email + "My parent or guardian knows I’m joining" tick | nothing extra |
-| Parent or guardian | "Your name" (their email/mobile are the contact fields) | "Your name" |
-
-Under-13s can’t sign themselves up (UK GDPR parental consent): the message offers a one-tap switch
-to "I’m a parent or guardian" and keeps everything typed. The welcome email is copied to the
-parent/guardian email (field 32) and greets the parent when they filled it in.
+- A member under 16 who picks "I’m joining" sees "As you’re under 16, a parent or guardian needs to
+  finish this sign-up" with a one-tap switch to "I’m a parent or guardian" (nothing typed is lost).
+- On step 3 the parent sees the supervision rules for that age group (Children’s gym / 9–12 / 13–15),
+  ticks consent (field 36) and types their full name to sign (field 38). Payment only happens then,
+  so no under-16 membership can become active without it.
+- 16+ sign up independently. A parent can also sign up someone 16+ (no consent block).
 
 Emails: "New sign-up (staff)" goes to the site admin email, and "Welcome email (member)"
 goes to the person signing up. Entries are under Forms → Entries.

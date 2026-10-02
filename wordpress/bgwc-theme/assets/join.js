@@ -97,13 +97,16 @@
 	function setError($field, message) {
 		$field.addClass('bgwc-invalid');
 		var $msg = $field.find('.bgwc-error');
+		if ($msg.length && $msg.data('message') === message) {
+			return; // already showing; rebuilding it would swallow a click on its link
+		}
 		if (!$msg.length) {
 			$msg = $('<div class="bgwc-error" role="alert"></div>').appendTo($field);
 		}
-		$msg.text(message);
+		$msg.data('message', message).text(message);
 
 		// Under 13 filling it in themselves: one tap hands over to a parent or guardian.
-		if ($field.hasClass('gfield--type-date') && /under 13/.test(message)) {
+		if ($field.hasClass('gfield--type-date') && /under 16/.test(message)) {
 			$('<a href="#" class="bgwc-error__fix"></a>').text('I’m their parent or guardian – switch →').on('click', function (event) {
 				event.preventDefault();
 				var $parent = $field.closest('form').find('input[name="input_8"]').filter(function () {
@@ -228,14 +231,14 @@
 
 	// Pure rules: mirrored by bgwc_age_problem() in functions.php.
 	function ageProblem(age, join, plan, who) {
-		if (/joining/.test(who) && age < 13) {
-			return 'As you’re under 13, a parent or guardian needs to fill this in.';
+		if (/joining/.test(who) && age < 16) {
+			return 'As you’re under 16, a parent or guardian needs to finish this sign-up.';
 		}
 		var rules = [];
 		if (/junior/i.test(plan)) {
-			rules.push([11, 15, 'Junior plans are for ages 11–15']);
+			rules.push([9, 15, 'Junior plans are for ages 9–15']);
 		} else if (/Children/.test(plan)) {
-			rules.push([0, 15, 'The children’s wellbeing gym is for under-16s']);
+			rules.push([1, 9, 'The Children’s Wellbeing Gym is for ages 1–9']);
 		} else if (/16\+/.test(plan)) {
 			rules.push([16, 200, 'Adult plans are for ages 16 and over']);
 		} else if (/concession/.test(plan)) {
@@ -261,8 +264,8 @@
 			return null;
 		}
 		var payg = /Pay as you go/.test(join);
-		var name = age < 11 ? (payg ? 'Children’s wellbeing gym – single session' : 'Children’s wellbeing gym')
-			: age < 16 ? (payg ? 'Day pass – junior (11–15)' : 'Gym – junior (11–15)')
+		var name = age < 9 ? (payg ? 'Children’s wellbeing gym – single session (up to 9)' : 'Children’s wellbeing gym (up to 9)')
+			: age < 16 ? (payg ? 'Day pass – junior (9–15)' : 'Gym – junior (9–15)')
 			: (payg ? 'Day pass – adult (16+)' : 'Gym – adult (16+)');
 		var $input = $form.find('input[name="' + (payg ? 'input_4' : 'input_3') + '"]').filter(function () {
 			return this.value.split('|')[0] === name;
@@ -398,24 +401,45 @@
 		}, 100);
 	});
 
-	/* ---------- Who's filling this in / under 18 ---------- */
+	/* ---------- Who's filling this in / under 16 ---------- */
 
 	function isParentFilling($form) {
 		return /parent/.test($form.find('input[name="input_8"]:checked').val() || '');
 	}
 
-	// Mirrors the server: field 31 is "yes" when the member is under 18.
+	// Mirrors bgwc_age_group() in functions.php.
+	function ageGroup(age, plan) {
+		if (/Children/.test(plan)) {
+			return 'Children’s gym';
+		}
+		if (age >= 16) {
+			return '16+';
+		}
+		if (age >= 13) {
+			return '13–15';
+		}
+		return age >= 9 ? '9–12' : 'Under 9';
+	}
+
+	// Mirrors the server: field 31 is "yes" when the member is under 16, and
+	// field 35 holds the age group that decides which consent rules a parent sees.
 	function updateMinorFlag($form) {
 		var value = $.trim($form.find('#input_' + FORM_ID + '_10').val());
 		if (!validDate(value)) {
 			return; // keep the last known answer while the date is being edited
 		}
-		var flag = ageOn(value) < 18 ? 'yes' : 'no';
+		var age = ageOn(value);
+		var join = $form.find('input[name="input_2"]:checked').val() || '';
+		var plan = /GP referral/.test(join) ? '' : ($form.find('input[name="' + (/Pay as you go/.test(join) ? 'input_4' : 'input_3') + '"]:checked').val() || '').split('|')[0];
+		var flag = age < 16 ? 'yes' : 'no';
+		var group = ageGroup(age, plan);
 		var $flag = $form.find('#input_' + FORM_ID + '_31');
-		if ($flag.val() !== flag) {
+		var $group = $form.find('#input_' + FORM_ID + '_35');
+		if ($flag.val() !== flag || $group.val() !== group) {
 			$flag.val(flag);
+			$group.val(group);
 			if (window.gf_apply_rules) {
-				window.gf_apply_rules(FORM_ID, [15, 16, 32, 33], false);
+				window.gf_apply_rules(FORM_ID, [15, 36, 37, 38, 39, 40, 41], false);
 			}
 		}
 	}
@@ -430,7 +454,7 @@
 		setLabel(10, parent ? 'Member’s date of birth' : 'Your date of birth');
 		setLabel(11, 'Your email');
 		setLabel(12, 'Your mobile number');
-		setLabel(15, parent ? 'Your name (parent or guardian)' : 'Parent or guardian’s name');
+		setLabel(15, 'Your name (parent or guardian)');
 	}
 
 	// Emergency contact: one tap to reuse the parent or guardian's details.
@@ -441,7 +465,7 @@
 		var $link = $field.find('.bgwc-reuse');
 		var parent = isParentFilling($form);
 		var name = $.trim($form.find('#input_' + FORM_ID + '_15').val());
-		var phone = $.trim($form.find(parent ? '#input_' + FORM_ID + '_12' : '#input_' + FORM_ID + '_16').val());
+		var phone = parent ? $.trim($form.find('#input_' + FORM_ID + '_12').val()) : '';
 		var filled = $.trim($form.find('#input_' + FORM_ID + '_18').val()) || $.trim($form.find('#input_' + FORM_ID + '_19').val());
 		if (!name || !phone || filled || $('#field_' + FORM_ID + '_15').css('display') === 'none') {
 			$link.remove();
@@ -549,7 +573,7 @@
 			updateLabels($form);
 			emergencyHelper($form);
 		});
-		$form.off('input.bgwch change.bgwch').on('input.bgwch change.bgwch', '#input_' + FORM_ID + '_15, #input_' + FORM_ID + '_16, #input_' + FORM_ID + '_12', function () {
+		$form.off('input.bgwch change.bgwch').on('input.bgwch change.bgwch', '#input_' + FORM_ID + '_15, #input_' + FORM_ID + '_12', function () {
 			emergencyHelper($form);
 		});
 		updateMinorFlag($form);

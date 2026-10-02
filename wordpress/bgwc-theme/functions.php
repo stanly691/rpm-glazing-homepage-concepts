@@ -140,14 +140,14 @@ add_filter( 'gform_field_content_1_10', function ( $content ) {
  * @return string Error message, or '' when the age fits.
  */
 function bgwc_age_problem( $age, $join, $plan, $who ) {
-	if ( false !== strpos( $who, 'joining' ) && $age < 13 ) {
-		return 'As you’re under 13, a parent or guardian needs to fill this in.';
+	if ( false !== strpos( $who, 'joining' ) && $age < 16 ) {
+		return 'As you’re under 16, a parent or guardian needs to finish this sign-up.';
 	}
 	$rules = array();
 	if ( false !== stripos( $plan, 'junior' ) ) {
-		$rules[] = array( 11, 15, 'Junior plans are for ages 11–15' );
+		$rules[] = array( 9, 15, 'Junior plans are for ages 9–15' );
 	} elseif ( false !== strpos( $plan, 'Children' ) ) {
-		$rules[] = array( 0, 15, 'The children’s wellbeing gym is for under-16s' );
+		$rules[] = array( 1, 9, 'The Children’s Wellbeing Gym is for ages 1–9' );
 	} elseif ( false !== strpos( $plan, '16+' ) ) {
 		$rules[] = array( 16, 200, 'Adult plans are for ages 16 and over' );
 	} elseif ( false !== strpos( $plan, 'concession' ) ) {
@@ -179,13 +179,39 @@ function bgwc_age_from( $value ) {
 }
 
 /**
- * "Member is under 18" (field 31) always comes from the date of birth on the
- * server, before validation and saving, so the parent or guardian fields
- * cannot be skipped by editing the page.
+ * Age group (field 35) for the consent rules a parent sees: the children’s
+ * gym, 9–12, 13–15, other under-9s, or 16+. Mirrors ageGroup() in join.js.
+ */
+function bgwc_age_group( $age, $plan ) {
+	if ( null === $age ) {
+		return '';
+	}
+	if ( false !== strpos( $plan, 'Children' ) ) {
+		return 'Children’s gym';
+	}
+	if ( $age >= 16 ) {
+		return '16+';
+	}
+	if ( $age >= 13 ) {
+		return '13–15';
+	}
+	return $age >= 9 ? '9–12' : 'Under 9';
+}
+
+/**
+ * "Member is under 16" (field 31) and "Age group" (field 35) always come from
+ * the date of birth and plan on the server, before validation and saving, so
+ * the parent consent and signature can’t be skipped by editing the page.
  */
 function bgwc_set_minor_flag( $form ) {
-	$age                = bgwc_age_from( rgpost( 'input_10' ) );
-	$_POST['input_31'] = ( null !== $age && $age < 18 ) ? 'yes' : ( null === $age ? '' : 'no' );
+	$age  = bgwc_age_from( rgpost( 'input_10' ) );
+	$join = (string) wp_unslash( rgpost( 'input_2' ) );
+	$plan = '';
+	if ( false === strpos( $join, 'GP referral' ) ) {
+		$plan = explode( '|', (string) wp_unslash( rgpost( false !== strpos( $join, 'Pay as you go' ) ? 'input_4' : 'input_3' ) ) )[0];
+	}
+	$_POST['input_31'] = null === $age ? '' : ( $age < 16 ? 'yes' : 'no' );
+	$_POST['input_35'] = bgwc_age_group( $age, $plan );
 	return $form;
 }
 add_filter( 'gform_pre_validation_1', 'bgwc_set_minor_flag' );
