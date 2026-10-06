@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('RPM_THEME_VERSION', '1.2.5');
+define('RPM_THEME_VERSION', '1.2.6');
 define('RPM_SEED_VERSION', '1.1.0');
 
 function rpm_theme_setup() {
@@ -790,6 +790,19 @@ function rpm_register_page_section_fields() {
             array('param' => 'page_type', 'operator' => '!=', 'value' => 'front_page'),
         )),
     ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_rpm_home_trade',
+        'title' => 'Homepage Trade Callout',
+        'menu_order' => 10,
+        'fields' => array(
+            array('key' => 'field_rpm_trade_callout_kicker', 'label' => 'Callout Kicker', 'name' => 'trade_callout_kicker', 'type' => 'text'),
+            array('key' => 'field_rpm_trade_callout_text', 'label' => 'Callout Text', 'name' => 'trade_callout_text', 'type' => 'textarea', 'rows' => 2, 'instructions' => 'Shown under the services grid. Leave empty to hide.'),
+            array('key' => 'field_rpm_trade_callout_link_label', 'label' => 'Link Label', 'name' => 'trade_callout_link_label', 'type' => 'text'),
+            array('key' => 'field_rpm_trade_callout_link', 'label' => 'Linked Page', 'name' => 'trade_callout_link', 'type' => 'page_link', 'post_type' => array('page'), 'allow_archives' => 0),
+        ),
+        'location' => array(array(array('param' => 'page_type', 'operator' => '==', 'value' => 'front_page'))),
+    ));
 }
 add_action('acf/include_fields', 'rpm_register_page_section_fields');
 
@@ -880,6 +893,59 @@ function rpm_seed_manufacture_only() {
     update_option('rpm_manufacture_only_release', '1');
 }
 add_action('init', 'rpm_seed_manufacture_only', 114);
+
+/**
+ * Focus the Manufacture Only page on the two audiences the client named and
+ * signpost it from the homepage. Text is only replaced while it still matches
+ * the first release, so editor changes are kept.
+ */
+function rpm_seed_manufacture_only_trade() {
+    if (get_option('rpm_manufacture_only_release') !== '1' || get_option('rpm_manufacture_only_trade_release') === '1' || !current_user_can('edit_theme_options') || !function_exists('update_field')) { return; }
+    $page = get_page_by_path('services/manufacture-only');
+    $home_id = (int) get_option('page_on_front');
+    if (!$page || !$home_id) { return; }
+
+    $old_intro = 'Supply-only fabrication of curtain walling, windows, doors and shopfronts from our Bridgend facility, for general builders, contractors and installation-only companies.';
+    $new_intro = 'Supply-only fabrication of curtain walling, windows, doors and shopfronts from our Bridgend facility, for general builders and installation-only companies.';
+    if (get_field('field_rpm_page_intro', $page->ID, false) === $old_intro) {
+        update_field('field_rpm_page_intro', $new_intro, $page->ID);
+    }
+
+    $copy = (string) get_field('field_rpm_page_section_copy', $page->ID, false);
+    $old_phrase = 'gives general builders, main contractors and installation-only companies access';
+    if (strpos($copy, $old_phrase) !== false) {
+        update_field('field_rpm_page_section_copy', str_replace($old_phrase, 'gives general builders and installation-only companies access', $copy), $page->ID);
+    }
+
+    $cards = get_field('field_rpm_page_highlights', $page->ID, false) ?: array();
+    foreach ($cards as $index => $card) {
+        if (($card['field_rpm_highlight_title'] ?? '') === 'Main contractors') {
+            $cards[$index]['field_rpm_highlight_title'] = 'Made to your programme';
+            $cards[$index]['field_rpm_highlight_text'] = 'Manufactured to your drawings or survey sizes and scheduled around your installation programme.';
+            update_field('field_rpm_page_highlights', $cards, $page->ID);
+            break;
+        }
+    }
+
+    $services = get_page_by_path('services');
+    $service_cards = $services ? (get_field('field_rpm_page_highlights', $services->ID, false) ?: array()) : array();
+    foreach ($service_cards as $index => $card) {
+        if (($card['field_rpm_highlight_text'] ?? '') === $old_intro) {
+            $service_cards[$index]['field_rpm_highlight_text'] = 'Supply-only aluminium glazing manufactured for general builders and installation-only companies.';
+            update_field('field_rpm_page_highlights', $service_cards, $services->ID);
+            break;
+        }
+    }
+
+    rpm_update_acf_fields($home_id, array(
+        'field_rpm_trade_callout_kicker' => 'For the trade',
+        'field_rpm_trade_callout_text' => 'General builder or installation-only company? We also manufacture aluminium glazing for your own team to install.',
+        'field_rpm_trade_callout_link_label' => 'Manufacture-only service',
+        'field_rpm_trade_callout_link' => $page->ID,
+    ));
+    update_option('rpm_manufacture_only_trade_release', '1');
+}
+add_action('init', 'rpm_seed_manufacture_only_trade', 115);
 
 require_once get_template_directory() . '/inc/original-media.php';
 require_once get_template_directory() . '/inc/navigation.php';

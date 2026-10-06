@@ -14,17 +14,20 @@ Static copy of the live page: `manufacture-only/index.html`
 
 The theme was edited through Appearance → Theme File Editor. `rpm-glazing/`
 in this folder mirrors the theme's PHP files. Commit `f2f817e` is the untouched
-1.2.5 snapshot, and the next commit holds the edits, so `git diff` shows every line changed.
+1.2.5 snapshot (style.css snapshotted separately), and the later commits hold the edits, so `git diff` shows every line changed.
 
 | File | Change |
 |---|---|
 | `functions.php` | New ACF group **Additional Page Sections** on all pages except the front page: a *Detail List* (kicker, heading, text, items) and *Steps* (kicker, heading, intro, steps). A one-time setup routine, `rpm_seed_manufacture_only()` (option flag `rpm_manufacture_only_release`), creates and fills the page following the theme's existing seed pattern. It never overwrites content an editor has already set. |
 | `page.php` | Renders the two optional sections between the highlight cards and the enquiry strip, only when they have items. Other pages are unchanged (rendered output checked). |
+| `front-page.php` | Optional **trade callout** under the homepage services grid (new *Homepage Trade Callout* ACF group on the Home page). Hidden when its text is empty. |
+| `style.css` | Callout styles; theme version 1.2.5 → 1.2.6 (also `RPM_THEME_VERSION`) so browsers fetch the new CSS. |
+| `functions.php` (2nd release) | `rpm_seed_manufacture_only_trade()` (flag `rpm_manufacture_only_trade_release`) narrows the page to the two audiences Adam named and fills the homepage callout. It only replaces text still matching the first release. |
 
 All text is ACF-driven, with nothing hardcoded in templates. Edit it under
 **Pages → Manufacture Only**:
 
-- **Page Content** group (existing theme fields): hero, intro, three "who it's for" cards, enquiry strip.
+- **Page Content** group (existing theme fields): hero, intro, three cards (General builders, Installation-only companies, Made to your programme), enquiry strip.
 - **Additional Page Sections** group (new): "What we manufacture" list and "How it works" steps.
 
 The same sections can now be used on any other page by filling them in.
@@ -37,13 +40,14 @@ The same sections can now be used on any other page by filling them in.
 | Services overview page | Seventh card added to its *Highlights* repeater. |
 | Contact form "Required service" dropdown | Automatic: the form lists all Services child pages. |
 | Footer | Not shown. The theme's footer lists only the first four services by design. |
-| Homepage services grid | Not added. A seventh card would break the 3×2 grid. Add it under Pages → Home → Services if wanted. |
+| Homepage | "For the trade" callout under the services grid, linking to the page (Pages → Home → *Homepage Trade Callout*). |
 
 ## Rollback
 
-Paste the snapshot versions of `functions.php` and `page.php` (commit `f2f817e`)
-back into the Theme File Editor. Then delete the page, its menu item and the
-seventh Services card.
+Paste the snapshot versions of `functions.php`, `page.php`, `front-page.php`
+and `style.css` (the "Snapshot live rpm-glazing theme" commits) back into the
+Theme File Editor. Then delete the page, its menu item and the seventh
+Services card.
 
 ## To confirm with Adam
 
@@ -84,9 +88,10 @@ his confirmation:
 > builders, main contractors and installation-only companies:
 > http://rpmshopfronts.itcscloud.co.uk/services/manufacture-only/
 >
-> It covers who the service is for, what we manufacture, a simple five-step
-> process from enquiry to finished frames, and an enquiry section. It's in the
-> Services menu and on the Services page, and "Manufacture Only" is now an option
+> It's written for general builders and installation-only companies, and covers
+> what we manufacture, a simple five-step process from enquiry to finished frames,
+> and an enquiry section. It's linked from a "For the trade" panel on the homepage,
+> the Services menu and the Services page, and "Manufacture Only" is now an option
 > on the enquiry form, so these leads are easy to spot.
 >
 > To finish it off, could you confirm:

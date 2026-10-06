@@ -3,7 +3,7 @@ Theme Name: RPM Glazing Systems
 Theme URI: https://rpmshopfronts.itcscloud.co.uk/
 Author: ITCS
 Description: Bespoke ACF-powered theme for RPM Glazing Systems.
-Version: 1.2.5
+Version: 1.2.6
 Text Domain: rpm-glazing
 */
 
@@ -482,4 +482,16 @@ button, input, select, textarea { font: inherit; }
   .project-fact { min-width: 0; overflow-wrap: anywhere; }
   .inner-hero .rpm-title { font-size: clamp(32px, 9vw, 43px); overflow-wrap: anywhere; }
   .project-hero__meta { flex-wrap: wrap; gap: 8px 18px; }
+}
+
+/* Homepage trade callout below the services grid */
+.trade-callout { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; padding: 34px 24px; border: 1px solid #414342; border-top: 0; }
+.trade-callout .rpm-eyebrow { margin-bottom: 10px; }
+.trade-callout p:last-child { max-width: 640px; margin: 0; color: #b0b6b2; }
+.trade-callout .rpm-text-link { color: #fff; white-space: nowrap; }
+.trade-callout .rpm-text-link:hover { color: #b0b6b2; }
+
+@media (max-width: 760px) {
+  .trade-callout { grid-template-columns: 1fr; gap: 24px; }
+  .trade-callout .rpm-text-link { white-space: normal; }
 }

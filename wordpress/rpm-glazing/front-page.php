@@ -74,6 +74,19 @@ $header_cta = rpm_get_field('header_cta_text', 'option', 'Make an enquiry');
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+            <?php
+            $trade_text = rpm_get_field('trade_callout_text', $home_id);
+            $trade_link = rpm_get_field('trade_callout_link', $home_id);
+            ?>
+            <?php if ($trade_text && $trade_link) : ?>
+                <div class="trade-callout">
+                    <div>
+                        <p class="rpm-eyebrow"><?php echo esc_html(rpm_get_field('trade_callout_kicker', $home_id)); ?></p>
+                        <p><?php echo esc_html($trade_text); ?></p>
+                    </div>
+                    <a class="rpm-text-link" href="<?php echo esc_url($trade_link); ?>"><?php echo esc_html(rpm_get_field('trade_callout_link_label', $home_id, 'Find out more')); ?></a>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
