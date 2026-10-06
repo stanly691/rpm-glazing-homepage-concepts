@@ -750,6 +750,137 @@ function rpm_body_classes($classes) {
 }
 add_filter('body_class', 'rpm_body_classes');
 
+/** Optional page sections: a detail list and numbered steps, shown only when filled. */
+function rpm_register_page_section_fields() {
+    if (!function_exists('acf_add_local_field_group')) {
+        return;
+    }
+
+    acf_add_local_field_group(array(
+        'key' => 'group_rpm_page_sections',
+        'title' => 'Additional Page Sections',
+        'menu_order' => 10,
+        'fields' => array(
+            array('key' => 'field_rpm_sections_detail_tab', 'label' => 'Detail List', 'type' => 'tab'),
+            array('key' => 'field_rpm_detail_kicker', 'label' => 'Detail Kicker', 'name' => 'detail_kicker', 'type' => 'text'),
+            array('key' => 'field_rpm_detail_heading', 'label' => 'Detail Heading', 'name' => 'detail_heading', 'type' => 'text'),
+            array('key' => 'field_rpm_detail_text', 'label' => 'Detail Text', 'name' => 'detail_text', 'type' => 'textarea', 'rows' => 2),
+            array(
+                'key' => 'field_rpm_detail_items', 'label' => 'Detail Items', 'name' => 'detail_items', 'type' => 'repeater', 'layout' => 'table', 'button_label' => 'Add Item',
+                'instructions' => 'Leave empty to hide this section.',
+                'sub_fields' => array(
+                    array('key' => 'field_rpm_detail_item_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text'),
+                ),
+            ),
+            array('key' => 'field_rpm_sections_steps_tab', 'label' => 'Steps', 'type' => 'tab'),
+            array('key' => 'field_rpm_steps_kicker', 'label' => 'Steps Kicker', 'name' => 'steps_kicker', 'type' => 'text'),
+            array('key' => 'field_rpm_steps_heading', 'label' => 'Steps Heading', 'name' => 'steps_heading', 'type' => 'text'),
+            array('key' => 'field_rpm_steps_intro', 'label' => 'Steps Introduction', 'name' => 'steps_intro', 'type' => 'textarea', 'rows' => 2),
+            array(
+                'key' => 'field_rpm_steps', 'label' => 'Steps', 'name' => 'steps', 'type' => 'repeater', 'layout' => 'block', 'button_label' => 'Add Step',
+                'instructions' => 'Leave empty to hide this section.',
+                'sub_fields' => array(
+                    array('key' => 'field_rpm_step_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text'),
+                    array('key' => 'field_rpm_step_text', 'label' => 'Text', 'name' => 'text', 'type' => 'textarea', 'rows' => 2),
+                ),
+            ),
+        ),
+        'location' => array(array(
+            array('param' => 'post_type', 'operator' => '==', 'value' => 'page'),
+            array('param' => 'page_type', 'operator' => '!=', 'value' => 'front_page'),
+        )),
+    ));
+}
+add_action('acf/include_fields', 'rpm_register_page_section_fields');
+
+/** Add the Manufacture Only service page once; existing editor content is never overwritten. */
+function rpm_seed_manufacture_only() {
+    if (get_option('rpm_manufacture_only_release') === '1' || !current_user_can('edit_theme_options') || !function_exists('update_field')) { return; }
+    $services = get_page_by_path('services');
+    if (!$services) { return; }
+    $page_id = rpm_create_page('Manufacture Only', 'manufacture-only', $services->ID);
+    if (!$page_id) { return; }
+    if ((int) get_post_field('menu_order', $page_id) === 0) {
+        wp_update_post(array('ID' => $page_id, 'menu_order' => 7));
+    }
+
+    $hero = get_posts(array(
+        'post_type' => 'attachment', 'post_status' => 'inherit', 'posts_per_page' => 1, 'fields' => 'ids',
+        'meta_query' => array(array('key' => '_wp_attached_file', 'value' => 'project-april-12-original', 'compare' => 'LIKE')),
+    ));
+    $intro = 'Supply-only fabrication of curtain walling, windows, doors and shopfronts from our Bridgend facility, for general builders, contractors and installation-only companies.';
+    rpm_update_acf_fields($page_id, array(
+        'field_rpm_page_kicker' => 'Manufacture-only service',
+        'field_rpm_page_heading' => 'Aluminium glazing manufactured for your installation team',
+        'field_rpm_page_intro' => $intro,
+        'field_rpm_page_image' => $hero ? (int) $hero[0] : 0,
+        'field_rpm_page_section_kicker' => 'Trade manufacturing',
+        'field_rpm_page_section_heading' => 'Our manufacturing, your installation',
+        'field_rpm_page_section_copy' => '<p>Not every project needs a full design-and-install package. RPM’s manufacture-only service gives general builders, main contractors and installation-only companies access to the same controlled fabrication we use on our own commercial projects.</p><p>Send us your drawings, schedules or survey sizes and we will review the requirement, confirm the specification and manufacture to an agreed programme, ready for your own team to install.</p><p>We work mainly across South Wales and the South West, and can supply further afield depending on the job.</p>',
+        'field_rpm_page_highlights' => array(
+            array('title' => 'General builders', 'text' => 'Commercial-grade aluminium glazing for new-build, extension and refurbishment work, without subcontracting the installation.', 'link' => ''),
+            array('title' => 'Installation-only companies', 'text' => 'Frames, doors and screens fabricated to your sizes, so your fitters can concentrate on site.', 'link' => ''),
+            array('title' => 'Main contractors', 'text' => 'A dependable manufacturing partner for glazing packages you prefer to install with your own teams.', 'link' => ''),
+        ),
+        'field_rpm_detail_kicker' => 'Supply-only range',
+        'field_rpm_detail_heading' => 'What we manufacture',
+        'field_rpm_detail_text' => 'Manufactured in aluminium to your drawings or sizes, with the same quality checks as our full-service projects.',
+        'field_rpm_detail_items' => array_map(function ($label) { return array('label' => $label); }, array('Curtain walling', 'Aluminium windows', 'Doors & entrances', 'Shopfronts', 'Glazed screens', 'Bespoke aluminium & glass')),
+        'field_rpm_steps_kicker' => 'How it works',
+        'field_rpm_steps_heading' => 'From enquiry to finished frames',
+        'field_rpm_steps_intro' => 'A clear, controlled route from your drawings to manufactured items ready for your installers.',
+        'field_rpm_steps' => array(
+            array('title' => 'Send your enquiry', 'text' => 'Share drawings, schedules or survey sizes along with your programme.'),
+            array('title' => 'Review & quotation', 'text' => 'We check the requirement, confirm the system and specification, and quote.'),
+            array('title' => 'Sizes signed off', 'text' => 'Final sizes and details are confirmed with you before production begins.'),
+            array('title' => 'Manufacture', 'text' => 'Precision fabrication and quality control at our Bridgend facility.'),
+            array('title' => 'Ready for your team', 'text' => 'Finished items are checked and released for your installers.'),
+        ),
+        'field_rpm_page_cta_kicker' => 'Trade and supply-only enquiries',
+        'field_rpm_page_cta_heading' => 'Need glazing manufactured for your next project?',
+        'field_rpm_page_cta_text' => 'Send your drawings, schedules or sizes and our team will come back to you with a quotation.',
+        'field_rpm_page_cta_button' => 'Make an enquiry',
+        'field_rpm_page_cta_phone' => 'Speak directly to RPM',
+    ));
+
+    // The kicker field has a default value, which rpm_update_acf_fields() reads as already set.
+    if (!metadata_exists('post', $page_id, 'section_kicker')) {
+        update_field('field_rpm_page_section_kicker', 'Trade manufacturing', $page_id);
+    }
+
+    // List the page on the Services overview alongside the other service cards.
+    $permalink = get_permalink($page_id);
+    $cards = get_field('field_rpm_page_highlights', $services->ID, false) ?: array();
+    $listed = false;
+    foreach ($cards as $card) {
+        if (untrailingslashit((string) ($card['field_rpm_highlight_link'] ?? '')) === untrailingslashit($permalink)) { $listed = true; }
+    }
+    if (!$listed) {
+        $cards[] = array('field_rpm_highlight_title' => 'Manufacture Only', 'field_rpm_highlight_text' => $intro, 'field_rpm_highlight_link' => $permalink);
+        update_field('field_rpm_page_highlights', $cards, $services->ID);
+    }
+
+    // Add the page under Services in the primary navigation.
+    $locations = get_nav_menu_locations();
+    $menu_id = isset($locations['primary']) ? (int) $locations['primary'] : 0;
+    if ($menu_id) {
+        $items = wp_get_nav_menu_items($menu_id) ?: array();
+        $parent = 0;
+        foreach ($items as $item) {
+            if ((int) $item->object_id === $page_id) { $parent = -1; break; }
+            if (!$item->menu_item_parent && untrailingslashit($item->url) === untrailingslashit(get_permalink($services))) { $parent = (int) $item->ID; }
+        }
+        if ($parent > 0) {
+            wp_update_nav_menu_item($menu_id, 0, array(
+                'menu-item-title' => 'Manufacture Only', 'menu-item-status' => 'publish', 'menu-item-parent-id' => $parent,
+                'menu-item-type' => 'post_type', 'menu-item-object' => 'page', 'menu-item-object-id' => $page_id,
+            ));
+        }
+    }
+    update_option('rpm_manufacture_only_release', '1');
+}
+add_action('init', 'rpm_seed_manufacture_only', 114);
+
 require_once get_template_directory() . '/inc/original-media.php';
 require_once get_template_directory() . '/inc/navigation.php';
 require_once get_template_directory() . '/inc/inner-photography.php';

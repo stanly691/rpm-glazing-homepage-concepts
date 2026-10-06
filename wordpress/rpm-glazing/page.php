@@ -4,6 +4,8 @@ while (have_posts()) : the_post();
     $page_id = get_the_ID();
     $hero_image = rpm_image_url(rpm_get_field('hero_image', $page_id), 'full');
     $highlights = rpm_get_field('highlights', $page_id, array());
+    $detail_items = rpm_get_field('detail_items', $page_id, array());
+    $steps = rpm_get_field('steps', $page_id, array());
 ?>
 <main id="main-content" class="rpm-shell<?php echo is_page('contact') ? ' contact-page' : ''; ?>">
     <section class="inner-hero"<?php if ($hero_image) : ?> style="background-image:url('<?php echo esc_url($hero_image); ?>')"<?php endif; ?>>
@@ -43,6 +45,44 @@ while (have_posts()) : the_post();
                             <h3><?php echo esc_html($item['title'] ?? ''); ?></h3>
                             <p><?php echo esc_html($item['text'] ?? ''); ?></p>
                         </<?php echo esc_html($tag); ?>>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <?php if ($detail_items) : ?>
+        <section class="rpm-section rpm-section--pale">
+            <div class="rpm-wrap service-detail-grid">
+                <div>
+                    <p class="rpm-eyebrow"><?php echo esc_html(rpm_get_field('detail_kicker', $page_id)); ?></p>
+                    <h2 class="rpm-section-title"><?php echo esc_html(rpm_get_field('detail_heading', $page_id)); ?></h2>
+                    <p><?php echo esc_html(rpm_get_field('detail_text', $page_id)); ?></p>
+                </div>
+                <ul class="service-detail-list">
+                    <?php foreach ($detail_items as $item) : ?>
+                        <li><?php echo esc_html($item['label'] ?? ''); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <?php if ($steps) : ?>
+        <section class="rpm-section rpm-section--white">
+            <div class="rpm-wrap">
+                <p class="rpm-eyebrow"><?php echo esc_html(rpm_get_field('steps_kicker', $page_id)); ?></p>
+                <div class="process-heading">
+                    <h2 class="rpm-section-title"><?php echo esc_html(rpm_get_field('steps_heading', $page_id)); ?></h2>
+                    <p><?php echo esc_html(rpm_get_field('steps_intro', $page_id)); ?></p>
+                </div>
+                <div class="process-grid">
+                    <?php foreach ($steps as $index => $step) : ?>
+                        <article class="process-step">
+                            <small><?php echo esc_html(str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT)); ?></small>
+                            <h3><?php echo esc_html($step['title'] ?? ''); ?></h3>
+                            <p><?php echo esc_html($step['text'] ?? ''); ?></p>
+                        </article>
                     <?php endforeach; ?>
                 </div>
             </div>
