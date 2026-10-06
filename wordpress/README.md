@@ -13,6 +13,15 @@ All of its text, links and images are ACF fields on the front page.
 
 Empty fields fall back to the original design copy and images, so the page looks right straight after activation.
 
+## On hold (6 October 2026)
+
+Memberships and payments are on hold until Billy’s has more time. For the client review:
+- The homepage join button is hidden: Pages → Home → Buttons → **Show main button** (off).
+- The Join page (`/join/`) is set to **Private**, so the public gets "not found". Logged-in admins can still open it.
+
+To bring it back: switch **Show main button** on, set the Join page to **Published**, and point the main button
+link at `/join/`. Stripe is still connected in test mode; nothing can be charged while the page is private.
+
 ## Join form (Gravity Forms)
 
 Live at `/join/` (page "Join Billy’s"). The homepage button links there.

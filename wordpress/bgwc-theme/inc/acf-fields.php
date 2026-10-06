@@ -52,6 +52,17 @@ function bgwc_field( $name ) {
 }
 
 /**
+ * Whether the main (join) button shows. On unless it has been switched off.
+ */
+function bgwc_show_cta() {
+	if ( ! function_exists( 'get_field' ) ) {
+		return true;
+	}
+	$value = get_field( 'show_cta', (int) get_option( 'page_on_front' ) );
+	return null === $value || '' === $value ? true : (bool) $value;
+}
+
+/**
  * Image URL for an ACF image field, falling back to the bundled asset.
  */
 function bgwc_image( $name, $fallback ) {
@@ -130,6 +141,15 @@ function bgwc_register_fields() {
 				$text( 'intro', 'Intro', '', 'textarea' ),
 
 				$tab( 'buttons', 'Buttons' ),
+				array(
+					'key'           => 'field_bgwc_show_cta',
+					'label'         => 'Show main button',
+					'name'          => 'show_cta',
+					'type'          => 'true_false',
+					'instructions'  => 'Turn off to hide the main (join) button, e.g. while memberships are on hold.',
+					'ui'            => 1,
+					'default_value' => 1,
+				),
 				$text( 'cta_text', 'Main button text' ),
 				$text( 'cta_url', 'Main button link', '', 'url' ),
 				$text( 'social_text', 'Second button text' ),

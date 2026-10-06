@@ -2,7 +2,7 @@
 Theme Name: BGWC Coming Soon
 Theme URI: https://billys.itcscloud.co.uk
 Description: Billy’s Gym & Wellness Centre CIC holding page. All content is editable through ACF fields on the front page.
-Version: 2.7.1
+Version: 2.8.1
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: bgwc
@@ -1345,4 +1345,69 @@ body.bgwc-page #gform_wrapper_1 button.bgwc-cal.bgwc-cal:focus-visible {
     color: #c9d0c7;
     font-size: 15px;
     line-height: 1.55
+}
+
+/* ---------- Holding page: small and short screens ---------- */
+
+/* "Join the movement." stays on one line (about 7.8em wide), so on narrow
+   screens it shrinks just enough to fit instead of being cut off. */
+@media(max-width:700px) {
+    .hero h1 span {
+        font-size: min(1em, calc((100vw - 48px) / 7.9))
+    }
+}
+
+/* Phones held sideways: size the headline to the screen height so the
+   intro and button are in view without scrolling. */
+@media(max-height:520px) and (orientation:landscape) {
+    .hero .top {
+        padding: 14px clamp(20px, 5vw, 48px)
+    }
+
+    .hero .logo {
+        width: 46px;
+        height: 46px
+    }
+
+    .hero .content {
+        width: min(760px, 100%);
+        margin: auto 0;
+        padding: 6px clamp(20px, 6vw, 72px) 14px
+    }
+
+    .hero .eyebrow {
+        margin: 0 0 10px;
+        font-size: 11px
+    }
+
+    .hero h1 {
+        font-size: clamp(30px, 10.5vh, 54px);
+        line-height: .98
+    }
+
+    .hero h1 span {
+        margin-top: 4px;
+        font-size: 1em
+    }
+
+    .hero .intro {
+        max-width: 520px;
+        margin: 12px 0 14px;
+        font-size: 15px;
+        line-height: 1.5
+    }
+
+    .hero .actions {
+        flex-direction: row;
+        align-items: center
+    }
+
+    .hero .bottom {
+        display: flex;
+        padding: 0 clamp(20px, 5vw, 48px) 12px
+    }
+
+    .hero .bottom .location {
+        display: none
+    }
 }

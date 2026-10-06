@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
 			<h1><?php echo esc_html( bgwc_field( 'heading_line_1' ) ); ?><br><?php echo esc_html( bgwc_field( 'heading_line_2' ) ); ?><span><?php echo esc_html( bgwc_field( 'heading_subline' ) ); ?></span></h1>
 			<p class="intro"><?php echo esc_html( bgwc_field( 'intro' ) ); ?></p>
 			<div class="actions">
-				<a class="cta" href="<?php echo esc_url( bgwc_field( 'cta_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'cta_text' ) ); ?> <span>↗</span></a><a class="social-link" href="<?php echo esc_url( bgwc_field( 'social_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'social_text' ) ); ?></a>
+				<?php if ( bgwc_show_cta() ) : ?><a class="cta" href="<?php echo esc_url( bgwc_field( 'cta_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'cta_text' ) ); ?> <span>↗</span></a><?php endif; ?><a class="social-link" href="<?php echo esc_url( bgwc_field( 'social_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'social_text' ) ); ?></a>
 			</div>
 		</section>
 		<footer class="bottom">
