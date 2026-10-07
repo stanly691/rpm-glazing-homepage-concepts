@@ -29,7 +29,9 @@ function bgwc_defaults() {
 		'social_text'      => 'Follow Billy’s on Instagram ↗',
 		'social_url'       => 'https://www.instagram.com/bgwc_maesteg/',
 		'caption'          => 'A look inside our new space',
-		'location_text'    => 'Billy’s Gym & Wellness Centre CIC · Maesteg',
+		'location_text'    => 'Billy’s Gym and Wellness Centre CIC',
+		'address'          => 'Castle Street, Maesteg CF34 9UN',
+		'phone'            => '01656 537070',
 		'hero_alt'         => 'Inside Billy’s Gym & Wellness Centre in Maesteg',
 		'logo_alt'         => 'BGWC logo',
 	);
@@ -49,6 +51,31 @@ function bgwc_field( $name ) {
 		$value    = isset( $defaults[ $name ] ) ? $defaults[ $name ] : '';
 	}
 	return $value;
+}
+
+/**
+ * "tel:" link for a UK number, e.g. 01656 537070 -> tel:+441656537070.
+ */
+function bgwc_tel_href( $phone ) {
+	$digits = preg_replace( '/[^0-9+]/', '', (string) $phone );
+	if ( 0 === strpos( $digits, '0' ) ) {
+		$digits = '+44' . substr( $digits, 1 );
+	}
+	return 'tel:' . $digits;
+}
+
+/**
+ * Footer contact line: business name · address · phone (phone is tap-to-call).
+ */
+function bgwc_contact_markup() {
+	$parts = array( '<span class="loc-name">' . esc_html( bgwc_field( 'location_text' ) ) . '</span>' );
+	if ( bgwc_field( 'address' ) ) {
+		$parts[] = '<span class="loc-address">' . esc_html( bgwc_field( 'address' ) ) . '</span>';
+	}
+	if ( bgwc_field( 'phone' ) ) {
+		$parts[] = '<a class="loc-phone" href="' . esc_attr( bgwc_tel_href( bgwc_field( 'phone' ) ) ) . '">' . esc_html( bgwc_field( 'phone' ) ) . '</a>';
+	}
+	return implode( '<span class="loc-sep" aria-hidden="true"> · </span>', $parts );
 }
 
 /**
@@ -157,7 +184,9 @@ function bgwc_register_fields() {
 
 				$tab( 'footer', 'Footer' ),
 				$text( 'caption', 'Caption', 'Bottom left.' ),
-				$text( 'location_text', 'Location', 'Bottom right. Hidden on mobile.' ),
+				$text( 'location_text', 'Business name', 'Bottom right, with the address and phone.' ),
+				$text( 'address', 'Address' ),
+				$text( 'phone', 'Phone', 'Tapping it on a phone calls this number.' ),
 
 				$tab( 'seo', 'SEO' ),
 				$text( 'meta_title', 'Browser title' ),

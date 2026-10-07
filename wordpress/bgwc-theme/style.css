@@ -2,7 +2,7 @@
 Theme Name: BGWC Coming Soon
 Theme URI: https://billys.itcscloud.co.uk
 Description: Billy’s Gym & Wellness Centre CIC holding page. All content is editable through ACF fields on the front page.
-Version: 2.8.1
+Version: 2.9.2
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: bgwc
@@ -1409,5 +1409,83 @@ body.bgwc-page #gform_wrapper_1 button.bgwc-cal.bgwc-cal:focus-visible {
 
     .hero .bottom .location {
         display: none
+    }
+}
+
+/* ---------- Footer contact line (name · address · phone) ---------- */
+.bottom .location {
+    text-align: right
+}
+
+.bottom .location a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, .35);
+    text-underline-offset: 3px
+}
+
+.bottom .location .loc-address,
+.bottom .location .loc-phone {
+    white-space: nowrap
+}
+
+/* Bigger tap area for the phone number without moving the text */
+.bottom .location .loc-phone {
+    position: relative;
+    padding: 16px 8px;
+    margin: 0 -8px
+}
+
+.bottom .location a:hover {
+    color: #fff;
+    text-decoration-color: #fff
+}
+
+@media(max-width:1100px) {
+    .bottom .location .loc-name,
+    .bottom .location .loc-name + .loc-sep {
+        display: none
+    }
+}
+
+@media(max-width:700px) {
+    .bottom .location,
+    .bgwc-page .bottom .location {
+        display: block;
+        margin-top: 14px;
+        text-align: left;
+        line-height: 1.7
+    }
+
+    .bottom .location .loc-name {
+        display: block
+    }
+
+    .bottom .location .loc-name + .loc-sep {
+        display: none
+    }
+
+    .bottom .location .loc-phone {
+        display: inline
+    }
+}
+
+@media(max-height:520px) and (orientation:landscape) {
+    .hero .bottom .caption {
+        display: none
+    }
+
+    .hero .bottom .location {
+        display: block;
+        margin: 0;
+        text-align: left
+    }
+
+    .hero .bottom .location .loc-name {
+        display: inline
+    }
+
+    .hero .bottom .location .loc-name + .loc-sep {
+        display: inline
     }
 }

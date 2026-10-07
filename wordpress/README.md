@@ -13,6 +13,12 @@ All of its text, links and images are ACF fields on the front page.
 
 Empty fields fall back to the original design copy and images, so the page looks right straight after activation.
 
+## Contact details
+
+Footer on every page: "Billy’s Gym and Wellness Centre CIC · Castle Street, Maesteg CF34 9UN · 01656 537070"
+(the phone number is tap-to-call). Edit in Pages → Home → Footer (Business name, Address, Phone).
+The homepage also outputs these as schema.org `ExerciseGym` data for search engines (`functions.php`).
+
 ## On hold (6 October 2026)
 
 Memberships and payments are on hold until Billy’s has more time. For the client review:

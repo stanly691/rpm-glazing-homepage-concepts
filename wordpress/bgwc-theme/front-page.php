@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
 		</section>
 		<footer class="bottom">
 			<div class="caption"><?php echo esc_html( bgwc_field( 'caption' ) ); ?></div>
-			<div class="location"><?php echo esc_html( bgwc_field( 'location_text' ) ); ?></div>
+			<div class="location"><?php echo bgwc_contact_markup(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped inside ?></div>
 		</footer>
 	</main>
 	<?php wp_footer(); ?>

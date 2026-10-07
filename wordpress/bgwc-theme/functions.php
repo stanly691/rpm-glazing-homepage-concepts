@@ -332,3 +332,29 @@ add_filter( 'gform_submission_data_pre_process_payment', function ( $submission_
 	}
 	return $submission_data;
 }, 10, 3 );
+
+/**
+ * Business details for search engines (name, address, phone) on the homepage.
+ */
+add_action( 'wp_head', function () {
+	if ( ! is_front_page() ) {
+		return;
+	}
+	$data = array(
+		'@context'  => 'https://schema.org',
+		'@type'     => 'ExerciseGym',
+		'name'      => bgwc_field( 'location_text' ),
+		'url'       => home_url( '/' ),
+		'telephone' => str_replace( 'tel:', '', bgwc_tel_href( bgwc_field( 'phone' ) ) ),
+		'address'   => array(
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => 'Castle Street',
+			'addressLocality' => 'Maesteg',
+			'postalCode'      => 'CF34 9UN',
+			'addressCountry'  => 'GB',
+		),
+		'image'     => bgwc_image( 'logo', 'logo.jpg' ),
+		'sameAs'    => array_filter( array( bgwc_field( 'social_url' ) ) ),
+	);
+	echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
+}, 5 );
