@@ -65,15 +65,12 @@ function bgwc_tel_href( $phone ) {
 }
 
 /**
- * Footer contact line: business name · address · phone (phone is tap-to-call).
+ * Footer contact line: business name · address. The phone number is a button in the hero.
  */
 function bgwc_contact_markup() {
 	$parts = array( '<span class="loc-name">' . esc_html( bgwc_field( 'location_text' ) ) . '</span>' );
 	if ( bgwc_field( 'address' ) ) {
 		$parts[] = '<span class="loc-address">' . esc_html( bgwc_field( 'address' ) ) . '</span>';
-	}
-	if ( bgwc_field( 'phone' ) ) {
-		$parts[] = '<a class="loc-phone" href="' . esc_attr( bgwc_tel_href( bgwc_field( 'phone' ) ) ) . '">' . esc_html( bgwc_field( 'phone' ) ) . '</a>';
 	}
 	return implode( '<span class="loc-sep" aria-hidden="true"> · </span>', $parts );
 }
@@ -186,7 +183,7 @@ function bgwc_register_fields() {
 				$text( 'caption', 'Caption', 'Bottom left.' ),
 				$text( 'location_text', 'Business name', 'Bottom right, with the address and phone.' ),
 				$text( 'address', 'Address' ),
-				$text( 'phone', 'Phone', 'Tapping it on a phone calls this number.' ),
+				$text( 'phone', 'Phone', 'Shown as a “Call” button on the homepage. Tapping it on a phone calls this number.' ),
 
 				$tab( 'seo', 'SEO' ),
 				$text( 'meta_title', 'Browser title' ),

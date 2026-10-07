@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
 			<h1><?php echo esc_html( bgwc_field( 'heading_line_1' ) ); ?><br><?php echo esc_html( bgwc_field( 'heading_line_2' ) ); ?><span><?php echo esc_html( bgwc_field( 'heading_subline' ) ); ?></span></h1>
 			<p class="intro"><?php echo esc_html( bgwc_field( 'intro' ) ); ?></p>
 			<div class="actions">
-				<?php if ( bgwc_show_cta() ) : ?><a class="cta" href="<?php echo esc_url( bgwc_field( 'cta_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'cta_text' ) ); ?> <span>↗</span></a><?php endif; ?><a class="social-link" href="<?php echo esc_url( bgwc_field( 'social_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'social_text' ) ); ?></a>
+				<?php if ( bgwc_show_cta() ) : ?><a class="cta" href="<?php echo esc_url( bgwc_field( 'cta_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'cta_text' ) ); ?> <span>↗</span></a><?php endif; ?><?php if ( bgwc_field( 'phone' ) ) : ?><a class="<?php echo bgwc_show_cta() ? 'social-link' : 'cta'; ?> call-link" href="<?php echo esc_attr( bgwc_tel_href( bgwc_field( 'phone' ) ) ); ?>"><svg class="call-icon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg><span class="call-text">Call <?php echo esc_html( bgwc_field( 'phone' ) ); ?></span></a><?php endif; ?><a class="social-link" href="<?php echo esc_url( bgwc_field( 'social_url' ) ); ?>"><?php echo esc_html( bgwc_field( 'social_text' ) ); ?></a>
 			</div>
 		</section>
 		<footer class="bottom">
